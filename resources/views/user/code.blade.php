@@ -37,8 +37,9 @@
                                                     @method('PUT')
                                                     @csrf
                                                     <input type="hidden" name="kunjungan" value="1">
-                                                    <button type="submit" class="stretched-link text-decoration-none">Check
-                                                        Code <i class="bi bi-arrow-right"></i></button>
+                                                    <button type="submit" class="stretched-link text-decoration-none" style="border: none; background:none;">
+                                                        Check Code <i class="bi bi-arrow-right"></i>
+                                                    </button>
                                                 </form>
                                                 {{-- <a class="stretched-link text-decoration-none"
                                                     href="/code/{{ $data->id }}">

@@ -57,7 +57,7 @@
                     <li><a class="nav-link scrollto" href="#services">Services</a></li>
                     <li><a class="nav-link   scrollto" href="#galery">Galery</a></li>
                     <li><a class="nav-link scrollto" href="#team">Team</a></li>
-                    <li><a class="getstarted scrollto" href="#about">Login / Register</a></li>
+                    <li><a class="getstarted scrollto" href="{{ 'auth' }}">Login / Register</a></li>
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav><!-- .navbar -->
