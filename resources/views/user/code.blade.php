@@ -21,7 +21,8 @@
                                 <img class="card-img-top" src="{{ asset('storage/template-images/' . $data->gambar) }}"
                                     alt="{{ $data->nama_template }}">
                                 <div class="card-body p-4">
-                                    <a class="text-decoration-none link-dark stretched-link" href="/code/204">
+                                    <a class="text-decoration-none link-dark stretched-link"
+                                        href="/code/{{ $data->id }}">
                                         <h3 class="card-title">{{ $data->nama_template }}</h3>
                                         <div class="text-muted">
                                             <i class="bi bi-person"></i>{{ $data->nama_pembuat }}
@@ -32,11 +33,19 @@
                                     <div class="d-flex align-items-end justify-content-between">
                                         <div class="d-flex align-items-center">
                                             <div class="small">
-                                                <a class="stretched-link text-decoration-none" href="/code/{{ $data->id }}">
+                                                <form action="{{ route('code.update', $data->id) }}" method="post">
+                                                    @method('PUT')
+                                                    @csrf
+                                                    <input type="hidden" name="kunjungan" value="1">
+                                                    <button type="submit" class="stretched-link text-decoration-none">Check
+                                                        Code <i class="bi bi-arrow-right"></i></button>
+                                                </form>
+                                                {{-- <a class="stretched-link text-decoration-none"
+                                                    href="/code/{{ $data->id }}">
                                                     Check Code <i class="bi bi-arrow-right"></i>
-                                                </a>
+                                                </a> --}}
                                                 <div class="text-muted" style="margin-top: 3px;">
-                                                    <i class="bi bi-eye"></i> 122
+                                                    <i class="bi bi-eye"></i> {{ $data->kunjungan }}
                                                 </div>
                                             </div>
                                         </div>

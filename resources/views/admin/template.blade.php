@@ -21,6 +21,7 @@
                             <th>HTML</th>
                             <th>CSS</th>
                             <th>JS</th>
+                            <th>Views</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -34,6 +35,7 @@
                             <th>HTML</th>
                             <th>CSS</th>
                             <th>JS</th>
+                            <th>Views</th>
                             <th>Aksi</th>
                         </tr>
                     </tfoot>
@@ -50,12 +52,13 @@
                                 <td>{{ $data->html }}</td>
                                 <td>{{ $data->css }}</td>
                                 <td>{{ $data->js }}</td>
+                                <td>{{ $data->kunjungan }}</td>
                                 <td>
-                                    <button type="button" class="btn btn-warning mb-3" data-toggle="modal"
+                                    <button type="button" class="btn btn-warning mb-1" data-toggle="modal"
                                         data-target="#editModal{{ $data->id }}">
                                         Edit
                                     </button>
-                                    <button type="button" class="btn btn-danger mb-3" data-toggle="modal"
+                                    <button type="button" class="btn btn-danger mb-1" data-toggle="modal"
                                         data-target="#deleteModal{{ $data->id }}">
                                         Hapus
                                     </button>

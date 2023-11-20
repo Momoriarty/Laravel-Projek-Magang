@@ -5,6 +5,7 @@ use App\Http\Controllers\AkunController;
 use App\Http\Controllers\TemplateController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CodeController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,6 +19,7 @@ use App\Http\Controllers\CodeController;
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('code', [HomeController::class, 'code']);
+Route::put('/code/update/{id}', [HomeController::class, 'update'])->name('code.update');
 Route::get('/code/{id}', [HomeController::class, 'show']);
 
 

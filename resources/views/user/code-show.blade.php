@@ -8,7 +8,7 @@
                         <article>
                             <header class="mb-4" style="color: rgba(210, 210, 210, 0.705)">
                                 <h1 class="fw-bolder mb-1">Login</h1>
-                                <div class="fst-italic mb-2">{{ $Templates->created_at }} <i class="bi bi-eye"></i>174</div>
+                                <div class="fst-italic mb-2">{{ $Templates->created_at }}  &nbsp<i class="bi bi-eye"> </i>{{ $Templates->kunjungan }}</div>
                                 <p class="badge bg-primary text-decoration-none">HTML</p>
                                 <p class="badge bg-primary text-decoration-none">CSS</p>
                                 <p class="badge bg-primary text-decoration-none">Login form</p>
