@@ -19,7 +19,7 @@ use App\Http\Controllers\AuthController;
 */
 
 Route::get('/', [HomeController::class, 'index']);
-Route::get('Auth', [AuthController::class, 'index']);
+Route::get('auth', [AuthController::class, 'index']);
 Route::get('code', [HomeController::class, 'code']);
 Route::put('/code/update/{id}', [HomeController::class, 'update'])->name('code.update');
 Route::get('/code/{id}', [HomeController::class, 'show']);
