@@ -326,7 +326,7 @@
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
                     <div class="input-box">
-                        <input type="text" name="email" class="input-field" placeholder="Username or Email">
+                        <input type="text" name="username" class="input-field" placeholder="Username or Email">
                         <i class="bx bx-user"></i>
                     </div>
                     <div class="input-box">
@@ -387,7 +387,11 @@
             </div>
         </div>
     </div>
-
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            {{ $errors->first() }}
+        </div>
+    @endif
 
     <script>
         function myMenuFunction() {

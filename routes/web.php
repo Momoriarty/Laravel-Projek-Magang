@@ -21,8 +21,10 @@ use App\Http\Controllers\AuthController;
 Route::get('/', [HomeController::class, 'index']);
 
 Route::get('auth', [AuthController::class, 'index']);
-Route::post('/login', [AuthController::class, 'index']);
-Route::post('/login', 'AuthController@login')->name('login');
+Route::get('/login', [AuthController::class, 'index'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
 
 
 Route::get('code', [HomeController::class, 'code']);

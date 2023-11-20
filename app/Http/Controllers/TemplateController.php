@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Template;
-use App\Models\Akun;
+use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 
 class TemplateController extends Controller
@@ -12,8 +12,8 @@ class TemplateController extends Controller
     public function index()
     {
         $templates = Template::all();
-        $akuns = Akun::all();
-        return view('admin.template', compact('templates', 'akuns'));
+        $Akuns = User::all();
+        return view('admin.template', compact('templates', 'Akuns'));
     }
 
     public function create()

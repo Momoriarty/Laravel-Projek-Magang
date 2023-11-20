@@ -194,6 +194,7 @@ h6 {
   font-size: 14px;
   border: 2px solid #47b2e4;
   font-weight: 600;
+  width: auto;
 }
 
 .navbar .getstarted:hover,

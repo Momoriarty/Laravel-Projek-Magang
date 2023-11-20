@@ -8,7 +8,11 @@
                 <div class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1"
                     data-aos="fade-up" data-aos-delay="200">
                     <h1>Better Solutions For Your Business</h1>
-                    <h2>We are team of talented designers making websites with Bootstrap</h2>
+                        @if (Auth::check())
+                            <h2>Halo, {{ Auth::user()->name }}! Selamat datang.</h2>
+                        @else
+                            <h2>Selamat datang</h2>
+                        @endif
                     <div class="d-flex justify-content-center justify-content-lg-start">
                         <a href="#about" class="btn-get-started scrollto">Get Started</a>
                         <a href="https://www.youtube.com/watch?v=jDDaplaOz7Q" class="glightbox btn-watch-video"><i

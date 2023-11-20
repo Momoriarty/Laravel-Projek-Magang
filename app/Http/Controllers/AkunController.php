@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Akun;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 
 class AkunController extends Controller
 {
     public function index()
     {
-        $akuns = Akun::all();
+        $akuns = User::all();
         return view('admin.akun', compact('akuns'));
     }
 
@@ -20,10 +21,10 @@ class AkunController extends Controller
 
     public function store(Request $request)
     {
-        $akun = new Akun;
+        $akun = new User;
         $akun->name = $request->input('name');
         $akun->username = $request->input('username');
-        $akun->password = $request->input('password'); // Perhatikan bahwa penyimpanan password ini tidak aman
+        $akun->password = Hash::make($request->input('password'));
         $akun->email = $request->input('email');
         $akun->no_hp = $request->input('no_hp');
         $akun->level = $request->input('level');
@@ -36,13 +37,13 @@ class AkunController extends Controller
 
     public function show($id)
     {
-        $akun = akun::find($id);
+        $akun = User::find($id);
         return view('akuns.show', compact('akun'));
     }
 
     public function edit($id)
     {
-        $akun = akun::find($id);
+        $akun = User::find($id);
         return view('akuns.edit', compact('akun'));
     }
 
@@ -50,7 +51,7 @@ class AkunController extends Controller
     {
 
         // Ambil data akun berdasarkan ID
-        $akun = Akun::find($id);
+        $akun = User::find($id);
 
         // Periksa apakah data akun ditemukan
         if (!$akun) {
@@ -76,7 +77,7 @@ class AkunController extends Controller
     public function destroy($id)
     {
         // Cari data akun berdasarkan ID
-        $akun = Akun::find($id);
+        $akun = User::find($id);
 
         // Periksa apakah data akun ditemukan
         if (!$akun) {

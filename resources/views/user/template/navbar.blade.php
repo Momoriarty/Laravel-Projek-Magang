@@ -29,6 +29,7 @@
 
     <!-- Template Main C(('')) File -->
     <link href="{{ asset('') }}assets/user/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
     <!-- =======================================================
   * Template Name: Arsha
@@ -57,7 +58,33 @@
                     <li><a class="nav-link scrollto" href="#services">Services</a></li>
                     <li><a class="nav-link   scrollto" href="#galery">Galery</a></li>
                     <li><a class="nav-link scrollto" href="#team">Team</a></li>
-                    <li><a class="getstarted scrollto" href="{{ 'auth' }}">Login / Register</a></li>
+
+
+                    @if (!Auth::user()->username)
+                        <li><a class="getstarted scrollto" href="{{ '/auth' }}">Login / Register</a></li>
+                    @else
+                        <div class="dropdown">
+                            <button class="getstarted scrollto" style="background-color: black" type="button"
+                                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                <i class="fas fa-user"></i>
+                            </button>
+                            <div class="dropdown-menu" style="background-color: rgb(21, 148, 160); padding: 10px;"
+                                aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="#" style="color: white;">Profile</a>
+                                <a class="dropdown-item" href="#" style="color: white;">Settings</a>
+                                <div class="dropdown-divider" style="background-color: white;"></div>
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="getstarted scrollto"
+                                        style="color: black; padding: 5px 10px; border: none; cursor: pointer;">Logout</button>
+                                </form>
+                            </div>
+
+                        </div>
+                    @endif
+
+
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav><!-- .navbar -->
@@ -72,6 +99,10 @@
             class="bi bi-arrow-up-short"></i></a>
 
     <!-- Vendor JS Files -->
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script src="{{ asset('') }}assets/user/vendor/aos/aos.js"></script>
     <script src="{{ asset('') }}assets/user/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
