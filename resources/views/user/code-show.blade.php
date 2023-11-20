@@ -8,7 +8,8 @@
                         <article>
                             <header class="mb-4" style="color: rgba(210, 210, 210, 0.705)">
                                 <h1 class="fw-bolder mb-1">Login</h1>
-                                <div class="fst-italic mb-2">{{ $Templates->created_at }}  &nbsp<i class="bi bi-eye"> </i>{{ $Templates->kunjungan }}</div>
+                                <div class="fst-italic mb-2">{{ $Templates->created_at }} &nbsp<i class="bi bi-eye">
+                                    </i>{{ $Templates->kunjungan }}</div>
                                 <p class="badge bg-primary text-decoration-none">HTML</p>
                                 <p class="badge bg-primary text-decoration-none">CSS</p>
                                 <p class="badge bg-primary text-decoration-none">Login form</p>
@@ -51,25 +52,43 @@
                 <div class="row">
                     <h5>index.html
                         <button class="btn copy-button" style="margin-left: 8px;color:yellowgreen;"
-                            onclick="copyToClipboard('myTextarea')">Copy</button>
+                            onclick="copyToClipboard('htmlTextarea')">Copy</button>
                     </h5>
-                    <textarea id="myTextarea">{{ $Templates->html }}</textarea>
+                    <textarea readonly id="htmlTextarea" oninput="adjustTextareaHeight('htmlTextarea')">{{ $Templates->html }}</textarea>
                 </div>
+
                 <div class="row">
-                    <h5>index.html
+                    <h5>styles.css
                         <button class="btn copy-button" style="margin-left: 8px;color:yellowgreen;"
-                            onclick="copyToClipboard('myTextarea')">Copy</button>
+                            onclick="copyToClipboard('cssTextarea')">Copy</button>
                     </h5>
-                    <textarea id="myTextarea">{{ $Templates->css }}</textarea>
+                    <textarea readonly id="cssTextarea" oninput="adjustTextareaHeight('cssTextarea')">{{ $Templates->css }}</textarea>
                 </div>
+
                 <div class="row">
-                    <h5>index.html
+                    <h5>script.js
                         <button class="btn copy-button" style="margin-left: 8px;color:yellowgreen;"
-                            onclick="copyToClipboard('myTextarea')">Copy</button>
+                            onclick="copyToClipboard('jsTextarea')">Copy</button>
                     </h5>
-                    <textarea id="myTextarea">{{ $Templates->js }}</textarea>
+                    <textarea readonly id="jsTextarea" oninput="adjustTextareaHeight('jsTextarea')">{{ $Templates->js }}</textarea>
                 </div>
+
             </div>
         </section>
     </div>
+    <script>
+        function copyToClipboard(textareaId) {
+            var textarea = document.getElementById(textareaId);
+            textarea.select();
+            textarea.setSelectionRange(0, 99999); /* For mobile devices */
+            document.execCommand('copy');
+            window.getSelection().removeAllRanges();
+        }
+
+        function adjustTextareaHeight(textareaId) {
+            var textarea = document.getElementById(textareaId);
+            textarea.style.height = 'auto';
+            textarea.style.height = (textarea.scrollHeight) + 'px';
+        }
+    </script>
 @endsection

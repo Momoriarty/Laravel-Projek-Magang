@@ -48,13 +48,13 @@
                                         Edit
                                     </button>
                                     <button type="button" class="btn btn-danger mb-3" data-toggle="modal"
-                                        data-target="#exampleModal">
+                                        data-target="#deleteModal{{ $akun['id'] }}">
                                         Hapus
                                     </button>
                                 </td>
                             </tr>
                             <!-- Modal Edit-->
-                            <div class="modal fade" id="#deleteModal{{ $akun['id'] }}" tabindex="-1" role="dialog"
+                            <div class="modal fade" id="#editModal{{ $akun['id'] }}" tabindex="-1" role="dialog"
                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
@@ -113,7 +113,7 @@
                             </div>
 
                             <!-- Modal Edit-->
-                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                            <div class="modal fade" id="deleteModal{{ $akun['id'] }}" tabindex="-1" role="dialog"
                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
@@ -137,7 +137,8 @@
                                             <div class="row mt-3">
                                                 <div class="col-12 text-center">
                                                     <!-- Tombol submit atau konfirmasi penghapusan -->
-                                                    <form action="{{ route('akun.destroy') }}" method="post">
+                                                    <form action="{{ route('akun.destroy', $akun['id']) }}"
+                                                        method="post">
                                                         @method('DELETE') {{-- Digunakan untuk menandai bahwa ini adalah metode DELETE --}}
                                                         @csrf
                                                         <button type="submit" class="btn btn-danger">Ya, Hapus

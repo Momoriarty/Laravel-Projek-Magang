@@ -305,12 +305,12 @@
             <div class="nav-logo">
                 <p>LOGO .</p>
             </div>
-           
+
             <div class="nav-button">
                 <button class="btn white-btn" id="loginBtn" onclick="login()">Sign In</button>
                 <button class="btn" id="registerBtn" onclick="register()">Sign Up</button>
             </div>
-          
+
         </nav>
 
         <!----------------------------- Form box ----------------------------------->
@@ -323,17 +323,20 @@
                     <span>Don't have an account? <a href="#" onclick="register()">Sign Up</a></span>
                     <header>Login</header>
                 </div>
-                <div class="input-box">
-                    <input type="text" class="input-field" placeholder="Username or Email">
-                    <i class="bx bx-user"></i>
-                </div>
-                <div class="input-box">
-                    <input type="password" class="input-field" placeholder="Password">
-                    <i class="bx bx-lock-alt"></i>
-                </div>
-                <div class="input-box">
-                    <input type="submit" class="submit" value="Sign In">
-                </div>
+                <form method="POST" action="{{ route('login') }}">
+                    @csrf
+                    <div class="input-box">
+                        <input type="text" name="email" class="input-field" placeholder="Username or Email">
+                        <i class="bx bx-user"></i>
+                    </div>
+                    <div class="input-box">
+                        <input type="password" name="password" class="input-field" placeholder="Password">
+                        <i class="bx bx-lock-alt"></i>
+                    </div>
+                    <div class="input-box">
+                        <button type="submit" class="submit" value="Sign In">Sign In</button>
+                    </div>
+                </form>
                 <div class="two-col">
                     <div class="one">
                         <input type="checkbox" id="login-check">

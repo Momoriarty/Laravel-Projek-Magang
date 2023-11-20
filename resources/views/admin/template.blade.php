@@ -44,7 +44,8 @@
                             <tr>
                                 <td>{{ $no + 1 }}</td>
                                 <td>
-                                    <img src="{{ asset('storage/template-images/' . $data->gambar) }}" alt="Gambar Template" width="100">
+                                    <img src="{{ asset('storage/template-images/' . $data->gambar) }}" alt="Gambar Template"
+                                        width="100">
                                 </td>
                                 <td>{{ $data->nama_template }}</td>
                                 <td>{{ $data->jenis_template }}</td>
@@ -101,9 +102,15 @@
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="editNamaPembuat">Nama Pembuat</label>
-                                                            <input type="text" name="nama_pembuat" class="form-control"
-                                                                id="editNamaPembuat" value="{{ $data->nama_pembuat }}"
-                                                                required>
+                                                            <select name="nama_pembuat" class="form-control">
+                                                                <option value="">Pilih Pembuat</option>
+                                                                @foreach ($akuns as $no => $data)
+                                                                    <option value="{{ $data->name }}">
+                                                                        {{ $data->name }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -121,7 +128,8 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="editGambar">Gambar</label><br>
-                                                    <img src="{{ asset('storage/template-images/' . $data->gambar) }}" alt="Current Image"
+                                                    <img src="{{ asset('storage/template-images/' . $data->gambar) }}"
+                                                        alt="Current Image"
                                                         style="max-width: 150px; max-height: 150px; margin-bottom: 10px;">
                                                     <input type="file" name="gambar" class="form-control"
                                                         id="editGambar">
@@ -205,8 +213,14 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="addNamaTemplate">Nama Pembuat</label>
-                                    <input type="text" name="nama_pembuat" class="form-control" id="addNamaTemplate"
-                                        required>
+                                    <select name="nama_pembuat" class="form-control">
+                                        <option value="">Pilih Pembuat</option>
+                                        @foreach ($akuns as $no => $data)
+                                            <option value="{{ $data->name }}">
+                                                {{ $data->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                         </div>
