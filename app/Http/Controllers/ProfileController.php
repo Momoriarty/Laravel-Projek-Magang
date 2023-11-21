@@ -3,23 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Template;
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
-use Illuminate\Support\Facades\Storage;
 
-class TemplateController extends Controller
+class ProfileController extends Controller
 {
     public function index()
     {
-        $templates = Template::all();
         $akuns = User::all();
-        return view('admin.template', compact('templates', 'akuns'));
+        $navbar = FALSE;
+        return view('user.profile', compact('akuns', 'navbar'));
     }
+
 
     public function create()
     {
-        // Menampilkan halaman tambah template (jika diperlukan)
-        return view('admin.create_template');
+        return view('akuns.create');
     }
 
     public function store(Request $request)
@@ -60,7 +59,7 @@ class TemplateController extends Controller
         $template->save();
 
         // Redirect atau berikan respons sukses sesuai kebutuhan aplikasi Anda
-        return redirect('admin/template');
+        return redirect('/profile');
     }
 
 

@@ -52,12 +52,18 @@
 
             <nav id="navbar" class="navbar">
                 <ul>
-                    <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
-                    <li><a class="nav-link scrollto" href="{{ '/code' }}">Code</a></li>
-                    <li><a class="nav-link scrollto" href="#about">About</a></li>
-                    <li><a class="nav-link scrollto" href="#services">Services</a></li>
-                    <li><a class="nav-link   scrollto" href="#galery">Galery</a></li>
-                    <li><a class="nav-link scrollto" href="#team">Team</a></li>
+                    @if (isset($navbar))
+                        <li><a class="nav-link scrollto active" href="{{ '/' }}">Home</a></li>
+                        <li><a class="nav-link scrollto" href="{{ '/code' }}">Code</a></li>
+                    @else
+                        <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
+                        <li><a class="nav-link scrollto" href="{{ '/code' }}">Code</a></li>
+                        <li><a class="nav-link scrollto" href="#about">About</a></li>
+                        <li><a class="nav-link scrollto" href="#services">Services</a></li>
+                        <li><a class="nav-link   scrollto" href="#galery">Galery</a></li>
+                        <li><a class="nav-link scrollto" href="#team">Team</a></li>
+                    @endif
+
 
 
                     @if (Auth::check())
@@ -69,8 +75,8 @@
                             </button>
                             <div class="dropdown-menu" style="background-color: rgb(21, 148, 160); padding: 10px;"
                                 aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="#" style="color: white;">Profile</a>
-                                <a class="dropdown-item" href="#" style="color: white;">Settings</a>
+                                <a class="dropdown-item" href="{{ '/profile' }}" style="color: white;">Profile</a>
+                                <a class="dropdown-item" href="{{ '/setting' }}" style="color: white;">Settings</a>
                                 <div class="dropdown-divider" style="background-color: white;"></div>
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
@@ -96,27 +102,4 @@
 
     @yield('user/content')
 
-    <div id="preloader"></div>
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-            class="bi bi-arrow-up-short"></i></a>
-
-    <!-- Vendor JS Files -->
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <script src="{{ asset('') }}assets/user/vendor/aos/aos.js"></script>
-    <script src="{{ asset('') }}assets/user/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ asset('') }}assets/user/vendor/glightbox/js/glightbox.min.js"></script>
-    <script src="{{ asset('') }}assets/user/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-    <script src="{{ asset('') }}assets/user/vendor/swiper/swiper-bundle.min.js"></script>
-    <script src="{{ asset('') }}assets/user/vendor/waypoints/noframework.waypoints.js"></script>
-    <script src="{{ asset('') }}assets/user/vendor/php-email-form/validate.js"></script>
-
-    <!-- Template Main JS File -->
-    <script src="{{ asset('') }}assets/user/js/main.js"></script>
-
-</body>
-
-</html>
+    

@@ -2,7 +2,7 @@
 
 @section('user/content')
     <main id="main">
-        <section id="#" class="#">
+        <section id="sectionId" class="sectionClass">
             <div class="container mt-5">
 
                 <div class="row mb-4">
@@ -13,8 +13,8 @@
                     </div>
                 </div>
 
+                <!-- Tempat untuk menampilkan hasil pencarian -->
                 <div class="row" id="searchResults">
-                    <!-- Tempat untuk menampilkan hasil pencarian -->
                     @foreach ($Templates as $no => $data)
                         <div class="col-lg-3 col-md-3 col-6 mb-5 template-card" data-title="{{ $data->nama_template }}">
                             <div class="card h-100 shadow border-0">
@@ -37,7 +37,8 @@
                                                     @method('PUT')
                                                     @csrf
                                                     <input type="hidden" name="kunjungan" value="1">
-                                                    <button type="submit" class="stretched-link text-decoration-none" style="border: none; background:none;">
+                                                    <button type="submit" class="stretched-link text-decoration-none"
+                                                        style="border: none; background:none;">
                                                         Check Code <i class="bi bi-arrow-right"></i>
                                                     </button>
                                                 </form>
@@ -61,22 +62,35 @@
         </section>
     </main>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('#searchInput').on('input', function() {
-                var query = $(this).val().toLowerCase();
-
-                // Mencari template yang sesuai dengan judul
-                $('.template-card').each(function() {
-                    var title = $(this).data('title').toLowerCase();
-                    if (title.includes(query)) {
-                        $(this).show();
-                    } else {
-                        $(this).hide();
-                    }
-                });
-            });
+        document.getElementById('searchInput').addEventListener('input', function() {
+            search();
         });
+
+        function search() {
+            // Mendapatkan nilai dari input pencarian
+            var searchTerm = document.getElementById('searchInput').value.toLowerCase();
+
+            // Mendapatkan elemen tempat hasil pencarian akan ditampilkan
+            var searchResultsContainer = document.getElementById('searchResults');
+
+            // Mengambil semua elemen di dalam container
+            var elementsToSearch = searchResultsContainer.getElementsByClassName('template-card');
+
+            // Menyaring elemen-elemen yang sesuai dengan kriteria pencarian
+            for (var i = 0; i < elementsToSearch.length; i++) {
+                var content = elementsToSearch[i].getAttribute('data-title').toLowerCase();
+
+                // Memeriksa apakah isi elemen mengandung kata kunci pencarian
+                if (content.includes(searchTerm)) {
+                    // Jika iya, tampilkan elemen tersebut
+                    elementsToSearch[i].style.display = '';
+                } else {
+                    // Jika tidak, sembunyikan elemen tersebut
+                    elementsToSearch[i].style.display = 'none';
+                }
+            }
+        }
     </script>
 @endsection
+@extends('user/template/footer')

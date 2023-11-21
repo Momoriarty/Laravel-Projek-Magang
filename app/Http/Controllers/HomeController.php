@@ -15,12 +15,15 @@ class HomeController extends Controller
     public function code()
     {
         $Templates = Template::all();
-        return view('user/code', compact('Templates'));
+        $navbar = FALSE;
+        return view('user/code', compact('Templates', 'navbar'));
     }
     public function show($id)
     {
-        $Templates = Template::findOrFail($id); // atau Template::findOrFail($id);
-        return view('user/code-show', compact('Templates'));
+        $Templates = Template::findOrFail($id);
+        $navbar = FALSE;
+
+        return view('user/code-show', compact('Templates', 'navbar'));
     }
 
     public function update(Request $request, $id)
