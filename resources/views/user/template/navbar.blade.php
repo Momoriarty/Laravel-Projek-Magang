@@ -60,9 +60,7 @@
                     <li><a class="nav-link scrollto" href="#team">Team</a></li>
 
 
-                    @if (!Auth::user()->username)
-                        <li><a class="getstarted scrollto" href="{{ '/auth' }}">Login / Register</a></li>
-                    @else
+                    @if (Auth::check())
                         <div class="dropdown">
                             <button class="getstarted scrollto" style="background-color: black" type="button"
                                 id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
@@ -82,7 +80,11 @@
                             </div>
 
                         </div>
+                    @else
+                        <li><a class="getstarted scrollto" href="{{ '/auth' }}">Login / Register</a></li>
                     @endif
+
+
 
 
                 </ul>

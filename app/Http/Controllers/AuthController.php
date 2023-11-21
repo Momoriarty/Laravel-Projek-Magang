@@ -13,20 +13,24 @@ class AuthController extends Controller
     {
         return view('auth/index');
     }
-
     public function login(Request $request)
     {
+        $credentials = $request->only('username', 'password');
 
-        $Akuns = $request->only('username', 'password');
+        // Pastikan username dan password telah dimasukkan
+        if (empty($credentials['username']) || empty($credentials['password'])) {
+            return back()->withErrors(['username' => 'Please enter both username and password']);
+        }
 
-        if (Auth::attempt($Akuns)) {
-
+        if (Auth::attempt($credentials)) {
+            // Autentikasi berhasil
             return redirect()->intended('/');
         }
 
         // Jika autentikasi gagal
         return back()->withErrors(['username' => 'Invalid credentials']);
     }
+
 
     public function logout()
     {

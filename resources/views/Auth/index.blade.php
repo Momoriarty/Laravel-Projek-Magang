@@ -6,7 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <title>Ludiflex | Login & Registration</title>
 </head>
 <style>
@@ -18,6 +19,14 @@
         padding: 0;
         box-sizing: border-box;
         font-family: 'Poppins', sans-serif;
+    }
+
+    .toast-container {
+        position: fixed;
+        bottom: 20px;
+        /* Changed from top to bottom */
+        right: 20px;
+        z-index: 1000;
     }
 
     body {
@@ -300,6 +309,39 @@
 </style>
 
 <body>
+    <!-- Toast Container -->
+    <div class="toast-container">
+        @if (session('errors'))
+            <div class="toast my-toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Kesalahan</strong>
+                    <small>Baru saja</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    <ul>
+                        @foreach (session('errors')->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Ensure Bootstrap JavaScript is Loaded -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+
+            <!-- Wrap JavaScript Code in Document Ready Function -->
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Handle the toast
+                    var toastElement = document.querySelector('.my-toast');
+                    var toast = new bootstrap.Toast(toastElement);
+                    toast.show();
+                });
+            </script>
+        @endif
+    </div>
+
     <div class="wrapper">
         <nav class="nav">
             <div class="nav-logo">
@@ -313,15 +355,19 @@
 
         </nav>
 
+
+
         <!----------------------------- Form box ----------------------------------->
         <div class="form-box">
 
             <!------------------- login form -------------------------->
 
             <div class="login-container" id="login">
+
                 <div class="top">
                     <span>Don't have an account? <a href="#" onclick="register()">Sign Up</a></span>
                     <header>Login</header>
+
                 </div>
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
@@ -387,11 +433,7 @@
             </div>
         </div>
     </div>
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            {{ $errors->first() }}
-        </div>
-    @endif
+
 
     <script>
         function myMenuFunction() {
