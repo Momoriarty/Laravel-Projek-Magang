@@ -219,7 +219,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="addNamaTemplate">Nama Pembuat</label>
-                                    <input type="text" class="form-control" value="{{ Auth::user()->name }}"
+                                    <input type="text" class="form-control" name="nama_pembuat" value="{{ Auth::user()->name }}"
                                         readonly>
                                 </div>
                             </div>
@@ -239,7 +239,7 @@
 
                         <div class="upload-btn-wrapper">
                             <button class="btn-upload">Pilih File</button>
-                            <input type="file" name="templateFile" id="templateFile" class="file-input" required>
+                            <input type="file" name="gambar" id="templateFile" class="file-input" required>
                         </div>
                         <p class="file-chosen">Belum ada file yang dipilih</p>
                         <div class="modal-footer">
