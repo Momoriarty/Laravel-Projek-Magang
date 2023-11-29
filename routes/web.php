@@ -38,3 +38,57 @@ Route::get('admin', [AdminController::class, 'index']);
 Route::resource('admin/akun', AkunController::class)->middleware('web');
 Route::resource('admin/template', TemplateController::class)->middleware('web');
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Route::group(['middleware' => 'check.site.status'], function () {
+    Route::get('admin', [AdminController::class, 'index']);
+    Route::resource('admin/akun', AkunController::class)->middleware('web');
+    Route::resource('admin/template', TemplateController::class)->middleware('web');
+});
