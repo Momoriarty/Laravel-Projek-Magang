@@ -10,7 +10,7 @@ class CheckSiteStatus
     public function handle($request, Closure $next)
     {
         $activationDate = strtotime('2023-11-27'); // Gantilah dengan tanggal aktivasi yang sesuai
-        $inactiveDays = 1;
+        $inactiveDays = 10;
 
         if (time() - $activationDate > $inactiveDays * 24 * 60 * 60) {
             return response("Website is currently inactive. Please contact support.", 403);

@@ -14,6 +14,6 @@ class AdminController extends Controller
         $Users = User::count();
         $Templates = Template::count();
 
-        return view('admin/index', compact('Users' , 'Templates'));
+        return view('admin/index', compact('Users', 'Templates'));
     }
 }
