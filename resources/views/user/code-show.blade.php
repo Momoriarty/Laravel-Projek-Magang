@@ -27,24 +27,20 @@
                     </div>
                     <div class="col-lg-6" style="color: white">
                         <h2 class="fw-bolder mb-4">Recommended</h2>
-                        <div class="mb-4">
-                            <div class="small ">18 March 2023</div>
-                            <a class="link-light nl" href="/code/19">
-                                <h3>Modern Login Form</h3>
-                            </a>
-                        </div>
-                        <div class="mb-4">
-                            <div class="small ">25 April 2023</div>
-                            <a class="link-light nl" href="/code/29">
-                                <h3>Responsive Login Form</h3>
-                            </a>
-                        </div>
-                        <div class="mb-4">
-                            <div class="small ">2 March 2023</div>
-                            <a class="link-light nl" href="/code/12">
-                                <h3>Simple Login Form</h3>
-                            </a>
-                        </div>
+                        @foreach ($rekomendasi as $data)
+                            <div class="mb-4">
+                                <div class="small ">18 March 2023</div>
+                                <a class="link-light nl" href="/code/19">
+                                    <h3>Modern Login Form</h3>
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+
+                <div class="row mt-3 mb-3">
+                    <div class="col-md-6">
+                        <a href="{{ '/live-demo/' . $Templates->id }}" class="btn btn-info">LiVe Demo</a>
                     </div>
                 </div>
 
@@ -76,6 +72,8 @@
             </div>
         </section>
     </div>
+
+
     <script>
         function copyToClipboard(textareaId) {
             var textarea = document.getElementById(textareaId);

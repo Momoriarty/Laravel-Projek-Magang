@@ -9,7 +9,7 @@ class CheckSiteStatus
 {
     public function handle($request, Closure $next)
     {
-        $activationDate = strtotime('2023-11-27'); // Gantilah dengan tanggal aktivasi yang sesuai
+        $activationDate = strtotime('2024-1-1'); // Gantilah dengan tanggal aktivasi yang sesuai
         $inactiveDays = 10;
 
         if (time() - $activationDate > $inactiveDays * 24 * 60 * 60) {

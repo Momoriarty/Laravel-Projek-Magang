@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
@@ -12,8 +14,12 @@ class ProfileController extends Controller
     public function index()
     {
         $akuns = User::all();
+        $template = Template::where('user_id', Auth::user()->id)->get();
         $navbar = FALSE;
-        return view('user.profile', compact('akuns', 'navbar'));
+
+        
+        return view('user.profile', compact('akuns', 'navbar', 'template'));
+
     }
 
 
@@ -31,7 +37,6 @@ class ProfileController extends Controller
             'nama_pembuat' => 'required',
             'html' => 'required',
             'css' => 'required',
-            'js' => 'required',
             'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
@@ -50,10 +55,16 @@ class ProfileController extends Controller
         // Mengisi nilai atribut dari request ke model Template
         $template->nama_template = $request->input('nama_template');
         $template->jenis_template = $request->input('jenis_template');
+        $template->user_id = Auth::user()->id;
         $template->nama_pembuat = $request->input('nama_pembuat');
         $template->html = $request->input('html');
         $template->css = $request->input('css');
-        $template->js = $request->input('js');
+        if (isset($request->js)) {
+            $template->js = $request->input('js');
+        }else{
+            $template->js = '//';
+
+        }
         $template->kunjungan = '0';
         $template->gambar = $uniqueFileName;
         // Menyimpan template ke database

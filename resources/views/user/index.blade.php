@@ -534,5 +534,3 @@
         </div>
     </footer><!-- End Footer -->
 @endsection
-
-@extends('user/template/footer')

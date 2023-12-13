@@ -33,6 +33,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('code', [HomeController::class, 'code']);
 Route::put('/code/update/{id}', [HomeController::class, 'update'])->name('code.update');
 Route::get('/code/{id}', [HomeController::class, 'show']);
+Route::get('/live-demo/{id}', [HomeController::class, 'demo']);
 
 Route::get('admin', [AdminController::class, 'index']);
 Route::resource('admin/akun', AkunController::class)->middleware('web');

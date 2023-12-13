@@ -21,14 +21,15 @@ class HomeController extends Controller
     public function show($id)
     {
         $Templates = Template::findOrFail($id);
+        $rekomendasi = Template::orderBy('kunjungan', 'desc')->get();
         $navbar = FALSE;
 
-        return view('user/code-show', compact('Templates', 'navbar'));
+        return view('user/code-show', compact('Templates', 'navbar', 'rekomendasi'));
     }
 
     public function update(Request $request, $id)
     {
-       
+
 
         // Ambil data template berdasarkan ID
         $template = Template::find($id);
@@ -41,5 +42,11 @@ class HomeController extends Controller
 
         // Redirect atau berikan respons sukses sesuai kebutuhan aplikasi Anda
         return redirect('code/' . $id);
+    }
+
+    public function demo($id)
+    {
+        $demo = Template::where('id', $id)->first();
+        return view('user/live-demo', compact('demo'));
     }
 }

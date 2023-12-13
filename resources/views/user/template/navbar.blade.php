@@ -102,4 +102,4 @@
 
     @yield('user/content')
 
-    
+    @include('user/template/footer')
