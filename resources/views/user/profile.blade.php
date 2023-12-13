@@ -114,7 +114,7 @@
             <img src="path/to/profile-picture.jpg" alt="Profile Picture"
                 class="img-fluid rounded-circle profile-picture">
         </div>
-        <div class="col-md-8">
+        <div class="col-md-4">
             <!-- Nama Pengguna -->
             <h2>{{ Auth::user()->name }}</h2>
 
@@ -126,6 +126,13 @@
             </ul>
 
 
+        </div>
+        <div class="col-md-4">
+            <!-- Edit Profile Button -->
+            <button type="button" class="btn btn-outline-primary btn-sm float-right" data-toggle="modal"
+                data-target="#editProfileModal">
+                Edit Profile
+            </button>
         </div>
     </div>
 
@@ -415,6 +422,29 @@
         @endforeach
 
 
+    </div>
+</div>
+
+<!-- Edit Profile Modal -->
+<div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="editProfileModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!-- Add your profile editing form here -->
+            <div class="modal-body">
+                <!-- Your profile editing form goes here -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
     </div>
 </div>
 <script>

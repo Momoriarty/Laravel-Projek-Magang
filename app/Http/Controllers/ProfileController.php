@@ -17,10 +17,11 @@ class ProfileController extends Controller
         $template = Template::where('user_id', Auth::user()->id)->get();
         $navbar = FALSE;
 
-        
+
         return view('user.profile', compact('akuns', 'navbar', 'template'));
 
     }
+
 
 
     public function create()
@@ -61,7 +62,7 @@ class ProfileController extends Controller
         $template->css = $request->input('css');
         if (isset($request->js)) {
             $template->js = $request->input('js');
-        }else{
+        } else {
             $template->js = '//';
 
         }

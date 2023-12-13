@@ -44,13 +44,12 @@
                     </div>
                 </div>
 
-
                 <div class="row">
                     <h5>index.html
                         <button class="btn copy-button" style="margin-left: 8px;color:yellowgreen;"
                             onclick="copyToClipboard('htmlTextarea')">Copy</button>
                     </h5>
-                    <textarea readonly id="htmlTextarea" oninput="adjustTextareaHeight('htmlTextarea')">{{ $Templates->html }}</textarea>
+                    <textarea readonly id="htmlTextarea" oninput="adjustTextareaHeight('htmlTextarea')" rows="30" cols="50">{{ $Templates->html }}</textarea>
                 </div>
 
                 <div class="row">
@@ -58,7 +57,7 @@
                         <button class="btn copy-button" style="margin-left: 8px;color:yellowgreen;"
                             onclick="copyToClipboard('cssTextarea')">Copy</button>
                     </h5>
-                    <textarea readonly id="cssTextarea" oninput="adjustTextareaHeight('cssTextarea')">{{ $Templates->css }}</textarea>
+                    <textarea readonly id="cssTextarea" oninput="adjustTextareaHeight('cssTextarea')" rows="30" cols="50">{{ $Templates->css }}</textarea>
                 </div>
 
                 <div class="row">
@@ -66,7 +65,7 @@
                         <button class="btn copy-button" style="margin-left: 8px;color:yellowgreen;"
                             onclick="copyToClipboard('jsTextarea')">Copy</button>
                     </h5>
-                    <textarea readonly id="jsTextarea" oninput="adjustTextareaHeight('jsTextarea')">{{ $Templates->js }}</textarea>
+                    <textarea readonly id="jsTextarea" oninput="adjustTextareaHeight('jsTextarea')" rows="10" cols="50">{{ $Templates->js }}</textarea>
                 </div>
 
             </div>
@@ -85,7 +84,7 @@
 
         function adjustTextareaHeight(textareaId) {
             var textarea = document.getElementById(textareaId);
-            textarea.style.height = 'auto';
+            textarea.style.height = 'auto'; // Resetting height to auto to recalculate the actual height
             textarea.style.height = (textarea.scrollHeight) + 'px';
         }
     </script>
