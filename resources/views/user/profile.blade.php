@@ -436,9 +436,8 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <!-- Add your profile editing form here -->
             <div class="modal-body">
-                <!-- Your profile editing form goes here -->
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
