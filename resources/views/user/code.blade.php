@@ -93,4 +93,3 @@
         }
     </script>
 @endsection
-@extends('user/template/footer')
