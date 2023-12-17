@@ -183,8 +183,8 @@
         });
     </script>
     <div class="center-card">
-        <p>Please contact support for further assistance.</p>
-        <p class="contact-info">Contact: <a href="tel:+123456789">123-456-789</a></p>
+        <p>Website Ini Dikunci, Mohon Dibayar Terlebih Dahulu.</p>
+        <p class="contact-info">Contact: <a href="https://wa.me/6289636402187">+62 896-3640-2187</a></p>
         <p>Thank you for your understanding.</p>
     </div>
 </body>

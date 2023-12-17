@@ -7,7 +7,7 @@
                     <div class="col-lg-12">
                         <article>
                             <header class="mb-4" style="color: rgba(210, 210, 210, 0.705)">
-                                <h1 class="fw-bolder mb-1">Login</h1>
+                                <h1 class="fw-bolder mb-1">{{ $Templates->nama_template }}</h1>
                                 <div class="fst-italic mb-2">{{ $Templates->created_at }} &nbsp<i class="bi bi-eye">
                                     </i>{{ $Templates->kunjungan }}</div>
                                 <p class="badge bg-primary text-decoration-none">HTML</p>
@@ -29,9 +29,9 @@
                         <h2 class="fw-bolder mb-4">Recommended</h2>
                         @foreach ($rekomendasi as $data)
                             <div class="mb-4">
-                                <div class="small ">18 March 2023</div>
-                                <a class="link-light nl" href="/code/19">
-                                    <h3>Modern Login Form</h3>
+                                <div class="small ">{{ $data->created_at }}</div>
+                                <a class="link-light nl" href="{{ '/code/' . $data->id }}">
+                                    <h3>{{ $data->nama_template }}</h3>
                                 </a>
                             </div>
                         @endforeach

@@ -21,7 +21,7 @@ class HomeController extends Controller
     public function show($id)
     {
         $Templates = Template::findOrFail($id);
-        $rekomendasi = Template::orderBy('kunjungan', 'desc')->get();
+        $rekomendasi = Template::orderBy('kunjungan', 'DESC')->take(3)->get();
         $navbar = FALSE;
 
         return view('user/code-show', compact('Templates', 'navbar', 'rekomendasi'));
