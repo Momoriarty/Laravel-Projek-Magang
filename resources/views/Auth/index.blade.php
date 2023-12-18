@@ -400,32 +400,46 @@
                     <span>Have an account? <a href="#" onclick="login()">Login</a></span>
                     <header>Sign Up</header>
                 </div>
-                <div class="two-forms">
-                    <div class="input-box">
-                        <input type="text" class="input-field" placeholder="Firstname">
-                        <i class="bx bx-user"></i>
+                <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
+                    @csrf
+                    <div class="two-forms">
+                        <div class="input-box">
+                            <input type="text" class="input-field" placeholder="Name" name="name">
+                            <i class="bx bx-user"></i>
+                        </div>
+                        <div class="input-box">
+                            <input type="text" class="input-field" placeholder="Username" name="username">
+                            <i class="bx bx-user"></i>
+                        </div>
                     </div>
                     <div class="input-box">
-                        <input type="text" class="input-field" placeholder="Lastname">
-                        <i class="bx bx-user"></i>
+                        <input type="text" class="input-field" placeholder="Email" name="email">
+                        <i class="bx bx-envelope"></i>
                     </div>
-                </div>
-                <div class="input-box">
-                    <input type="text" class="input-field" placeholder="Email">
-                    <i class="bx bx-envelope"></i>
-                </div>
-                <div class="input-box">
-                    <input type="password" class="input-field" placeholder="Password">
-                    <i class="bx bx-lock-alt"></i>
-                </div>
-                <div class="input-box">
-                    <input type="submit" class="submit" value="Register">
-                </div>
+                    <div class="input-box">
+                        <input type="password" class="input-field" placeholder="Password" name="password">
+                        <i class="bx bx-lock-alt"></i>
+                    </div>
+                    <div class="input-box">
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn input-field" data-bs-toggle="modal"
+                            data-bs-target="#imageModal">
+                            Pilih Profil
+                        </button>
+                        <input type="hidden" id="imageInput" name="gambar" />
+                        <i class="bx bx-lock-alt"></i>
+                    </div>
+                    <div class="input-box">
+                        <input type="submit" class="submit" value="Register">
+                    </div>
+                </form>
+
                 <div class="two-col">
                     <div class="one">
                         <input type="checkbox" id="register-check">
                         <label for="register-check"> Remember Me</label>
                     </div>
+
                     <div class="two">
                         <label><a href="#">Terms & conditions</a></label>
                     </div>
@@ -433,6 +447,81 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="imageModalLabel">Select an Image</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Here, you can display a list of pre-existing images -->
+                    <img width="100" src="storage/profile/avatar1.png" value="avatar1.png" alt="Image 1"
+                        class="img-thumbnail">
+                    <img width="100" src="storage/profile/avatar2.png" value="avatar2.png" alt="Image 2"
+                        class="img-thumbnail">
+                    <img width="100" src="storage/profile/avatar3.png" value="avatar3.png" alt="Image 3"
+                        class="img-thumbnail">
+                    <img width="100" src="storage/profile/avatar4.png" value="avatar4.png" alt="Image 3"
+                        class="img-thumbnail">
+                    <img width="100" src="storage/profile/avatar5.png" value="avatar5.png" alt="Image 3"
+                        class="img-thumbnail">
+                    <img width="100" src="storage/profile/avatar6.png" value="avatar6.png" alt="Image 3"
+                        class="img-thumbnail">
+                    <img width="100" src="storage/profile/avatar7.png" value="avatar7.png" alt="Image 3"
+                        class="img-thumbnail">
+                    <img width="100" src="storage/profile/avatar8.png" value="avatar8.png" alt="Image 3"
+                        class="img-thumbnail">
+                    <input type="file" name="gambar" id="customImageInput">
+                    <!-- Add more images as needed -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+    </script>
+
+
+    <script>
+        $(document).ready(function() {
+            // Handle image selection
+            $('.img-thumbnail').click(function() {
+                var gambarUrl = $(this).attr('src');
+                $('#imageInput').val(gambarUrl); // Set the image URL in the hidden input field
+                $('#imageModal').modal('hide'); // Close the modal
+            });
+
+            // Handle custom image selection from file input
+            $('#customImageInput').change(function() {
+                var fileInput = $(this)[0];
+                if (fileInput.files && fileInput.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        var gambarUrl = e.target.result;
+                        $('#imageInput').val(
+                            gambarUrl); // Set the image URL in the hidden input field
+                    };
+                    reader.readAsDataURL(fileInput.files[0]);
+                }
+            });
+
+            // Handle form submission
+            $('form').submit(function() {
+                var gambarUrl = $('#imageInput').val();
+                $('<input>').attr({
+                    type: 'hidden',
+                    name: 'gambar',
+                    value: gambarUrl
+                }).appendTo('form');
+            });
+        });
+    </script>
 
 
     <script>

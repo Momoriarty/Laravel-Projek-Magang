@@ -111,80 +111,70 @@
     <div class="row">
         <div class="col-md-4">
             <!-- Foto Profil -->
-            <img src="path/to/profile-picture.jpg" alt="Profile Picture"
-                class="img-fluid rounded-circle profile-picture">
+            <img src=" {{ $akuns->profile }}" alt="Profile Picture" class="img-fluid rounded-circle profile-picture"
+                width="250">
         </div>
         <div class="col-md-4">
             <!-- Nama Pengguna -->
-            <h2>{{ Auth::user()->name }}</h2>
-
+            {{ ucfirst($akuns->name) }}
             <!-- Informasi Profil -->
             <ul class="list-unstyled">
-                <li><strong>Pekerjaan:</strong> Web Developer</li>
-                <li><strong>Tempat Tinggal:</strong> Kota Anda</li>
-                <li><strong>Asal:</strong> Asal Anda</li>
+                <li><strong>Username:</strong> {{ ucfirst($akuns->username) }}</li>
+                <li><strong>Email:</strong> {{ $akuns->email }}</li>
+                <li><strong>No HandPhone:</strong> {{ $akuns->no_hp }}</li>
             </ul>
 
 
         </div>
         <div class="col-md-4">
-            <!-- Edit Profile Button -->
-            <button type="button" class="btn btn-outline-primary btn-sm float-right" data-toggle="modal"
-                data-target="#editProfileModal">
-                Edit Profile
+            <button type="button" data-toggle="modal" data-target="#editProfileModal"
+                class="btn btn-lg d-block mx-auto mt-4 p-3 rounded-pill shadow upload-btn">
+                <span class="animated-content">
+                    <span class="mr-2">🤷‍♂️</span> Edit Profile <span class="ml-2">🌟</span>
+                </span>
             </button>
+
         </div>
     </div>
-
-    <!-- Status/Pos Terbaru -->
-    <div class="row mt-3">
-        <div class="col-md-12">
-            <h4>Template Anda</h4>
-
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et justo
-                                vitae
-                                justo faucibus euismod.</p>
-                            <p class="card-text">Nulla facilisi. Vestibulum id turpis ac felis commodo viverra. Duis
-                                condimentum
-                                lacus nec risus fermentum, a ullamcorper leo dignissim. Nulla facilisi.</p>
-                        </div>
-                    </div>
+    <!-- Edit Profile Modal -->
+    <div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="editProfileModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et justo
-                                vitae
-                                justo faucibus euismod.</p>
-                            <p class="card-text">Nulla facilisi. Vestibulum id turpis ac felis commodo viverra. Duis
-                                condimentum
-                                lacus nec risus fermentum, a ullamcorper leo dignissim. Nulla facilisi.</p>
-                        </div>
+                <div class="modal-body">
+                    <!-- Input fields for editing profile -->
+                    <div class="form-group">
+                        <label for="Name">Name:</label>
+                        <input type="text" class="form-control" id="Name" value="{{ $akuns->name }}"
+                            name="name" placeholder="Enter your name">
                     </div>
+                    <div class="form-group">
+                        <label for="Username">Username:</label>
+                        <input type="text" class="form-control" id="Username" value="{{ $akuns->username }}"
+                            name="username" placeholder="Enter your username">
+                    </div>
+                    <div class="form-group">
+                        <label for="Email">Email:</label>
+                        <input type="email" class="form-control" id="Email" value="{{ $akuns->email }}"
+                            name="email" placeholder="Enter your email">
+                    </div>
+                    <!-- Add more input fields as needed -->
+
                 </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et justo
-                                vitae
-                                justo faucibus euismod.</p>
-                            <p class="card-text">Nulla facilisi. Vestibulum id turpis ac felis commodo viverra. Duis
-                                condimentum
-                                lacus nec risus fermentum, a ullamcorper leo dignissim. Nulla facilisi.</p>
-                        </div>
-                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
-            <!-- Card Start -->
-
-            <!-- Card End -->
-
         </div>
     </div>
+
 
 
     <button type="button" data-toggle="modal" data-target="#uploadModal"
@@ -212,8 +202,8 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="addNamaTemplate">Nama Template</label>
-                                    <input type="text" name="nama_template" class="form-control" id="addNamaTemplate"
-                                        required>
+                                    <input type="text" name="nama_template" class="form-control"
+                                        id="addNamaTemplate" required>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -264,7 +254,7 @@
 
     <h3 style="text-align: center; color:rgb(227, 198, 198);">Template Saya</h3>
     <div class="row justify-content-center">
-        @foreach ($template as $no => $data)
+        @forelse ($template as $no => $data)
             <div class="col-lg-3 col-md-3 col-6 mb-5 template-card" data-title="{{ $data->nama_template }}">
                 <div class="card h-100 shadow border-0">
                     <img class="card-img-top" src="{{ asset('storage/template-images/' . $data->gambar) }}"
@@ -419,33 +409,19 @@
                     </div>
                 </div>
             </div>
-        @endforeach
+        @empty
+            <div class="text-center my-5 text-light">
+                <p class="lead">Oops! Tidak ada template yang tersedia saat ini.</p>
+                <p class="text">Coba buat template baru atau kembali lagi nanti untuk melihat koleksi yang lebih
+                    lengkap.</p>
+            </div>
+        @endforelse
 
 
     </div>
 </div>
 
-<!-- Edit Profile Modal -->
-<div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="editProfileModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
 
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>
 <script>
     document.getElementById('templateFile').addEventListener('change', function() {
         var fileName = this.value.split('\\').pop();

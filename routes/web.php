@@ -38,6 +38,7 @@ Route::group(['middleware' => 'check.site.status'], function () {
     Route::get('/login', [AuthController::class, 'index'])->name('login');
     Route::get('/auth', [AuthController::class, 'index']);
     Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/register', [AuthController::class, 'register'])->name('register');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 

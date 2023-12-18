@@ -13,7 +13,7 @@ class ProfileController extends Controller
 {
     public function index()
     {
-        $akuns = User::all();
+        $akuns = User::where('id', Auth::user()->id)->first();
         $template = Template::where('user_id', Auth::user()->id)->get();
         $navbar = FALSE;
 
@@ -21,8 +21,6 @@ class ProfileController extends Controller
         return view('user.profile', compact('akuns', 'navbar', 'template'));
 
     }
-
-
 
     public function create()
     {
