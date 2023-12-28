@@ -13,12 +13,14 @@ return new class extends Migration {
         Schema::create('templates', function (Blueprint $table) {
             $table->id();
             $table->string('nama_template');
+            $table->string('profile');
             $table->string('jenis_template');
             $table->string('nama_pembuat');
             $table->string('gambar');
             $table->text('html');
             $table->text('css');
             $table->text('js');
+            $table->text('pengunjung');
             $table->timestamps();
         });
     }
