@@ -317,7 +317,7 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <form action="{{ route('template.update', $data->id) }}" method="post"
+                        <form action="{{ route('profile.update', $data->id) }}" method="post"
                             enctype="multipart/form-data">
                             @method('PUT')
                             @csrf
@@ -340,14 +340,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="editNamaPembuat">Nama Pembuat</label>
-                                            <select name="nama_pembuat" class="form-control">
-                                                <option value="">Pilih Pembuat</option>
-                                                @foreach ($akuns as $no => $data)
-                                                    <option value="{{ $data->name }}">
-                                                        {{ $data->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
+                                            <input type="text" class="form-control" readonly name="nama_pembuat" value="{{ $akuns->name }}">
 
                                         </div>
                                     </div>
@@ -398,7 +391,7 @@
                             <p>Are you sure you want to delete this template?</p>
                         </div>
                         <div class="modal-footer">
-                            <form action="{{ route('template.destroy', $data->id) }}" method="post">
+                            <form action="{{ route('profile.destroy', $data->id) }}" method="post">
                                 @method('DELETE')
                                 @csrf
                                 <button type="submit" class="btn btn-danger">Yes, Delete</button>

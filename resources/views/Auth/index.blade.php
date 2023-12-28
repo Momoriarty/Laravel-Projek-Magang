@@ -462,15 +462,15 @@
                         class="img-thumbnail">
                     <img width="100" src="storage/profile/avatar3.png" value="avatar3.png" alt="Image 3"
                         class="img-thumbnail">
-                    <img width="100" src="storage/profile/avatar4.png" value="avatar4.png" alt="Image 3"
+                    <img width="100" src="storage/profile/avatar4.png" value="avatar4.png" alt="Image 4"
                         class="img-thumbnail">
-                    <img width="100" src="storage/profile/avatar5.png" value="avatar5.png" alt="Image 3"
+                    <img width="100" src="storage/profile/avatar5.png" value="avatar5.png" alt="Image 5"
                         class="img-thumbnail">
-                    <img width="100" src="storage/profile/avatar6.png" value="avatar6.png" alt="Image 3"
+                    <img width="100" src="storage/profile/avatar6.png" value="avatar6.png" alt="Image 6"
                         class="img-thumbnail">
-                    <img width="100" src="storage/profile/avatar7.png" value="avatar7.png" alt="Image 3"
+                    <img width="100" src="storage/profile/avatar7.png" value="avatar7.png" alt="Image 7"
                         class="img-thumbnail">
-                    <img width="100" src="storage/profile/avatar8.png" value="avatar8.png" alt="Image 3"
+                    <img width="100" src="storage/profile/avatar8.png" value="avatar8.png" alt="Image 8"
                         class="img-thumbnail">
                     <input type="file" name="gambar" id="customImageInput">
                     <!-- Add more images as needed -->

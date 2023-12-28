@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('templates', function (Blueprint $table) {
             $table->id();
             $table->string('nama_template');
-            $table->string('profile');
+            $table->string('user_id');
             $table->string('jenis_template');
             $table->string('nama_pembuat');
             $table->string('gambar');

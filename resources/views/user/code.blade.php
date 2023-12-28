@@ -15,7 +15,7 @@
 
                 <!-- Tempat untuk menampilkan hasil pencarian -->
                 <div class="row" id="searchResults">
-                    @foreach ($Templates as $no => $data)
+                    @forelse ($Templates as $no => $data)
                         <div class="col-lg-3 col-md-3 col-6 mb-5 template-card" data-title="{{ $data->nama_template }}">
                             <div class="card h-100 shadow border-0">
                                 <img class="card-img-top" src="{{ asset('storage/template-images/' . $data->gambar) }}"
@@ -55,7 +55,14 @@
                                 </div>
                             </div>
                         </div>
-                    @endforeach
+                    @empty
+                        <div class="text-center my-5 text-light">
+                            <p class="lead">Oops! Tidak ada template yang tersedia saat ini.</p>
+                            <p class="text">Coba buat template baru atau kembali lagi nanti untuk melihat koleksi yang
+                                lebih
+                                lengkap.</p>
+                        </div>
+                    @endforelse
                 </div>
 
             </div>

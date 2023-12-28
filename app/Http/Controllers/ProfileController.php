@@ -138,7 +138,7 @@ class ProfileController extends Controller
         $template->save();
 
         // Redirect atau berikan respons sukses sesuai kebutuhan aplikasi Anda
-        return redirect('admin/template');
+        return redirect('profile');
     }
 
     public function destroy($id)
@@ -161,7 +161,7 @@ class ProfileController extends Controller
         $template->delete();
 
         // Redirect atau berikan respons sukses sesuai kebutuhan aplikasi Anda
-        return redirect('admin/template');
+        return redirect('profile');
     }
 
 }

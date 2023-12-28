@@ -25,15 +25,15 @@ class TemplateController extends Controller
     public function store(Request $request)
     {
         // Validation
-        $request->validate([
-            'nama_template' => 'required',
-            'jenis_template' => 'required',
-            'nama_pembuat' => 'required',
-            'html' => 'required',
-            'css' => 'required',
-            'js' => 'required',
-            'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
+        // $request->validate([
+        //     'nama_template' => 'required',
+        //     'jenis_template' => 'required',
+        //     'nama_pembuat' => 'required',
+        //     'html' => 'required',
+        //     'css' => 'required',
+        //     'js' => 'required',
+        //     'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+        // ]);
 
         // Upload image
         $image = $request->file('gambar');
@@ -50,10 +50,15 @@ class TemplateController extends Controller
         // Mengisi nilai atribut dari request ke model Template
         $template->nama_template = $request->input('nama_template');
         $template->jenis_template = $request->input('jenis_template');
+        $template->user_id = '0';
         $template->nama_pembuat = $request->input('nama_pembuat');
         $template->html = $request->input('html');
         $template->css = $request->input('css');
-        $template->js = $request->input('js');
+        if (isset($request->js)) {
+            $template->js = $request->input('js');
+        } else {
+            $template->js = '//';
+        }
         $template->kunjungan = '0';
         $template->gambar = $uniqueFileName;
         // Menyimpan template ke database
@@ -81,12 +86,12 @@ class TemplateController extends Controller
     public function update(Request $request, $id)
     {
         // Validasi input
-        $request->validate([
-            'nama_template' => 'required',
-            'jenis_template' => 'required',
-            'nama_pembuat' => 'required',
-            'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
-        ]);
+        // $request->validate([
+        //     'nama_template' => 'required',
+        //     'jenis_template' => 'required',
+        //     'nama_pembuat' => 'required',
+        //     'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+        // ]);
 
         // Ambil data template berdasarkan ID
         $template = Template::find($id);
