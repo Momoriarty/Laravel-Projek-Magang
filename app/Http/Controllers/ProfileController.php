@@ -8,15 +8,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Template;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
     public function index()
     {
         $akuns = User::where('id', Auth::user()->id)->first();
-        $template = Template::where('user_id', Auth::user()->id)->get();
+        $template = Template::with('user')->where('user_id', Auth::user()->id)->get();
         $navbar = FALSE;
-
 
         return view('user.profile', compact('akuns', 'navbar', 'template'));
 
@@ -30,14 +30,14 @@ class ProfileController extends Controller
     public function store(Request $request)
     {
         // Validation
-        $request->validate([
-            'nama_template' => 'required',
-            'jenis_template' => 'required',
-            'nama_pembuat' => 'required',
-            'html' => 'required',
-            'css' => 'required',
-            'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
+        // $request->validate([
+        //     'nama_template' => 'required',
+        //     'jenis_template' => 'required',
+        //     'nama_pembuat' => 'required',
+        //     'html' => 'required',
+        //     'css' => 'required',
+        //     'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        // ]);
 
         // Upload image
         $image = $request->file('gambar');

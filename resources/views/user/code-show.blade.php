@@ -40,7 +40,7 @@
 
                 <div class="row mt-3 mb-3">
                     <div class="col-md-6">
-                        <a href="{{ '/live-demo/' . $Templates->id }}" class="btn btn-info">LiVe Demo</a>
+                        <a href="{{ '/live-demo/' . $Templates->id }}" target="_blank" class="btn btn-info">LiVe Demo</a>
                     </div>
                 </div>
 

@@ -14,14 +14,15 @@ return new class extends Migration {
             $table->id();
             $table->string('nama_template');
             $table->string('user_id');
-            $table->string('jenis_template');
+            $table->string('jenis_template')->nullable();
             $table->string('nama_pembuat');
-            $table->string('gambar');
-            $table->text('html');
-            $table->text('css');
-            $table->text('js');
-            $table->text('pengunjung');
+            $table->string('gambar')->nullable();
+            $table->text('html')->nullable();
+            $table->text('css')->nullable();
+            $table->text('js')->nullable();
+            $table->integer('kunjungan')->default(0);
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

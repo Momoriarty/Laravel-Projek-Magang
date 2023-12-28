@@ -169,7 +169,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>
@@ -263,7 +263,7 @@
                         <a class="text-decoration-none link-dark" href="/code/{{ $data->id }}">
                             <h3 class="card-title">{{ $data->nama_template }}</h3>
                             <div class="text-muted">
-                                <i class="bi bi-person"></i>{{ $data->nama_pembuat }}
+                                <i class="bi bi-person"></i>{{ $data->user->name }}
                             </div>
                         </a>
                         <div class="text-muted" style="margin-top: 3px;">

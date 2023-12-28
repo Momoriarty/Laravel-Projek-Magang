@@ -47,7 +47,7 @@ class AuthController extends Controller
             'name' => $validatedData['name'],
             'username' => $validatedData['username'],
             'email' => $validatedData['email'],
-            'no_hp' => '12345689',
+            'no_hp' => $validatedData['no_hp'],
             'password' => bcrypt($validatedData['password']), // Hash the password
             'profile' => $request['gambar'],
         ]);
