@@ -29,48 +29,46 @@ class ProfileController extends Controller
 
     public function store(Request $request)
     {
-        // Validation
         // $request->validate([
-        //     'nama_template' => 'required',
-        //     'jenis_template' => 'required',
-        //     'nama_pembuat' => 'required',
-        //     'html' => 'required',
-        //     'css' => 'required',
+        //     'nama_template' => 'required|string',
+        //     'jenis_template' => 'required|string',
+        //     'html' => 'required|string',
+        //     'css' => 'required|string',
         //     'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         // ]);
 
-        // Upload image
-        $image = $request->file('gambar');
+        try {
+            // Upload image
+            if ($request->hasFile('gambar')) {
+                $image = $request->file('gambar');
+                $uniqueFileName = 'Template-' . time() . '.' . $image->getClientOriginalExtension();
+                $imagePath = $image->storeAs('public/template-images', $uniqueFileName);
+            } else {
+                $uniqueFileName = 'img-default.jpg'; // or provide a default image if needed
+            }
 
-        // Generate unique filename based on current time
-        $uniqueFileName = 'Template-' . time() . '.' . $image->getClientOriginalExtension();
+            // Create a new instance of the Template model
+            $template = new Template;
 
-        // Store the image with the unique filename
-        $imagePath = $image->storeAs('public/template-images', $uniqueFileName);
+            // Fill model attributes from the request
+            $template->nama_template = $request->input('nama_template');
+            $template->jenis_template = $request->input('jenis_template');
+            $template->user_id = Auth::user()->id;
+            $template->html = $request->input('html');
+            $template->css = $request->input('css');
+            $template->js = $request->filled('js') ? $request->input('js') : '//';
+            $template->gambar = $uniqueFileName;
 
-        // Membuat instance baru dari model Template
-        $template = new Template;
+            // Save the template to the database
+            $template->save();
 
-        // Mengisi nilai atribut dari request ke model Template
-        $template->nama_template = $request->input('nama_template');
-        $template->jenis_template = $request->input('jenis_template');
-        $template->user_id = Auth::user()->id;
-        $template->nama_pembuat = $request->input('nama_pembuat');
-        $template->html = $request->input('html');
-        $template->css = $request->input('css');
-        if (isset($request->js)) {
-            $template->js = $request->input('js');
-        } else {
-            $template->js = '//';
-
+            // Redirect to the user's profile page
+            return redirect('/profile')->with('success', 'Template created successfully');
+        } catch (\Exception $e) {
+            // Handle any exceptions, log them, and provide a user-friendly error message
+            \Log::error('Error storing template: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'An error occurred while saving the template.');
         }
-        $template->kunjungan = '0';
-        $template->gambar = $uniqueFileName;
-        // Menyimpan template ke database
-        $template->save();
-
-        // Redirect atau berikan respons sukses sesuai kebutuhan aplikasi Anda
-        return redirect('/profile');
     }
 
 

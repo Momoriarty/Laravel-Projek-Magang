@@ -64,6 +64,7 @@
         background: linear-gradient(to right, #FFD700, #FF6347);
         color: #fff;
         transition: background 0.3s ease;
+        border-radius: 50px;
     }
 
     .upload-btn:hover {
@@ -98,15 +99,27 @@
         transition: transform 0.3s ease-in-out;
     }
 
-    .upload-btn:hover .animated-content {
-        transform: scale(1.1);
+    .float-right .upload-btn {
+        float: right;
+        border-radius: 50px;
+        /* Atur sesuai keinginan Anda */
     }
+
+    .float-right .animated-content {
+        transform-origin: top right;
+    }
+
+    .float-right .upload-btn:hover .animated-content {
+        transform: scale(1.1) translateX(20%);
+    }
+
 
     .upload-btn,
     .animated-content {
         overflow: hidden;
     }
 </style>
+
 <div class="container profile-container">
     <div class="row">
         <div class="col-md-4">
@@ -128,13 +141,19 @@
         </div>
         <div class="col-md-4">
             <button type="button" data-toggle="modal" data-target="#editProfileModal"
-                class="btn btn-lg d-block mx-auto mt-4 p-3 rounded-pill shadow upload-btn">
+                class="btn btn-lg d-block mx-auto mt-4 p-3 rounded-pill shadow upload-btn float-right">
                 <span class="animated-content">
-                    <span class="mr-2">🤷‍♂️</span> Edit Profile <span class="ml-2">🌟</span>
+                    <i class="fas fa-fw fa-user-edit"></i>
                 </span>
             </button>
-
+            <button type="button" data-toggle="modal" data-target="#editProfileModal"
+                class="btn btn-lg d-block mx-auto mt-4 p-3 rounded-pill shadow upload-btn float-right">
+                <span class="animated-content">
+                    <i class="fas fa-fw fa-edit"></i>
+                </span>
+            </button>
         </div>
+
     </div>
     <!-- Edit Profile Modal -->
     <div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="editProfileModalLabel"
@@ -184,14 +203,14 @@
         </span>
     </button>
 
-    <!-- Upload Template Modal -->
+    <!-- Modal Upload Template -->
     <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="uploadModalLabel">Upload Template</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <h5 class="modal-title" id="uploadModalLabel">Unggah Template</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Tutup">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -199,54 +218,56 @@
                     @csrf
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="addNamaTemplate">Nama Template</label>
                                     <input type="text" name="nama_template" class="form-control"
                                         id="addNamaTemplate" required>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="addJenisTemplate">Jenis Template</label>
                                     <input type="text" name="jenis_template" class="form-control"
                                         id="addJenisTemplate" required>
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="addNamaTemplate">Nama Pembuat</label>
-                                    <input type="text" class="form-control" name="nama_pembuat"
-                                        value="{{ Auth::user()->name }}" readonly>
-                                </div>
-                            </div>
                         </div>
                         <div class="form-group">
-                            <label for="addJenisTemplate">Kode HTML</label>
-                            <textarea name="html" class="form-control" id="message"></textarea>
+                            <label for="htmlTextarea">Kode HTML</label>
+                            <textarea name="html" class="form-control" id="htmlTextarea"></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="addJenisTemplate">Kode CSS</label>
-                            <textarea name="css" class="form-control" id="message"></textarea>
+                            <label for="cssTextarea">Kode CSS</label>
+                            <textarea name="css" class="form-control" id="cssTextarea"></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="addJenisTemplate">Kode JS</label>
-                            <textarea name="js" class="form-control" id="message"></textarea>
+                            <label for="jsTextarea">Kode JS</label>
+                            <textarea name="js" class="form-control" id="jsTextarea"></textarea>
                         </div>
-
                         <div class="upload-btn-wrapper">
                             <button class="btn-upload">Pilih File</button>
-                            <input type="file" name="gambar" id="templateFile" class="file-input" required>
+                            <input type="file" name="gambar" id="templateFile" class="file-input">
                         </div>
                         <p class="file-chosen">Belum ada file yang dipilih</p>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                            <button type="submit" class="btn btn-primary">Upload Template</button>
-                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary">Unggah Template</button>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
+
+    <script>
+        // JavaScript untuk menampilkan nama file yang dipilih
+        document.getElementById('templateFile').addEventListener('change', function() {
+            const fileName = this.files[0].name;
+            document.querySelector('.file-chosen').innerText = fileName;
+        });
+    </script>
+
 </div>
 </div>
 
@@ -340,7 +361,8 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="editNamaPembuat">Nama Pembuat</label>
-                                            <input type="text" class="form-control" readonly name="nama_pembuat" value="{{ $akuns->name }}">
+                                            <input type="text" class="form-control" readonly name="nama_pembuat"
+                                                value="{{ $akuns->name }}">
 
                                         </div>
                                     </div>

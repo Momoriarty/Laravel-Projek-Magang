@@ -38,18 +38,21 @@ class AuthController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:255',
+            'no_hp' => 'required',
             'email' => 'required|email|unique:users|max:255',
             'password' => 'required|string|min:2',
         ]);
 
-        // Create a new user
+        // Set the profile image to the provided value or use a default value
+        $profile = $request['gambar'] ?? 'storage/profile/avatar0.png';
+
         $user = User::create([
             'name' => $validatedData['name'],
             'username' => $validatedData['username'],
             'email' => $validatedData['email'],
             'no_hp' => $validatedData['no_hp'],
-            'password' => bcrypt($validatedData['password']), // Hash the password
-            'profile' => $request['gambar'],
+            'password' => bcrypt($validatedData['password']),
+            'profile' => $profile,
         ]);
 
         // You can customize this part based on your application's logic,
@@ -57,6 +60,7 @@ class AuthController extends Controller
 
         return redirect()->route('login')->with('success', 'Registration successful! Please log in.');
     }
+
 
     public function logout()
     {

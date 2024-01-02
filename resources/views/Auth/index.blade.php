@@ -121,7 +121,7 @@
         align-items: center;
         justify-content: center;
         width: 512px;
-        height: 420px;
+        height: 500px;
         overflow: hidden;
         z-index: 2;
     }
@@ -412,6 +412,20 @@
                             <i class="bx bx-user"></i>
                         </div>
                     </div>
+                    <div class="two-forms">
+                        <div class="input-box">
+                            <input type="number" class="input-field" placeholder="Nomor Handphone" name="no_hp">
+                            <i class='bx bxs-phone'></i>
+                        </div>
+                        <div class="input-box">
+                            <button type="button" class="input-field" data-bs-toggle="modal"
+                                data-bs-target="#imageModal">
+                                Pilih Profil
+                            </button>
+                            <input type="hidden" id="imageInput" name="gambar" />
+                            <i class='bx bxs-user'></i>
+                        </div>
+                    </div>
                     <div class="input-box">
                         <input type="text" class="input-field" placeholder="Email" name="email">
                         <i class="bx bx-envelope"></i>
@@ -420,15 +434,7 @@
                         <input type="password" class="input-field" placeholder="Password" name="password">
                         <i class="bx bx-lock-alt"></i>
                     </div>
-                    <div class="input-box">
-                        <!-- Button trigger modal -->
-                        <button type="button" class="btn input-field" data-bs-toggle="modal"
-                            data-bs-target="#imageModal">
-                            Pilih Profil
-                        </button>
-                        <input type="hidden" id="imageInput" name="gambar" />
-                        <i class="bx bx-lock-alt"></i>
-                    </div>
+
                     <div class="input-box">
                         <input type="submit" class="submit" value="Register">
                     </div>
