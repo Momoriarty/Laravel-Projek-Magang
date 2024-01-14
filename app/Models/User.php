@@ -25,6 +25,7 @@ class User extends Authenticatable
         'no_hp',
         'password',
         'profile',
+        'role',
     ];
 
     /**
@@ -49,5 +50,10 @@ class User extends Authenticatable
     public function templates(): HasMany
     {
         return $this->hasMany(Template::class, 'user_id', 'id');
+    }
+
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
     }
 }

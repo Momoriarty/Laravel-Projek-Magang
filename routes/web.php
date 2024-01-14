@@ -19,26 +19,30 @@ use App\Http\Controllers\ProfileController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
 Route::group(['middleware' => 'check.site.status'], function () {
     Route::get('/', [HomeController::class, 'index']);
-    Route::get('code', [HomeController::class, 'code']);
+    Route::get('/code', [HomeController::class, 'code']);
     Route::put('/code/update/{id}', [HomeController::class, 'update'])->name('code.update');
     Route::get('/code/{id}', [HomeController::class, 'show']);
     Route::get('/live-demo/{id}', [HomeController::class, 'demo']);
-    Route::middleware(['auth'])->group(function () {
-        Route::resource('profile', ProfileController::class);
-        Route::middleware(['auth'])->group(function () {
-            Route::get('admin', [AdminController::class, 'index']);
-            Route::resource('admin/akun', AkunController::class);
-            Route::resource('admin/template', TemplateController::class);
-        });
-    });
 
-
+    // Authentication routes
     Route::get('/login', [AuthController::class, 'index'])->name('login');
     Route::get('/auth', [AuthController::class, 'index']);
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register'])->name('register');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-});
 
+    // Authenticated routes
+    Route::middleware(['auth'])->group(function () {
+        Route::resource('profile', ProfileController::class);
+
+        // Admin routes
+        Route::middleware(['role:admin'])->group(function () {
+            Route::get('admin', [AdminController::class, 'index']);
+            Route::resource('admin/akun', AkunController::class);
+            Route::resource('admin/template', TemplateController::class);
+        });
+    });
+});

@@ -24,9 +24,13 @@ class AuthController extends Controller
         }
 
         if (Auth::attempt($credentials)) {
-            // Autentikasi berhasil
-            return redirect()->intended('/');
+            if (Auth::user()->level = 'admin') {
+                return redirect()->intended('/admin');
+            } else {
+                return redirect()->intended('/');
+            }
         }
+
 
         // Jika autentikasi gagal
         return back()->withErrors(['username' => 'Invalid credentials']);

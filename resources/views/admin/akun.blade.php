@@ -17,7 +17,7 @@
                             <th>Username</th>
                             <th>Email</th>
                             <th>No. HP</th>
-                            <th>Level</th>
+                            <th>Role</th>
                             <th>Active</th>
                             <th>Aksi</th>
                     </thead>
@@ -28,7 +28,7 @@
                             <th>Username</th>
                             <th>Email</th>
                             <th>No. HP</th>
-                            <th>Level</th>
+                            <th>Role</th>
                             <th>Active</th>
                             <th>Aksi</th>
                     </tfoot>
@@ -40,7 +40,7 @@
                                 <td>{{ $akun['username'] }}</td>
                                 <td>{{ $akun['email'] }}</td>
                                 <td>{{ $akun['no_hp'] }}</td>
-                                <td>{{ $akun['level'] }}</td>
+                                <td>{{ $akun['Role'] }}</td>
                                 <td>{{ $akun->is_active ? 'Aktif' : 'NonAktif' }}</td>
                                 <td>
                                     <button type="button" class="btn btn-warning mb-3" data-toggle="modal"
@@ -96,9 +96,9 @@
                                                             value="{{ $akun['no_hp'] }}">
                                                     </div>
                                                     <div class="col-md-12">
-                                                        <label for="">Level</label>
-                                                        <input type="text" name="level" class="form-control"
-                                                            value="{{ $akun['level'] }}">
+                                                        <label for="">Role</label>
+                                                        <input type="text" name="Role" class="form-control"
+                                                            value="{{ $akun['Role'] }}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -196,8 +196,8 @@
                                 <input type="text" name="no_hp" class="form-control" id="no_hp" required>
                             </div>
                             <div class="col-md-12">
-                                <label for="level">Level</label>
-                                <input type="text" name="level" class="form-control" id="level" required>
+                                <label for="Role">Role</label>
+                                <input type="text" name="Role" class="form-control" id="Role" required>
                             </div>
                         </div>
                     </div>
