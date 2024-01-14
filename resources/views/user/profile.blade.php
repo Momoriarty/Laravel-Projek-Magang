@@ -229,7 +229,7 @@
                                 <div class="form-group">
                                     <label for="addJenisTemplate">Jenis Template</label>
                                     <input type="text" name="jenis_template" class="form-control"
-                                        id="addJenisTemplate" required>
+                                        id="addJenisTemplate">
                                 </div>
                             </div>
                         </div>
@@ -355,7 +355,7 @@
                                         <div class="form-group">
                                             <label for="editJenisTemplate">Jenis Template</label>
                                             <input type="text" name="jenis_template" class="form-control"
-                                                id="editJenisTemplate" value="{{ $data->jenis_template }}" required>
+                                                id="editJenisTemplate" value="{{ $data->jenis_template }}" >
                                         </div>
                                     </div>
                                     <div class="col-md-4">

@@ -1,15 +1,26 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/styles/default.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js"></script>
+
+<!-- Atur tema yang diinginkan (misalnya, 'darcula') -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/styles/darcula.min.css">
+
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+
 @extends('user/template/navbar')
 @section('user/content')
     <div class="main">
         <section>
-            <div class="container-fluid px-5 my-5 ">
+            <div class="container-fluid px-5 my-5">
                 <div class="row gx-5">
                     <div class="col-lg-12">
                         <article>
                             <header class="mb-4" style="color: rgba(210, 210, 210, 0.705)">
                                 <h1 class="fw-bolder mb-1">{{ $Templates->nama_template }}</h1>
-                                <div class="fst-italic mb-2">{{ $Templates->created_at }} &nbsp<i class="bi bi-eye">
-                                    </i>{{ $Templates->kunjungan }}</div>
+                                <div class="fst-italic mb-2">{{ $Templates->created_at }} &nbsp<i
+                                        class="bi bi-eye"></i>{{ $Templates->kunjungan }}</div>
                                 <p class="badge bg-primary text-decoration-none">HTML</p>
                                 <p class="badge bg-primary text-decoration-none">CSS</p>
                                 <p class="badge bg-primary text-decoration-none">Login form</p>
@@ -40,7 +51,8 @@
 
                 <div class="row mt-3 mb-3">
                     <div class="col-md-6">
-                        <a href="{{ '/live-demo/' . $Templates->id }}" target="_blank" class="btn btn-info">LiVe Demo</a>
+                        <a href="{{ '/live-demo/' . $Templates->id }}" target="_blank" class="btn btn-info">LiVe
+                            Demo</a>
                     </div>
                 </div>
 
@@ -49,7 +61,8 @@
                         <button class="btn copy-button" style="margin-left: 8px;color:yellowgreen;"
                             onclick="copyToClipboard('htmlTextarea')">Copy</button>
                     </h5>
-                    <textarea readonly id="htmlTextarea" oninput="adjustTextareaHeight('htmlTextarea')" rows="30" cols="50">{{ $Templates->html }}</textarea>
+                    <pre><code id="htmlTextarea" class="hljs html"
+                            oninput="adjustTextareaHeight('htmlTextarea')">{{ $Templates->html }}</code></pre>
                 </div>
 
                 <div class="row">
@@ -57,7 +70,8 @@
                         <button class="btn copy-button" style="margin-left: 8px;color:yellowgreen;"
                             onclick="copyToClipboard('cssTextarea')">Copy</button>
                     </h5>
-                    <textarea readonly id="cssTextarea" oninput="adjustTextareaHeight('cssTextarea')" rows="30" cols="50">{{ $Templates->css }}</textarea>
+                    <pre><code id="cssTextarea" class="hljs css"
+                            oninput="adjustTextareaHeight('cssTextarea')">{{ $Templates->css }}</code></pre>
                 </div>
 
                 <div class="row">
@@ -65,13 +79,13 @@
                         <button class="btn copy-button" style="margin-left: 8px;color:yellowgreen;"
                             onclick="copyToClipboard('jsTextarea')">Copy</button>
                     </h5>
-                    <textarea readonly id="jsTextarea" oninput="adjustTextareaHeight('jsTextarea')" rows="10" cols="50">{{ $Templates->js }}</textarea>
+                    <pre><code id="jsTextarea" class="hljs javascript"
+                            oninput="adjustTextareaHeight('jsTextarea')">{{ $Templates->js }}</code></pre>
                 </div>
 
             </div>
         </section>
     </div>
-
 
     <script>
         function copyToClipboard(textareaId) {
@@ -88,4 +102,3 @@
             textarea.style.height = (textarea.scrollHeight) + 'px';
         }
     </script>
-@endsection
