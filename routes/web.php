@@ -37,6 +37,7 @@ Route::group(['middleware' => 'check.site.status'], function () {
     // Authenticated routes
     Route::middleware(['auth'])->group(function () {
         Route::resource('profile', ProfileController::class);
+        Route::put('/password/update/{id}', [ProfileController::class, 'password'])->name('password.update');
 
         // Admin routes
         Route::middleware(['role:admin'])->group(function () {

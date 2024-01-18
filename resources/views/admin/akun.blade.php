@@ -65,7 +65,7 @@
                                             </button>
                                         </div>
                                         <form action="{{ route('akun.update', $akun['id']) }}" method="post">
-                                            @method('PUT') {{-- Atau @method('PATCH') --}}
+                                            @method('PUT')
                                             @csrf
 
                                             <div class="modal-body">

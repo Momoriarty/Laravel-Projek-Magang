@@ -146,7 +146,7 @@
                     <i class="fas fa-fw fa-user-edit"></i>
                 </span>
             </button>
-            <button type="button" data-toggle="modal" data-target="#editProfileModal"
+            <button type="button" data-toggle="modal" data-target="#editPasswordModal"
                 class="btn btn-lg d-block mx-auto mt-4 p-3 rounded-pill shadow upload-btn float-right">
                 <span class="animated-content">
                     <i class="fas fa-fw fa-edit"></i>
@@ -183,13 +183,51 @@
                         <input type="email" class="form-control" id="Email" value="{{ $akuns->email }}"
                             name="email" placeholder="Enter your email">
                     </div>
-                    <!-- Add more input fields as needed -->
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Save changes</button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Password Modal -->
+    <div class="modal fade" id="editPasswordModal" tabindex="-1" role="dialog"
+        aria-labelledby="editPasswordModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editPasswordModalLabel">Edit Password</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ route('password.update', $akuns->id) }}" method="post">
+                    @method('PUT')
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="password">Password Lama:</label>
+                            <input type="password" class="form-control" id="password" name="password_old"
+                                placeholder="Masukin Password Lama">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password:</label>
+                            <input type="password" class="form-control" id="password" name="password_new"
+                                placeholder="Masukin Password Baru">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Konfirmasi Password:</label>
+                            <input type="password" class="form-control" id="password" name="password_k"
+                                placeholder="Kondirmasi Password">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -355,7 +393,7 @@
                                         <div class="form-group">
                                             <label for="editJenisTemplate">Jenis Template</label>
                                             <input type="text" name="jenis_template" class="form-control"
-                                                id="editJenisTemplate" value="{{ $data->jenis_template }}" >
+                                                id="editJenisTemplate" value="{{ $data->jenis_template }}">
                                         </div>
                                     </div>
                                     <div class="col-md-4">

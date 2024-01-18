@@ -53,14 +53,14 @@
             <nav id="navbar" class="navbar">
                 <ul>
                     @if (isset($navbar))
-                        <li><a class="nav-link scrollto active" href="{{ '/' }}">Home</a></li>
-                        <li><a class="nav-link scrollto" href="{{ '/code' }}">Code</a></li>
-                    @else
+                        <li><a class="nav-link scrollto" href="{{ '/' }}">Home</a></li>
+                        <li><a class="nav-link scrollto {{ $_GET['id']  ?? 'active' }}" href="{{ '/code' }}">Code</a></li>
+                        @else
                         <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
                         <li><a class="nav-link scrollto" href="{{ '/code' }}">Code</a></li>
                         <li><a class="nav-link scrollto" href="#about">About</a></li>
                         <li><a class="nav-link scrollto" href="#services">Services</a></li>
-                        <li><a class="nav-link   scrollto" href="#galery">Galery</a></li>
+                        <li><a class="nav-link scrollto" href="#galery">Galery</a></li>
                         <li><a class="nav-link scrollto" href="#team">Team</a></li>
                     @endif
 

@@ -162,4 +162,24 @@ class ProfileController extends Controller
         return redirect('profile');
     }
 
+    public function password(Request $request, $id)
+    {
+        $user = User::find($id);
+
+        if (Hash::check($request->password_old, $user->password)) {
+            if ($request->password_new == $request->password_k) {
+
+                $newPassword = bcrypt($request->password_new);
+                $user->update(['password' => $newPassword]);
+                return redirect('profile');
+            } else {
+                dd('Password Baru Dengan Konfirmasi Tidak cocok');
+            }
+
+        } else {
+            // Password tidak cocok
+            dd('Password lama tidak cocok');
+        }
+    }
+
 }
