@@ -23,7 +23,6 @@ use App\Http\Controllers\ProfileController;
 Route::group(['middleware' => 'check.site.status'], function () {
     Route::get('/', [HomeController::class, 'index']);
     Route::get('/code', [HomeController::class, 'code']);
-    Route::put('/code/update/{id}', [HomeController::class, 'update'])->name('code.update');
     Route::get('/code/{id}', [HomeController::class, 'show']);
     Route::get('/live-demo/{id}', [HomeController::class, 'demo']);
 
@@ -38,6 +37,8 @@ Route::group(['middleware' => 'check.site.status'], function () {
     Route::middleware(['auth'])->group(function () {
         Route::resource('profile', ProfileController::class);
         Route::put('/password/update/{id}', [ProfileController::class, 'password'])->name('password.update');
+        Route::put('/templates/update/{id}', [ProfileController::class, 'templates'])->name('templates.update');
+        Route::put('/code/update/{id}', [HomeController::class, 'update'])->name('code.update');
 
         // Admin routes
         Route::middleware(['role:admin'])->group(function () {

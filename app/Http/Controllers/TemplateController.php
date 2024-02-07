@@ -24,16 +24,23 @@ class TemplateController extends Controller
 
     public function store(Request $request)
     {
-        // Validation
-        // $request->validate([
-        //     'nama_template' => 'required',
-        //     'jenis_template' => 'required',
-        //     'nama_pembuat' => 'required',
-        //     'html' => 'required',
-        //     'css' => 'required',
-        //     'js' => 'required',
-        //     'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
-        // ]);
+        $validatedData = $request->validate([
+            'nama_template' => 'required|string|max:255',
+            'nama_pembuat' => 'required|string|max:255',
+            'html' => 'required|string',
+            'css' => 'required|string',
+            'js' => 'nullable|string',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+        ], [
+            // Customize error messages
+            'nama_template.required' => 'Nama template wajib diisi',
+            'nama_pembuat.required' => 'Nama pembuat wajib diisi',
+            'html.required' => 'HTML template wajib diisi',
+            'css.required' => 'CSS template wajib diisi',
+            'gambar.image' => 'File harus berupa gambar',
+            'gambar.max' => 'Ukuran gambar maksimal 2MB',
+        ]);
+
 
         // Upload image
         $image = $request->file('gambar');
@@ -65,7 +72,7 @@ class TemplateController extends Controller
         $template->save();
 
         // Redirect atau berikan respons sukses sesuai kebutuhan aplikasi Anda
-        return redirect('admin/template');
+        return redirect()->back()->with('session', 'Template berhasil diperbarui')->with('session_type', 'success');
     }
 
 
@@ -85,14 +92,25 @@ class TemplateController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Validasi input
-        // $request->validate([
-        //     'nama_template' => 'required',
-        //     'jenis_template' => 'required',
-        //     'nama_pembuat' => 'required',
-        //     'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
-        // ]);
 
+        $validatedData = $request->validate([
+            'nama_template' => 'required|string|max:255',
+            'jenis_template' => 'required|string|in:jenis1,jenis2,jenis3', // Sesuaikan dengan jenis template yang diizinkan
+            'nama_pembuat' => 'required|string|max:255',
+            'html' => 'required|string',
+            'css' => 'required|string',
+            'js' => 'nullable|string',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+        ], [
+            // Customize error messages
+            'nama_template.required' => 'Nama template wajib diisi',
+            'jenis_template.required' => 'Jenis template wajib dipilih',
+            'nama_pembuat.required' => 'Nama pembuat wajib diisi',
+            'html.required' => 'HTML template wajib diisi',
+            'css.required' => 'CSS template wajib diisi',
+            'gambar.image' => 'File harus berupa gambar',
+            'gambar.max' => 'Ukuran gambar maksimal 2MB',
+        ]);
         // Ambil data template berdasarkan ID
         $template = Template::find($id);
 
@@ -133,7 +151,7 @@ class TemplateController extends Controller
         $template->save();
 
         // Redirect atau berikan respons sukses sesuai kebutuhan aplikasi Anda
-        return redirect('admin/template');
+        return redirect()->back()->with('session', 'Template berhasil diperbarui')->with('session_type', 'success');
     }
 
     public function destroy($id)
@@ -156,7 +174,7 @@ class TemplateController extends Controller
         $template->delete();
 
         // Redirect atau berikan respons sukses sesuai kebutuhan aplikasi Anda
-        return redirect('admin/template');
+        return redirect()->back()->with('session', 'Template berhasil diperbarui')->with('session_type', 'success');
     }
 
 }

@@ -422,8 +422,7 @@
                                 data-bs-target="#imageModal">
                                 Pilih Profil
                             </button>
-                            <input type="hidden" id="imageInput" name="gambar" />
-                            <i class='bx bxs-user'></i>
+                            <i class="bx bx-user"></i>
                         </div>
                     </div>
                     <div class="input-box">
@@ -433,6 +432,10 @@
                     <div class="input-box">
                         <input type="password" class="input-field" placeholder="Password" name="password">
                         <i class="bx bx-lock-alt"></i>
+                    </div>
+                    <div class="input-box">
+                        <input type="hidden" id="imageInput" name="gambar" />
+                        <img id="selectedImage" width="100" class="img-thumbnail mt-2" alt="Selected Image">
                     </div>
 
                     <div class="input-box">
@@ -458,28 +461,26 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="imageModalLabel">Select an Image</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- Here, you can display a list of pre-existing images -->
-                    <img width="100" src="storage/profile/avatar1.png" value="avatar1.png" alt="Image 1"
+                    <img width="100" src="/storage/profile/avatar1.png" value="avatar1.png" alt="Image 1"
                         class="img-thumbnail">
-                    <img width="100" src="storage/profile/avatar2.png" value="avatar2.png" alt="Image 2"
+                    <img width="100" src="/storage/profile/avatar2.png" value="avatar2.png" alt="Image 2"
                         class="img-thumbnail">
-                    <img width="100" src="storage/profile/avatar3.png" value="avatar3.png" alt="Image 3"
+                    <img width="100" src="/storage/profile/avatar3.png" value="avatar3.png" alt="Image 3"
                         class="img-thumbnail">
-                    <img width="100" src="storage/profile/avatar4.png" value="avatar4.png" alt="Image 4"
+                    <img width="100" src="/storage/profile/avatar4.png" value="avatar4.png" alt="Image 4"
                         class="img-thumbnail">
-                    <img width="100" src="storage/profile/avatar5.png" value="avatar5.png" alt="Image 5"
+                    <img width="100" src="/storage/profile/avatar5.png" value="avatar5.png" alt="Image 5"
                         class="img-thumbnail">
-                    <img width="100" src="storage/profile/avatar6.png" value="avatar6.png" alt="Image 6"
+                    <img width="100" src="/storage/profile/avatar6.png" value="avatar6.png" alt="Image 6"
                         class="img-thumbnail">
-                    <img width="100" src="storage/profile/avatar7.png" value="avatar7.png" alt="Image 7"
+                    <img width="100" src="/storage/profile/avatar7.png" value="avatar7.png" alt="Image 7"
                         class="img-thumbnail">
-                    <img width="100" src="storage/profile/avatar8.png" value="avatar8.png" alt="Image 8"
+                    <img width="100" src="/storage/profile/avatar8.png" value="avatar8.png" alt="Image 8"
                         class="img-thumbnail">
                     <input type="file" name="gambar" id="customImageInput">
-                    <!-- Add more images as needed -->
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -493,13 +494,13 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
     </script>
 
-
     <script>
         $(document).ready(function() {
             // Handle image selection
             $('.img-thumbnail').click(function() {
                 var gambarUrl = $(this).attr('src');
                 $('#imageInput').val(gambarUrl); // Set the image URL in the hidden input field
+                $('#selectedImage').attr('src', gambarUrl); // Display the selected image
                 $('#imageModal').modal('hide'); // Close the modal
             });
 

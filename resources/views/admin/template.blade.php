@@ -88,7 +88,7 @@
                                                             <label for="editNamaTemplate">Nama Template</label>
                                                             <input type="text" name="nama_template" class="form-control"
                                                                 id="editNamaTemplate" value="{{ $data->nama_template }}"
-                                                                required>
+                                                                >
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
@@ -96,7 +96,7 @@
                                                             <label for="editJenisTemplate">Jenis Template</label>
                                                             <input type="text" name="jenis_template" class="form-control"
                                                                 id="editJenisTemplate" value="{{ $data->jenis_template }}"
-                                                                required>
+                                                                >
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
@@ -200,14 +200,14 @@
                                 <div class="form-group">
                                     <label for="addNamaTemplate">Nama Template</label>
                                     <input type="text" name="nama_template" class="form-control" id="addNamaTemplate"
-                                        required>
+                                        >
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="addJenisTemplate">Jenis Template</label>
                                     <input type="text" name="jenis_template" class="form-control"
-                                        id="addJenisTemplate" required>
+                                        id="addJenisTemplate" >
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -238,7 +238,7 @@
                         </div>
                         <div class="form-group">
                             <label for="addJenisTemplate">Gambar</label><br>
-                            <input type="file" name="gambar" class="" id="addJenisTemplate" required>
+                            <input type="file" name="gambar" class="" id="addJenisTemplate" >
                         </div>
 
                     </div>

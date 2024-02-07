@@ -54,8 +54,9 @@
                 <ul>
                     @if (isset($navbar))
                         <li><a class="nav-link scrollto" href="{{ '/' }}">Home</a></li>
-                        <li><a class="nav-link scrollto {{ $_GET['id']  ?? 'active' }}" href="{{ '/code' }}">Code</a></li>
-                        @else
+                        <li><a class="nav-link scrollto {{ $_GET['id'] ?? 'active' }}"
+                                href="{{ '/code' }}">Code</a></li>
+                    @else
                         <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
                         <li><a class="nav-link scrollto" href="{{ '/code' }}">Code</a></li>
                         <li><a class="nav-link scrollto" href="#about">About</a></li>
@@ -99,6 +100,31 @@
 
         </div>
     </header><!-- End Header -->
+    @if (session('session'))
+        <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+            <div class="toast align-items-center text-white bg-{{ session('session_type') }} shadow-lg rounded-3"
+                role="alert" aria-live="assertive" aria-atomic="true" data-delay="4000" style="width: 400px;">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        {{ session('session') }}
+                    </div>
+                    <button type="button" class="btn-close me-2 m-auto" data-dismiss="toast"
+                        aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Initialize the toast
+                var toastElement = document.querySelector('.toast');
+                var toast = new bootstrap.Toast(toastElement);
+
+                // Show the toast
+                toast.show();
+            });
+        </script>
+    @endif
+
 
     @yield('user/content')
 

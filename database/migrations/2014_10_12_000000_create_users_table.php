@@ -15,11 +15,12 @@ return new class extends Migration {
             $table->string('name');
             $table->string('username')->unique();
             $table->string('email')->unique();
-            $table->string('no_hp')->nullable();
+            $table->string('no_hp')->nullable()->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('profile')->nullable();
             $table->enum('role', ['user', 'admin'])->default('user');
+            $table->enum('status', ['1', '0'])->default('1');
             $table->rememberToken();
             $table->timestamps();
         });

@@ -36,69 +36,87 @@
                         @foreach ($akuns as $no => $akun)
                             <tr>
                                 <td>{{ $no + 1 }}</td>
-                                <td>{{ $akun['name'] }}</td>
-                                <td>{{ $akun['username'] }}</td>
-                                <td>{{ $akun['email'] }}</td>
-                                <td>{{ $akun['no_hp'] }}</td>
-                                <td>{{ $akun['role'] }}</td>
-                                <td>{{ $akun->is_active ? 'Aktif' : 'NonAktif' }}</td>
+                                <td>{{ $akun->name }}</td>
+                                <td>{{ $akun->username }}</td>
+                                <td>{{ $akun->email }}</td>
+                                <td>{{ $akun->no_hp }}</td>
+                                <td>{{ $akun->role }}</td>
+                                <td>{{ $akun->status == 1 ? 'Aktif' : 'NonAktif' }}</td>
                                 <td>
                                     <button type="button" class="btn btn-warning mb-3" data-toggle="modal"
-                                        data-target="#editModal{{ $akun['id'] }}">
+                                        data-target="#editModal{{ $akun->id }}">
                                         Edit
                                     </button>
                                     <button type="button" class="btn btn-danger mb-3" data-toggle="modal"
-                                        data-target="#deleteModal{{ $akun['id'] }}">
+                                        data-target="#deleteModal{{ $akun->id }}">
                                         Hapus
                                     </button>
                                 </td>
                             </tr>
-                            <!-- Modal Edit-->
-                            <div class="modal fade" id="#editModal{{ $akun['id'] }}" tabindex="-1" role="dialog"
-                                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
+
+
+                            <!-- Modal Edit -->
+                            <div class="modal fade" id="editModal{{ $akun->id }}" tabindex="-1" role="dialog"
+                                aria-labelledby="editModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                            <h5 class="modal-title" id="editModalLabel">Edit Data Akun</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <form action="{{ route('akun.update', $akun['id']) }}" method="post">
-                                            @method('PUT')
+                                        <form action="{{ route('akun.update', $akun->id) }}" method="post"
+                                            enctype="multipart/form-data">
                                             @csrf
-
+                                            @method('PUT')
                                             <div class="modal-body">
                                                 <div class="row">
-                                                    <div class="col-md-12">
-                                                        <label for="">name</label>
+                                                    <div class="col-md-6">
+                                                        <label for="name">Name</label>
                                                         <input type="text" name="name" class="form-control"
-                                                            value="{{ $akun['name'] }}">
+                                                            id="name" value="{{ $akun->name }}" >
                                                     </div>
-                                                    <div class="col-md-12">
-                                                        <label for="">Username</label>
+                                                    <div class="col-md-6">
+                                                        <label for="username">Username</label>
                                                         <input type="text" name="username" class="form-control"
-                                                            value="{{ $akun['username'] }}">
+                                                            id="username" value="{{ $akun->username }}" >
                                                     </div>
-                                                    <div class="col-md-12">
-                                                        <label for="">Password</label>
-                                                        <input type="text" name="password" class="form-control"
-                                                            value="{{ $akun['password'] }}">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label for="email">Email</label>
+                                                        <input type="email" name="email" class="form-control"
+                                                            id="email" value="{{ $akun->email }}" >
                                                     </div>
-                                                    <div class="col-md-12">
-                                                        <label for="">Email</label>
-                                                        <input type="text" name="email" class="form-control"
-                                                            value="{{ $akun['email'] }}">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <label for="">No Hp</label>
+                                                    <div class="col-md-6">
+                                                        <label for="no_hp">Nomor HP</label>
                                                         <input type="text" name="no_hp" class="form-control"
-                                                            value="{{ $akun['no_hp'] }}">
+                                                            id="no_hp" value="{{ $akun->no_hp }}" >
                                                     </div>
-                                                    <div class="col-md-12">
-                                                        <label for="">Role</label>
-                                                        <input type="text" name="Role" class="form-control"
-                                                            value="{{ $akun['Role'] }}">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label for="">Avatar</label>
+                                                        <button type="button" class="form-control" data-toggle="modal"
+                                                            data-target="#imageModal">
+                                                            Pilih Profil
+                                                        </button>
+                                                        <input type="hidden" id="imageInput" name="gambar" />
+                                                        <img id="selectedImage" width="100" class="img-thumbnail mt-2"
+                                                            alt="Selected Image"
+                                                            src="{{ asset('/storage/profile/' . $akun->gambar) }}">
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label for="Role">Role</label>
+                                                        <select name="role" id="role" class="form-control">
+                                                            <option value="user"
+                                                                @if ($akun->role == 'user') selected @endif>User
+                                                            </option>
+                                                            <option value="admin"
+                                                                @if ($akun->role == 'admin') selected @endif>Admin
+                                                            </option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -112,14 +130,16 @@
                                 </div>
                             </div>
 
-                            <!-- Modal Edit-->
-                            <div class="modal fade" id="deleteModal{{ $akun['id'] }}" tabindex="-1" role="dialog"
+
+                            <!-- Modal Delete-->
+                            <div class="modal fade" id="deleteModal{{ $akun->id }}" tabindex="-1" role="dialog"
                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
@@ -137,8 +157,7 @@
                                             <div class="row mt-3">
                                                 <div class="col-12 text-center">
                                                     <!-- Tombol submit atau konfirmasi penghapusan -->
-                                                    <form action="{{ route('akun.destroy', $akun['id']) }}"
-                                                        method="post">
+                                                    <form action="{{ route('akun.destroy', $akun->id) }}" method="post">
                                                         @method('DELETE') {{-- Digunakan untuk menandai bahwa ini adalah metode DELETE --}}
                                                         @csrf
                                                         <button type="submit" class="btn btn-danger">Ya, Hapus
@@ -159,6 +178,7 @@
             </div>
         </div>
     </div>
+
     <form action="{{ route('akun.store') }}" method="post" enctype="multipart/form-data">
         <!-- Modal Tambah -->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -176,32 +196,32 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="name">Name</label>
-                                <input type="text" name="name" class="form-control" id="name" required>
+                                <input type="text" name="name" class="form-control" id="name" >
                             </div>
                             <div class="col-md-6">
                                 <label for="username">Username</label>
-                                <input type="text" name="username" class="form-control" id="username" required>
+                                <input type="text" name="username" class="form-control" id="username" >
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="password">Password</label>
-                                <input type="password" name="password" class="form-control" id="password" required>
+                                <input type="password" name="password" class="form-control" id="password" >
                             </div>
                             <div class="col-md-6">
                                 <label for="k_password">Konfirmasi Password</label>
                                 <input type="k_password" name="k_password" class="form-control" id="k_password"
-                                    required>
+                                    >
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="email">Email</label>
-                                <input type="email" name="email" class="form-control" id="email" required>
+                                <input type="email" name="email" class="form-control" id="email" >
                             </div>
                             <div class="col-md-6">
                                 <label for="no_hp">Nomor HP</label>
-                                <input type="text" name="no_hp" class="form-control" id="no_hp" required>
+                                <input type="text" name="no_hp" class="form-control" id="no_hp" >
                             </div>
                         </div>
                         <div class="row">
@@ -211,8 +231,8 @@
                                     data-target="#imageModal">
                                     Pilih Profil
                                 </button>
-                                <input type="hidden" id="imageInput" name="gambar" />
-                                <img id="selectedImage" width="100" class="img-thumbnail mt-2" alt="Selected Image">
+                                <input type="hidden" id="imageInput1" name="gambar" />
+                                <img id="selectedImage1" width="100" class="img-thumbnail mt-2" alt="Selected Image">
                             </div>
                             <div class="col-md-3">
                                 <label for="Role">Role</label>
@@ -274,6 +294,42 @@
             // Handle image selection
             $('.img-thumbnail').click(function() {
                 var gambarUrl = $(this).attr('src');
+                $('#imageInput1').val(gambarUrl); // Set the image URL in the hidden input field
+                $('#selectedImage1').attr('src', gambarUrl); // Display the selected image
+                $('#imageModal').modal('hide'); // Close the modal
+            });
+
+            // Handle custom image selection from file input
+            $('#customImageInput').change(function() {
+                var fileInput = $(this)[0];
+                if (fileInput.files && fileInput.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        var gambarUrl = e.target.result;
+                        $('#imageInput1').val(
+                            gambarUrl); // Set the image URL in the hidden input field
+                       
+                    };
+                    reader.readAsDataURL(fileInput.files[0]);
+                }
+            });
+
+            // Handle form submission
+            $('form').submit(function() {
+                var gambarUrl = $('#imageInput1').val();
+                $('<input>').attr({
+                    type: 'hidden',
+                    name: 'gambar',
+                    value: gambarUrl
+                }).appendTo('form');
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            // Handle image selection
+            $('.img-thumbnail').click(function() {
+                var gambarUrl = $(this).attr('src');
                 $('#imageInput').val(gambarUrl); // Set the image URL in the hidden input field
                 $('#selectedImage').attr('src', gambarUrl); // Display the selected image
                 $('#imageModal').modal('hide'); // Close the modal
@@ -288,6 +344,7 @@
                         var gambarUrl = e.target.result;
                         $('#imageInput').val(
                             gambarUrl); // Set the image URL in the hidden input field
+                       
                     };
                     reader.readAsDataURL(fileInput.files[0]);
                 }

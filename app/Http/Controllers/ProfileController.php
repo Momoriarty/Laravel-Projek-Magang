@@ -29,13 +29,12 @@ class ProfileController extends Controller
 
     public function store(Request $request)
     {
-        // $request->validate([
-        //     'nama_template' => 'required|string',
-        //     'jenis_template' => 'required|string',
-        //     'html' => 'required|string',
-        //     'css' => 'required|string',
-        //     'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        // ]);
+        $request->validate([
+            'nama_template' => 'required|string',
+            'html' => 'required|string',
+            'css' => 'required|string',
+            'gambar' => 'image|mimes:jpeg,png,jpg,webp|max:2048',
+        ]);
 
         try {
             // Upload image
@@ -52,47 +51,61 @@ class ProfileController extends Controller
 
             // Fill model attributes from the request
             $template->nama_template = $request->input('nama_template');
-            $template->jenis_template = $request->input('jenis_template');
             $template->user_id = Auth::user()->id;
             $template->html = $request->input('html');
             $template->css = $request->input('css');
-            $template->js = $request->filled('js') ? $request->input('js') : '//';
+            $template->js = $request->input('js');
             $template->gambar = $uniqueFileName;
 
             // Save the template to the database
             $template->save();
 
             // Redirect to the user's profile page
-            return redirect('/profile')->with('success', 'Template created successfully');
+            return redirect('/profile')->with('session', 'Template created successfully')->with('session_type', 'success');
         } catch (\Exception $e) {
             // Handle any exceptions, log them, and provide a user-friendly error message
             \Log::error('Error storing template: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'An error occurred while saving the template.');
+            return redirect()->back()->with('session', 'An error occurred while saving the template.');
         }
-    }
-
-
-    public function show($id)
-    {
-        // Menampilkan halaman detail template (jika diperlukan)
-        $template = Template::find($id);
-        return view('admin.show_template', compact('template'));
-    }
-
-    public function edit($id)
-    {
-        // Menampilkan halaman edit template
-        $template = Template::find($id);
-        return view('admin.edit_template', compact('template'));
     }
 
     public function update(Request $request, $id)
     {
         // Validasi input
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'no_hp' => 'required|string|max:20',
+        ]);
+
+        // Temukan Akun berdasarkan ID
+        $akun = User::findOrFail($id);
+
+        if (!$akun) {
+            // Redirect dengan pesan kesalahan
+            return redirect()->back()->with('session', 'Profil tidak ditemukan')->with('session_type', 'danger');
+        }
+
+        // Update data akun
+        $akun->name = $request->name;
+        $akun->username = $request->username;
+        $akun->email = $request->email;
+        $akun->no_hp = $request->no_hp;
+        $akun->save();
+
+        // Redirect dengan pesan sukses
+        return redirect()->back()->with('session', 'Profil berhasil diperbarui')->with('session_type', 'success');
+    }
+
+
+
+
+    public function templates(Request $request, $id)
+    {
+        // Validasi input
         $request->validate([
             'nama_template' => 'required',
-            'jenis_template' => 'required',
-            'nama_pembuat' => 'required',
             'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
         ]);
 
@@ -101,7 +114,7 @@ class ProfileController extends Controller
 
         // Periksa apakah data template ditemukan
         if (!$template) {
-            return redirect()->route('index')->with('error', 'Data template tidak ditemukan');
+            return redirect()->route('index')->with('session', 'Data template tidak ditemukan');
         }
 
         // Handle upload gambar jika ada
@@ -126,8 +139,6 @@ class ProfileController extends Controller
 
         // Perbarui data template dengan data baru
         $template->nama_template = $request->input('nama_template');
-        $template->jenis_template = $request->input('jenis_template');
-        $template->nama_pembuat = $request->input('nama_pembuat');
         $template->html = $request->input('html');
         $template->css = $request->input('css');
         $template->js = $request->input('js');
@@ -136,7 +147,7 @@ class ProfileController extends Controller
         $template->save();
 
         // Redirect atau berikan respons sukses sesuai kebutuhan aplikasi Anda
-        return redirect('profile');
+        return redirect()->back()->with('session', 'Tempalte berhasil diperbarui')->with('session_type', 'success');
     }
 
     public function destroy($id)
@@ -146,7 +157,7 @@ class ProfileController extends Controller
 
         // Periksa apakah data template ditemukan
         if (!$template) {
-            return redirect()->route('index')->with('error', 'Data template tidak ditemukan');
+            return redirect()->route('index')->with('session', 'Data template tidak ditemukan');
         }
 
         $oldImagePath = $template->gambar;
@@ -159,7 +170,7 @@ class ProfileController extends Controller
         $template->delete();
 
         // Redirect atau berikan respons sukses sesuai kebutuhan aplikasi Anda
-        return redirect('profile');
+        return redirect()->back()->with('session', 'Template berhasil dihapus')->with('session_type', 'success');
     }
 
     public function password(Request $request, $id)
@@ -171,14 +182,17 @@ class ProfileController extends Controller
 
                 $newPassword = bcrypt($request->password_new);
                 $user->update(['password' => $newPassword]);
-                return redirect('profile');
+
+                // Redirect dengan pesan sukses
+                return redirect('profile')->with('session', 'Password berhasil diperbarui')->with('session_type', 'success');
             } else {
-                dd('Password Baru Dengan Konfirmasi Tidak cocok');
+                // Redirect dengan pesan kesalahan
+                return redirect()->back()->with('session', 'Password baru dengan konfirmasi tidak cocok')->with('session_type', 'danger');
             }
 
         } else {
-            // Password tidak cocok
-            dd('Password lama tidak cocok');
+            // Redirect dengan pesan kesalahan
+            return redirect()->back()->with('session', 'Password lama tidak cocok')->with('session_type', 'danger');
         }
     }
 
