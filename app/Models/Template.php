@@ -17,4 +17,9 @@ class Template extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+    public function tk(): HasMany
+    {
+        return $this->hasMany(template_kategori::class, 'id_template', 'id');
+    }
 }

@@ -1,5 +1,4 @@
 @extends('admin/template/navbar')
-
 @section('admin/content')
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -48,8 +47,12 @@
                                         width="100">
                                 </td>
                                 <td>{{ $data->nama_template }}</td>
-                                <td>{{ $data->jenis_template }}</td>
-                                <td>{{ $data->nama_pembuat }}</td>
+                                <td>
+                                    @foreach ($data->tk as $value)
+                                        {{ $value->kategori->nama_kategori }},
+                                    @endforeach
+                                </td>
+                                <td>{{ $data->user->name }}</td>
                                 <td>{{ $data->html }}</td>
                                 <td>{{ $data->css }}</td>
                                 <td>{{ $data->js }}</td>
@@ -87,16 +90,20 @@
                                                         <div class="form-group">
                                                             <label for="editNamaTemplate">Nama Template</label>
                                                             <input type="text" name="nama_template" class="form-control"
-                                                                id="editNamaTemplate" value="{{ $data->nama_template }}"
-                                                                >
+                                                                id="editNamaTemplate" value="{{ $data->nama_template }}">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <label for="editJenisTemplate">Jenis Template</label>
-                                                            <input type="text" name="jenis_template" class="form-control"
-                                                                id="editJenisTemplate" value="{{ $data->jenis_template }}"
-                                                                >
+                                                            <label for="">Jenis Template</label>
+                                                            <select name="id_kategori[]"
+                                                                class="form-control js-example-basic-multiple" multiple>
+                                                                @foreach ($kategori as $no => $data)
+                                                                    <option value="{{ $data->id }}">
+                                                                        {{ $data->nama_kategori }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
@@ -198,25 +205,29 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="addNamaTemplate">Nama Template</label>
-                                    <input type="text" name="nama_template" class="form-control" id="addNamaTemplate"
-                                        >
+                                    <label for="">Nama Template</label>
+                                    <input type="text" name="nama_template" class="form-control" id="">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="addJenisTemplate">Jenis Template</label>
-                                    <input type="text" name="jenis_template" class="form-control"
-                                        id="addJenisTemplate" >
+                                    <label for="">Jenis Template</label>
+                                    <select name="id_kategori[]" class="form-control js-example-basic-multiple" multiple>
+                                        @foreach ($kategori as $no => $data)
+                                            <option value="{{ $data->id }}">
+                                                {{ $data->nama_kategori }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="addNamaTemplate">Nama Pembuat</label>
+                                    <label for="">Nama Pembuat</label>
                                     <select name="nama_pembuat" class="form-control">
                                         <option value="">Pilih Pembuat</option>
                                         @foreach ($akuns as $no => $data)
-                                            <option value="{{ $data->name }}">
+                                            <option value="{{ $data->id }}">
                                                 {{ $data->name }}
                                             </option>
                                         @endforeach
@@ -238,7 +249,7 @@
                         </div>
                         <div class="form-group">
                             <label for="addJenisTemplate">Gambar</label><br>
-                            <input type="file" name="gambar" class="" id="addJenisTemplate" >
+                            <input type="file" name="gambar" class="" id="addJenisTemplate">
                         </div>
 
                     </div>
@@ -250,4 +261,14 @@
             </div>
         </div>
     </div>
+    <script>
+        $(document).ready(function() {
+            $('#exampleModal').on('shown.bs.modal', function() {
+                $('.js-example-basic-multiple').select2({
+                    placeholder: 'Select options',
+                    maximumSelectionLength: 5
+                });
+            });
+        });
+    </script>
 @endsection

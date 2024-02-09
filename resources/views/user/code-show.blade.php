@@ -21,9 +21,11 @@
                                 <h1 class="fw-bolder mb-1">{{ $Templates->nama_template }}</h1>
                                 <div class="fst-italic mb-2">{{ $Templates->created_at }} &nbsp<i
                                         class="bi bi-eye"></i>{{ $Templates->kunjungan }}</div>
-                                <p class="badge bg-primary text-decoration-none">HTML</p>
-                                <p class="badge bg-primary text-decoration-none">CSS</p>
-                                <p class="badge bg-primary text-decoration-none">Login form</p>
+                                @foreach ($Templates->tk as $value)
+                                    <p class="badge bg-primary text-decoration-none">
+                                        {{ $value->kategori->nama_kategori }}
+                                    </p>
+                                @endforeach
                             </header>
                         </article>
                     </div>
@@ -33,7 +35,7 @@
                         <figure class="mb-4">
                             <img class="img-fluid rounded"
                                 src="{{ asset('storage/template-images/' . $Templates->gambar) }}" style="width:100%"
-                                alt="Login" title="Login" />
+                                alt="" title="" />
                         </figure>
                     </div>
                     <div class="col-lg-6" style="color: white">

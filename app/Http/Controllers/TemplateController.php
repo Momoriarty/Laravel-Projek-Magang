@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kategori;
+use App\Models\template_kategori;
 use Illuminate\Http\Request;
 use App\Models\Template;
 use App\Models\User;
@@ -13,7 +15,8 @@ class TemplateController extends Controller
     {
         $templates = Template::all();
         $akuns = User::all();
-        return view('admin.template', compact('templates', 'akuns'));
+        $kategori = Kategori::all();
+        return view('admin.template', compact('templates', 'akuns', 'kategori'));
     }
 
     public function create()
@@ -39,46 +42,42 @@ class TemplateController extends Controller
             'css.required' => 'CSS template wajib diisi',
             'gambar.image' => 'File harus berupa gambar',
             'gambar.max' => 'Ukuran gambar maksimal 2MB',
+            'id_kategori.required' => 'Kategori template wajib dipilih',
         ]);
 
+        if ($request->hasFile('gambar')) {
+            $image = $request->file('gambar');
+            $uniqueFileName = 'Template-' . time() . '.' . $image->getClientOriginalExtension();
+            $imagePath = $image->storeAs('public/template-images', $uniqueFileName);
+        } else {
+            $uniqueFileName = 'img-default.jpg';
+        }
 
-        // Upload image
-        $image = $request->file('gambar');
-
-        // Generate unique filename based on current time
-        $uniqueFileName = 'Template-' . time() . '.' . $image->getClientOriginalExtension();
-
-        // Store the image with the unique filename
-        $imagePath = $image->storeAs('public/template-images', $uniqueFileName);
-
-        // Membuat instance baru dari model Template
         $template = new Template;
-
-        // Mengisi nilai atribut dari request ke model Template
         $template->nama_template = $request->input('nama_template');
-        $template->jenis_template = $request->input('jenis_template');
-        $template->user_id = '0';
-        $template->nama_pembuat = $request->input('nama_pembuat');
+        $template->user_id = $request->input('nama_pembuat');
         $template->html = $request->input('html');
         $template->css = $request->input('css');
-        if (isset($request->js)) {
-            $template->js = $request->input('js');
-        } else {
-            $template->js = '//';
-        }
+        $template->js = $request->input('js') ?? '//'; // Using null coalescing operator
         $template->kunjungan = '0';
         $template->gambar = $uniqueFileName;
-        // Menyimpan template ke database
         $template->save();
 
-        // Redirect atau berikan respons sukses sesuai kebutuhan aplikasi Anda
-        return redirect()->back()->with('session', 'Template berhasil diperbarui')->with('session_type', 'success');
+
+        foreach ($request->id_kategori as $kategoriId) {
+            $templateKategori = new template_kategori;
+            $templateKategori->id_kategori = $kategoriId;
+            $templateKategori->id_template = $template->id;
+            $templateKategori->save();
+        }
+
+        return redirect()->back()->with('session', 'Template berhasil ditambah')->with('session_type', 'success');
     }
+
 
 
     public function show($id)
     {
-        // Menampilkan halaman detail template (jika diperlukan)
         $template = Template::find($id);
         return view('admin.show_template', compact('template'));
     }
@@ -95,16 +94,13 @@ class TemplateController extends Controller
 
         $validatedData = $request->validate([
             'nama_template' => 'required|string|max:255',
-            'jenis_template' => 'required|string|in:jenis1,jenis2,jenis3', // Sesuaikan dengan jenis template yang diizinkan
             'nama_pembuat' => 'required|string|max:255',
             'html' => 'required|string',
             'css' => 'required|string',
             'js' => 'nullable|string',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ], [
-            // Customize error messages
             'nama_template.required' => 'Nama template wajib diisi',
-            'jenis_template.required' => 'Jenis template wajib dipilih',
             'nama_pembuat.required' => 'Nama pembuat wajib diisi',
             'html.required' => 'HTML template wajib diisi',
             'css.required' => 'CSS template wajib diisi',

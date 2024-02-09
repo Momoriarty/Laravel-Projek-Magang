@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\KategoriController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AkunController;
 use App\Http\Controllers\TemplateController;
@@ -45,6 +46,7 @@ Route::group(['middleware' => 'check.site.status'], function () {
             Route::get('admin', [AdminController::class, 'index']);
             Route::resource('admin/akun', AkunController::class);
             Route::resource('admin/template', TemplateController::class);
+            Route::resource('admin/kategori', KategoriController::class);
         });
     });
 });
