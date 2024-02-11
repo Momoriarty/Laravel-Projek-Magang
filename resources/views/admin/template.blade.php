@@ -62,12 +62,37 @@
                                         data-target="#editModal{{ $data->id }}">
                                         Edit
                                     </button>
-                                    <button type="button" class="btn btn-danger mb-1" data-toggle="modal"
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"
                                         data-target="#deleteModal{{ $data->id }}">
-                                        Hapus
+                                        Launch demo modal
                                     </button>
                                 </td>
                             </tr>
+
+                            <div class="modal fade" id="deleteModal{{ $data->id }}" tabindex="-1"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                                            <button type="button" class="btn-close" data-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Are you sure you want to delete this template?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <form action="{{ route('template.destroy', $data->id) }}" method="post">
+                                                @method('DELETE')
+                                                @csrf
+                                                <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                                            </form>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No,
+                                                Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                             <!-- Modal Edit -->
                             <div class="modal fade" id="editModal{{ $data->id }}" tabindex="-1" role="dialog"
@@ -149,35 +174,6 @@
                                                 <button type="submit" class="btn btn-primary">Save changes</button>
                                             </div>
                                         </form>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <!-- Modal Delete-->
-                            <div class="modal fade" id="deleteModal{{ $data->id }}" tabindex="-1" role="dialog"
-                                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Delete Template</h5>
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <p>Are you sure you want to delete this template?</p>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <form action="{{ route('template.destroy', $data->id) }}" method="post">
-                                                @method('DELETE')
-                                                @csrf
-                                                <button type="submit" class="btn btn-danger">Yes, Delete</button>
-                                            </form>
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No,
-                                                Cancel</button>
-                                        </div>
                                     </div>
                                 </div>
                             </div>

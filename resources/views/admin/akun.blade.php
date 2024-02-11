@@ -13,6 +13,7 @@
                     <thead>
                         <tr>
                             <th>No</th>
+                            <th>Profile</th>
                             <th>Name</th>
                             <th>Username</th>
                             <th>Email</th>
@@ -24,6 +25,7 @@
                     <tfoot>
                         <tr>
                             <th>No</th>
+                            <th>Profile</th>
                             <th>Name</th>
                             <th>Username</th>
                             <th>Email</th>
@@ -36,6 +38,8 @@
                         @foreach ($akuns as $no => $akun)
                             <tr>
                                 <td>{{ $no + 1 }}</td>
+                                <td> <img src="{{ $akun->profile }}" width="100" alt="">
+                                    </td>
                                 <td>{{ $akun->name }}</td>
                                 <td>{{ $akun->username }}</td>
                                 <td>{{ $akun->email }}</td>
@@ -57,11 +61,12 @@
 
                             <!-- Modal Edit -->
                             <div class="modal fade" id="editModal{{ $akun->id }}" tabindex="-1" role="dialog"
-                                aria-labelledby="editModalLabel" aria-hidden="true">
+                                aria-labelledby="editModalLabel{{ $akun->id }}" aria-hidden="true">
                                 <div class="modal-dialog modal-lg" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="editModalLabel">Edit Data Akun</h5>
+                                            <h5 class="modal-title" id="editModalLabel{{ $akun->id }}">Edit Data Akun {{ $akun->name }}
+                                            </h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
@@ -75,36 +80,37 @@
                                                     <div class="col-md-6">
                                                         <label for="name">Name</label>
                                                         <input type="text" name="name" class="form-control"
-                                                            id="name" value="{{ $akun->name }}" >
+                                                            id="name" value="{{ $akun->name }}">
                                                     </div>
                                                     <div class="col-md-6">
                                                         <label for="username">Username</label>
                                                         <input type="text" name="username" class="form-control"
-                                                            id="username" value="{{ $akun->username }}" >
+                                                            id="username" value="{{ $akun->username }}">
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <label for="email">Email</label>
                                                         <input type="email" name="email" class="form-control"
-                                                            id="email" value="{{ $akun->email }}" >
+                                                            id="email" value="{{ $akun->email }}">
                                                     </div>
                                                     <div class="col-md-6">
                                                         <label for="no_hp">Nomor HP</label>
                                                         <input type="text" name="no_hp" class="form-control"
-                                                            id="no_hp" value="{{ $akun->no_hp }}" >
+                                                            id="no_hp" value="{{ $akun->no_hp }}">
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <label for="">Avatar</label>
                                                         <button type="button" class="form-control" data-toggle="modal"
-                                                            data-target="#imageModal">
+                                                            data-target="#imageModal{{ $akun->id }}">
                                                             Pilih Profil
                                                         </button>
-                                                        <input type="hidden" id="imageInput" name="gambar" />
-                                                        <img id="selectedImage" width="100" class="img-thumbnail mt-2"
-                                                            alt="Selected Image"
+                                                        <input type="hidden" id="imageInput{{ $akun->id }}"
+                                                            name="gambar" />
+                                                        <img id="selectedImage{{ $akun->id }}" width="100"
+                                                            class="img-thumbnail mt-2" alt="Selected Image"
                                                             src="{{ asset('/storage/profile/' . $akun->gambar) }}">
                                                     </div>
                                                     <div class="col-md-3">
@@ -125,10 +131,86 @@
                                                     data-dismiss="modal">Close</button>
                                                 <button type="submit" class="btn btn-primary">Save changes</button>
                                             </div>
-                                        </form>
                                     </div>
                                 </div>
                             </div>
+                            <div class="modal fade" id="imageModal{{ $akun->id }}" tabindex="-1" aria-labelledby="imageModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="imageModalLabel">Select an Image {{ $akun->id }}</h5>
+                                            <button type="button" class="btn-close" data-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <img width="100" src="/storage/profile/avatar1.png" value="avatar1.png"
+                                                alt="Image 1" class="img-thumbnail">
+                                            <img width="100" src="/storage/profile/avatar2.png" value="avatar2.png"
+                                                alt="Image 2" class="img-thumbnail">
+                                            <img width="100" src="/storage/profile/avatar3.png" value="avatar3.png"
+                                                alt="Image 3" class="img-thumbnail">
+                                            <img width="100" src="/storage/profile/avatar4.png" value="avatar4.png"
+                                                alt="Image 4" class="img-thumbnail">
+                                            <img width="100" src="/storage/profile/avatar5.png" value="avatar5.png"
+                                                alt="Image 5" class="img-thumbnail">
+                                            <img width="100" src="/storage/profile/avatar6.png" value="avatar6.png"
+                                                alt="Image 6" class="img-thumbnail">
+                                            <img width="100" src="/storage/profile/avatar7.png" value="avatar7.png"
+                                                alt="Image 7" class="img-thumbnail">
+                                            <img width="100" src="/storage/profile/avatar8.png" value="avatar8.png"
+                                                alt="Image 8" class="img-thumbnail">
+                                            <input type="file" name="gambar" id="customImageInput">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                            <script>
+                                $(document).ready(function() {
+                                    // Handle image selection
+                                    $('.img-thumbnail').click(function() {
+                                        var gambarUrl = $(this).attr('src');
+                                        $('#imageInput{{ $akun->id }}').val(gambarUrl);
+                                        $('#selectedImage{{ $akun->id }}').attr('src',
+                                            gambarUrl); // Menampilkan gambar yang dipilih
+                                        $('#imageModal{{ $akun->id }}').modal('hide'); // Menutup modal
+                                    });
+
+                                    // Handle custom image selection from file input
+                                    $('#customImageInput{{ $akun->id }}').change(function() {
+                                        var fileInput = $(this)[0];
+                                        if (fileInput.files && fileInput.files[0]) {
+                                            var reader = new FileReader();
+                                            reader.onload = function(e) {
+                                                var gambarUrl = e.target.result;
+                                                $('#imageInput{{ $akun->id }}').val(
+                                                    gambarUrl); // Menetapkan nilai input gambar
+                                                $('#selectedImage{{ $akun->id }}').attr('src',
+                                                    gambarUrl); // Menampilkan gambar yang dipilih
+                                            };
+                                            reader.readAsDataURL(fileInput.files[0]);
+                                        }
+                                    });
+
+                                    // Handle form submission
+                                    $('form').submit(function() {
+                                        // Dijalankan saat formulir disubmit
+                                        var gambarUrl = $('#imageInput{{ $akun->id }}')
+                                            .val(); // Mendapatkan URL gambar yang dipilih
+                                        $('<input>').attr({
+                                            type: 'hidden',
+                                            name: 'gambar',
+                                            value: gambarUrl
+                                        }).appendTo('form'); // Menambahkan input tersembunyi dengan URL gambar ke dalam formulir
+                                    });
+                                });
+                            </script>
 
 
                             <!-- Modal Delete-->
@@ -196,32 +278,31 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="name">Name</label>
-                                <input type="text" name="name" class="form-control" id="name" >
+                                <input type="text" name="name" class="form-control" id="name">
                             </div>
                             <div class="col-md-6">
                                 <label for="username">Username</label>
-                                <input type="text" name="username" class="form-control" id="username" >
+                                <input type="text" name="username" class="form-control" id="username">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="password">Password</label>
-                                <input type="password" name="password" class="form-control" id="password" >
+                                <input type="password" name="password" class="form-control" id="password">
                             </div>
                             <div class="col-md-6">
                                 <label for="k_password">Konfirmasi Password</label>
-                                <input type="k_password" name="k_password" class="form-control" id="k_password"
-                                    >
+                                <input type="k_password" name="k_password" class="form-control" id="k_password">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="email">Email</label>
-                                <input type="email" name="email" class="form-control" id="email" >
+                                <input type="email" name="email" class="form-control" id="email">
                             </div>
                             <div class="col-md-6">
                                 <label for="no_hp">Nomor HP</label>
-                                <input type="text" name="no_hp" class="form-control" id="no_hp" >
+                                <input type="text" name="no_hp" class="form-control" id="no_hp">
                             </div>
                         </div>
                         <div class="row">
@@ -231,8 +312,8 @@
                                     data-target="#imageModal">
                                     Pilih Profil
                                 </button>
-                                <input type="hidden" id="imageInput1" name="gambar" />
-                                <img id="selectedImage1" width="100" class="img-thumbnail mt-2" alt="Selected Image">
+                                <input type="hidden" id="imageInput" name="gambar" />
+                                <img id="selectedImage" width="100" class="img-thumbnail mt-2" alt="Selected Image">
                             </div>
                             <div class="col-md-3">
                                 <label for="Role">Role</label>
@@ -294,42 +375,6 @@
             // Handle image selection
             $('.img-thumbnail').click(function() {
                 var gambarUrl = $(this).attr('src');
-                $('#imageInput1').val(gambarUrl); // Set the image URL in the hidden input field
-                $('#selectedImage1').attr('src', gambarUrl); // Display the selected image
-                $('#imageModal').modal('hide'); // Close the modal
-            });
-
-            // Handle custom image selection from file input
-            $('#customImageInput').change(function() {
-                var fileInput = $(this)[0];
-                if (fileInput.files && fileInput.files[0]) {
-                    var reader = new FileReader();
-                    reader.onload = function(e) {
-                        var gambarUrl = e.target.result;
-                        $('#imageInput1').val(
-                            gambarUrl); // Set the image URL in the hidden input field
-                       
-                    };
-                    reader.readAsDataURL(fileInput.files[0]);
-                }
-            });
-
-            // Handle form submission
-            $('form').submit(function() {
-                var gambarUrl = $('#imageInput1').val();
-                $('<input>').attr({
-                    type: 'hidden',
-                    name: 'gambar',
-                    value: gambarUrl
-                }).appendTo('form');
-            });
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
-            // Handle image selection
-            $('.img-thumbnail').click(function() {
-                var gambarUrl = $(this).attr('src');
                 $('#imageInput').val(gambarUrl); // Set the image URL in the hidden input field
                 $('#selectedImage').attr('src', gambarUrl); // Display the selected image
                 $('#imageModal').modal('hide'); // Close the modal
@@ -344,7 +389,7 @@
                         var gambarUrl = e.target.result;
                         $('#imageInput').val(
                             gambarUrl); // Set the image URL in the hidden input field
-                       
+
                     };
                     reader.readAsDataURL(fileInput.files[0]);
                 }

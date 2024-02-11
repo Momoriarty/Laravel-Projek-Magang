@@ -41,8 +41,8 @@ class TemplateController extends Controller
             'html.required' => 'HTML template wajib diisi',
             'css.required' => 'CSS template wajib diisi',
             'gambar.image' => 'File harus berupa gambar',
+            'gambar.mimes' => 'File harus berupa jpeg,png,jpg,gif,webp',
             'gambar.max' => 'Ukuran gambar maksimal 2MB',
-            'id_kategori.required' => 'Kategori template wajib dipilih',
         ]);
 
         if ($request->hasFile('gambar')) {
@@ -50,7 +50,7 @@ class TemplateController extends Controller
             $uniqueFileName = 'Template-' . time() . '.' . $image->getClientOriginalExtension();
             $imagePath = $image->storeAs('public/template-images', $uniqueFileName);
         } else {
-            $uniqueFileName = 'img-default.jpg';
+            $uniqueFileName = 'template-default.jpg';
         }
 
         $template = new Template;
@@ -58,7 +58,7 @@ class TemplateController extends Controller
         $template->user_id = $request->input('nama_pembuat');
         $template->html = $request->input('html');
         $template->css = $request->input('css');
-        $template->js = $request->input('js') ?? '//'; // Using null coalescing operator
+        $template->js = $request->input('js') ?? '//'; 
         $template->kunjungan = '0';
         $template->gambar = $uniqueFileName;
         $template->save();
@@ -163,7 +163,7 @@ class TemplateController extends Controller
         $oldImagePath = $template->gambar;
 
         // Hapus file dari penyimpanan
-        if ($oldImagePath) {
+        if ($oldImagePath != 'template-default.jpg') {
             Storage::delete("public/template-images/$oldImagePath");
         }
         // Hapus data template

@@ -15,20 +15,21 @@ class AkunController extends Controller
 
     public function store(Request $request)
     {
-        // Validate the form data
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:255',
             'password' => 'required|string',
+            'k_password' => 'required|string|same:password',
             'email' => 'required|string|email|max:255',
             'no_hp' => 'nullable|string|max:20',
             'role' => 'required|string|in:admin,user',
-            'gambar' => 'nullable|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'gambar' => 'nullable|mimes:jpeg,png,jpg,webp|max:2048',
         ], [
-            // Customize error messages
             'name.required' => 'Nama wajib diisi',
             'username.required' => 'Username wajib diisi',
             'password.required' => 'Password wajib diisi',
+            'k_password.required' => 'konfirmasi password wajib diisi',
+            'k_password.same' => 'Konfirmasi password harus sama dengan password.',
             'email.required' => 'Email wajib diisi',
             'gambar.mimes' => 'File harus berupa gambar',
             'gambar.max' => 'Ukuran gambar maksimal 2MB',
@@ -46,7 +47,7 @@ class AkunController extends Controller
             $image = $request->file('gambar');
             $uniqueFileName = 'Profile-' . time() . '.' . $image->getClientOriginalExtension();
             $imagePath = $image->storeAs('public/avatar', $uniqueFileName);
-            $akun->profile = '/storage/profile/' . $uniqueFileName;
+            $akun->profile = '/storage/avatar/avatar-' . $uniqueFileName;
         } else {
             $akun->profile = $request->gambar ?? 'storage/profile/avatar0.png';
         }
@@ -54,7 +55,7 @@ class AkunController extends Controller
         $akun->save();
 
         // Redirect back with a success message
-        return redirect()->back()->with('success', 'Akun berhasil ditambah');
+        return redirect()->back()->with('session', 'Akun berhasil ditambah')->with('session_type', 'success');
     }
 
 
@@ -67,43 +68,69 @@ class AkunController extends Controller
             'email' => 'required|string|email|max:255',
             'no_hp' => 'nullable|string|max:20',
             'role' => 'required|string|in:admin,user',
-            'gambar' => 'nullable|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ], [
-            // Customize error messages
             'name.required' => 'Nama wajib diisi',
             'username.required' => 'Username wajib diisi',
             'email.required' => 'Email wajib diisi',
-            'gambar.image' => 'File harus berupa gambar',
-            'gambar.max' => 'Ukuran gambar maksimal 2MB',
         ]);
-        // Temukan user berdasarkan ID
+
         $user = User::find($id);
 
-        // Perbarui data user
         $user->name = $request->input('name');
         $user->username = $request->input('username');
         $user->email = $request->input('email');
         $user->no_hp = $request->input('no_hp');
+        $user->role = $request->input('role');
+
 
         // Perbarui password jika diinput, jika tidak abaikan
         if ($request->has('password') && $request->input('password') !== null) {
             $user->password = bcrypt($request->input('password'));
         }
 
-        // Jika ada file gambar yang diunggah, simpan ke direktori
+        $data = [
+            '/storage/profile/avatar0.png',
+            '/storage/profile/avatar1.png',
+            '/storage/profile/avatar2.png',
+            '/storage/profile/avatar3.png',
+            '/storage/profile/avatar4.png',
+            '/storage/profile/avatar5.png',
+            '/storage/profile/avatar6.png',
+            '/storage/profile/avatar7.png',
+            '/storage/profile/avatar8.png',
+        ];
+
+        if (!in_array($user->profile, $data)) {
+            $oldImagePath = public_path($user->profile);
+            if (file_exists($oldImagePath)) {
+                unlink($oldImagePath);
+            }
+        }
+
         if ($request->hasFile('gambar')) {
+            $validatedData = $request->validate([
+                'gambar' => 'image|mimes:jpeg,png,jpg,webp|max:2048',
+            ], [
+                'gambar.image' => 'File harus berupa gambar',
+                'gambar.mimes' => 'Gambar harus berupa jpeg, png, jpg, atau webp',
+                'gambar.max' => 'Ukuran gambar maksimal 2MB',
+            ]);
+
+
+
+
+
             $image = $request->file('gambar');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->storeAs('public/profile', $imageName);
-            $user->gambar = $imageName;
+            $imageName = 'Profile-' . time() . '.' . $image->getClientOriginalExtension();
+            $image->storeAs('public/avatar', $imageName);
+            $user->profile = '/storage/avatar/' . $imageName;
+
         } else {
             if (isset($request->gambar)) {
                 $user->profile = $request->input('gambar');
             }
         }
 
-        // Perbarui role
-        $user->role = $request->input('role');
 
         $user->save();
 
@@ -114,9 +141,38 @@ class AkunController extends Controller
 
     public function destroy($id)
     {
-        // Temukan user berdasarkan ID dan hapus
-        User::destroy($id);
+        // Ambil pengguna dari database berdasarkan ID
+        $user = User::find($id);
+
+        if (!$user) {
+            return redirect()->back()->with('session', 'User tidak ditemukan')->with('session_type', 'error');
+        }
+
+        // Daftar avatar default
+        $defaultAvatars = [
+            '/storage/profile/avatar0.png',
+            '/storage/profile/avatar1.png',
+            '/storage/profile/avatar2.png',
+            '/storage/profile/avatar3.png',
+            '/storage/profile/avatar4.png',
+            '/storage/profile/avatar5.png',
+            '/storage/profile/avatar6.png',
+            '/storage/profile/avatar7.png',
+            '/storage/profile/avatar8.png',
+        ];
+
+        // Periksa apakah gambar profil pengguna bukan default
+        if (!in_array($user->profile, $defaultAvatars)) {
+            $oldImagePath = public_path($user->profile);
+            if (file_exists($oldImagePath)) {
+                unlink($oldImagePath); // Hapus gambar profil pengguna
+            }
+        }
+
+        // Hapus pengguna dari database
+        $user->delete();
 
         return redirect()->back()->with('session', 'Akun berhasil Dihapus')->with('session_type', 'success');
     }
+
 }

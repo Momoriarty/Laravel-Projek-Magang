@@ -9,11 +9,11 @@
             aria-atomic="true" data-delay="8000" style="width: 300px; height:auto;">
             <div class="d-flex">
                 <div class="toast-body">
-                    @foreach ($errors->all() as $error)
-                        <ul>
+                    <ul>
+                        @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
-                        </ul>
-                    @endforeach
+                        @endforeach
+                    </ul>
                 </div>
             </div>
         </div>
