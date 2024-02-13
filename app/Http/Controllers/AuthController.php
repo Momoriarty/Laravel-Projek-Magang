@@ -38,17 +38,38 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        // Validate the user input
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'username' => 'required|string|max:255',
-            'no_hp' => 'required',
-            'email' => 'required|email|unique:users|max:255',
-            'password' => 'required|string|min:2',
+            'username' => 'required|string|max:255|unique:users,username,' . $request->username,
+            'password' => 'required|string',
+            'k_password' => 'required|string|same:password',
+            'email' => 'required|string|email|max:255',
+            'no_hp' => 'nullable|string|max:20',
+        ], [
+            'name.required' => 'Nama wajib diisi',
+            'username.required' => 'Username wajib diisi',
+            'username.unique' => 'Nama pengguna ' . $request->username . ' sudah ada',
+            'password.required' => 'Password wajib diisi',
+            'k_password.required' => 'konfirmasi password wajib diisi',
+            'k_password.same' => 'Konfirmasi password harus sama dengan password.',
+            'email.required' => 'Email wajib diisi',
         ]);
 
-        // Set the profile image to the provided value or use a default value
-        $profile = $request['gambar'] ?? 'storage/profile/avatar0.png';
+
+        if ($request->hasFile('gambar')) {
+            $validatedData = $request->validate([
+                'gambar' => 'nullable|mimes:jpeg,png,jpg,webp|max:2048',
+            ], [
+                'gambar.mimes' => 'File harus berupa jpeg,png,jpg,webp',
+                'gambar.max' => 'Ukuran gambar maksimal 2MB',
+            ]);
+            $image = $request->file('gambar');
+            $uniqueFileName = 'Profile-' . time() . '.' . $image->getClientOriginalExtension();
+            $imagePath = $image->storeAs('public/avatar', $uniqueFileName);
+            $imgName = '/storage/avatar/' . $uniqueFileName;
+        } else {
+            $imgName = $request->gambar ?? '/storage/profile/avatar0.png';
+        }
 
         $user = User::create([
             'name' => $validatedData['name'],
@@ -56,13 +77,11 @@ class AuthController extends Controller
             'email' => $validatedData['email'],
             'no_hp' => $validatedData['no_hp'],
             'password' => bcrypt($validatedData['password']),
-            'profile' => $profile,
+            'profile' => $imgName,
         ]);
 
-        // You can customize this part based on your application's logic,
-        // for example, log the user in or send a confirmation email.
 
-        return redirect()->route('login')->with('success', 'Registration successful! Please log in.');
+        return redirect()->route('login')->with('session', 'Registration successful! Please log in.');
     }
 
 

@@ -62,6 +62,8 @@ class KategoriController extends Controller
     {
         $request->validate([
             'nama_kategori' => 'required'
+        ], [
+            'nama_kategori.required' => 'Nama Kategori wajib diisi'
         ]);
         $kategori = Kategori::find($id);
         $kategori->nama_kategori = $request->nama_kategori;

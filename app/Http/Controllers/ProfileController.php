@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kategori;
+use App\Models\template_kategori;
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
@@ -16,9 +18,22 @@ class ProfileController extends Controller
     {
         $akuns = User::where('id', Auth::user()->id)->first();
         $template = Template::with('user')->where('user_id', Auth::user()->id)->get();
-        $navbar = FALSE;
+        $templates = Template::with('tk')->get();
 
-        return view('user.profile', compact('akuns', 'navbar', 'template'));
+        $navbar = FALSE;
+        $kategori = Kategori::all();
+        // Retrieve selected kategori for each template
+        $selectedkategori = [];
+
+        foreach ($templates as $t) {
+            if ($t->kategoris) {
+                $selectedkategori[$t->id] = $t->kategoris->pluck('id')->toArray();
+            } else {
+                $selectedkategori[$t->id] = [];
+            }
+        }
+
+        return view('user.profile', compact('akuns', 'navbar', 'template', 'kategori', 'selectedkategori'));
 
     }
 
@@ -29,11 +44,19 @@ class ProfileController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nama_template' => 'required|string',
+        $validatedData = $request->validate([
+            'nama_template' => 'required|string|max:255',
             'html' => 'required|string',
             'css' => 'required|string',
-            'gambar' => 'image|mimes:jpeg,png,jpg,webp|max:2048',
+            'js' => 'nullable|string',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+        ], [
+            'nama_template.required' => 'Nama template wajib diisi',
+            'html.required' => 'HTML template wajib diisi',
+            'css.required' => 'CSS template wajib diisi',
+            'gambar.image' => 'File harus berupa gambar',
+            'gambar.mimes' => 'File harus berupa jpeg,png,jpg,gif,webp',
+            'gambar.max' => 'Ukuran gambar maksimal 2MB',
         ]);
 
         try {
@@ -43,12 +66,10 @@ class ProfileController extends Controller
                 $uniqueFileName = 'Template-' . time() . '.' . $image->getClientOriginalExtension();
                 $imagePath = $image->storeAs('public/template-images', $uniqueFileName);
             } else {
-                $uniqueFileName = 'img-default.jpg'; // or provide a default image if needed
+                $uniqueFileName = 'template-default.jpg';
             }
 
-            // Create a new instance of the Template model
             $template = new Template;
-
             // Fill model attributes from the request
             $template->nama_template = $request->input('nama_template');
             $template->user_id = Auth::user()->id;
@@ -56,45 +77,53 @@ class ProfileController extends Controller
             $template->css = $request->input('css');
             $template->js = $request->input('js');
             $template->gambar = $uniqueFileName;
-
-            // Save the template to the database
             $template->save();
 
-            // Redirect to the user's profile page
+            foreach ($request->id_kategori as $kategoriId) {
+                $templateKategori = new template_kategori;
+                $templateKategori->id_kategori = $kategoriId;
+                $templateKategori->id_template = $template->id;
+                $templateKategori->save();
+            }
+
+
             return redirect('/profile')->with('session', 'Template created successfully')->with('session_type', 'success');
         } catch (\Exception $e) {
             // Handle any exceptions, log them, and provide a user-friendly error message
             \Log::error('Error storing template: ' . $e->getMessage());
-            return redirect()->back()->with('session', 'An error occurred while saving the template.');
+            return redirect()->back()->with('session', $e->getMessage())->with('session_type', 'danger');
         }
     }
 
+    // Update Profil
     public function update(Request $request, $id)
     {
-        // Validasi input
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'username' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users,username,' . $request->username,
             'email' => 'required|email|max:255',
-            'no_hp' => 'required|string|max:20',
+            'no_hp' => 'nullable|numeric',
+        ], [
+            'name.required' => 'Nama Wajib diisi',
+            'username.required' => 'Username Wajib diisi',
+            'username.unique' => 'Nama pengguna ' . $request->username . ' sudah ada',
+            'Email.required' => 'Email Wajib diisi',
+            'no_hp.numeric' => 'No Hp hanya menggunakan angka',
         ]);
 
         // Temukan Akun berdasarkan ID
         $akun = User::findOrFail($id);
 
         if (!$akun) {
-            // Redirect dengan pesan kesalahan
             return redirect()->back()->with('session', 'Profil tidak ditemukan')->with('session_type', 'danger');
         }
 
-        // Update data akun
         $akun->name = $request->name;
         $akun->username = $request->username;
         $akun->email = $request->email;
         $akun->no_hp = $request->no_hp;
         $akun->save();
 
-        // Redirect dengan pesan sukses
         return redirect()->back()->with('session', 'Profil berhasil diperbarui')->with('session_type', 'success');
     }
 
@@ -103,10 +132,21 @@ class ProfileController extends Controller
 
     public function templates(Request $request, $id)
     {
-        // Validasi input
-        $request->validate([
-            'nama_template' => 'required',
-            'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+        $validatedData = $request->validate([
+            'nama_template' => 'required|string|max:255',
+            'html' => 'required|string',
+            'css' => 'required|string',
+            'id_kategori' => 'required',
+            'js' => 'nullable|string',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+        ], [
+            'nama_template.required' => 'Nama template wajib diisi',
+            'html.required' => 'HTML template wajib diisi',
+            'id_kategori.required' => 'jenis Template wajib diisi',
+            'css.required' => 'CSS template wajib diisi',
+            'gambar.image' => 'File harus berupa gambar',
+            'gambar.mimes' => 'File harus berupa jpeg,png,jpg,gif,webp',
+            'gambar.max' => 'Ukuran gambar maksimal 2MB',
         ]);
 
         // Ambil data template berdasarkan ID
@@ -117,13 +157,13 @@ class ProfileController extends Controller
             return redirect()->route('index')->with('session', 'Data template tidak ditemukan');
         }
 
-        // Handle upload gambar jika ada
+
         if ($request->hasFile('gambar')) {
             // Hapus gambar lama sebelum mengupload yang baru
             $oldImagePath = $template->gambar;
 
             // Hapus file dari penyimpanan
-            if ($oldImagePath) {
+            if ($oldImagePath != 'template-default.jpg') {
                 Storage::delete("public/template-images/$oldImagePath");
             }
 
@@ -143,6 +183,26 @@ class ProfileController extends Controller
         $template->css = $request->input('css');
         $template->js = $request->input('js');
 
+        $templateKategori = template_kategori::where('id_template', $id)->get();
+        $kategoriIds = $request->id_kategori;
+        $existingIds = $templateKategori->pluck('id_kategori')->toArray();
+        foreach ($templateKategori as $tk) {
+            if (count($kategoriIds) > 0) {
+                $tk->id_kategori = array_shift($kategoriIds);
+                $tk->save();
+            } else {
+                $tk->delete();
+            }
+        }
+
+        // Tambahkan kategori template baru untuk ID yang tersisa dari request
+        foreach ($kategoriIds as $newId) {
+            $newTemplateKategori = new template_kategori();
+            $newTemplateKategori->id_template = $id;
+            $newTemplateKategori->id_kategori = $newId;
+            $newTemplateKategori->save();
+        }
+
         // Simpan perubahan
         $template->save();
 
@@ -152,24 +212,20 @@ class ProfileController extends Controller
 
     public function destroy($id)
     {
-        // Cari data template berdasarkan ID
+        template_kategori::where('id_template', $id)->delete();
         $template = Template::find($id);
 
-        // Periksa apakah data template ditemukan
         if (!$template) {
             return redirect()->route('index')->with('session', 'Data template tidak ditemukan');
         }
 
         $oldImagePath = $template->gambar;
 
-        // Hapus file dari penyimpanan
-        if ($oldImagePath) {
+        if ($oldImagePath != 'template-default.jpg') {
             Storage::delete("public/template-images/$oldImagePath");
         }
-        // Hapus data template
         $template->delete();
 
-        // Redirect atau berikan respons sukses sesuai kebutuhan aplikasi Anda
         return redirect()->back()->with('session', 'Template berhasil dihapus')->with('session_type', 'success');
     }
 
@@ -183,15 +239,12 @@ class ProfileController extends Controller
                 $newPassword = bcrypt($request->password_new);
                 $user->update(['password' => $newPassword]);
 
-                // Redirect dengan pesan sukses
                 return redirect('profile')->with('session', 'Password berhasil diperbarui')->with('session_type', 'success');
             } else {
-                // Redirect dengan pesan kesalahan
                 return redirect()->back()->with('session', 'Password baru dengan konfirmasi tidak cocok')->with('session_type', 'danger');
             }
 
         } else {
-            // Redirect dengan pesan kesalahan
             return redirect()->back()->with('session', 'Password lama tidak cocok')->with('session_type', 'danger');
         }
     }

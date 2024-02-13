@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\template_kategori;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Template;
 
@@ -10,7 +12,9 @@ class HomeController extends Controller
     public function index()
     {
         $Templates = Template::all();
-        return view('user/index', compact('Templates'));
+        $tk = template_kategori::all();
+        $user = User::all();
+        return view('user/index', compact('Templates', 'tk', 'user'));
     }
     public function code()
     {
@@ -31,16 +35,13 @@ class HomeController extends Controller
     {
 
 
-        // Ambil data template berdasarkan ID
         $template = Template::find($id);
 
-        // Perbarui data template dengan data baru
         $template->kunjungan = $request->input('kunjungan') + $template['kunjungan'];
 
         // Simpan perubahan
         $template->save();
 
-        // Redirect atau berikan respons sukses sesuai kebutuhan aplikasi Anda
         return redirect('code/' . $id);
     }
 

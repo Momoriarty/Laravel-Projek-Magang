@@ -33,9 +33,15 @@
                 <div class="row gx-5">
                     <div class="col-lg-6">
                         <figure class="mb-4">
-                            <img class="img-fluid rounded"
-                                src="{{ asset('storage/template-images/' . $Templates->gambar) }}" style="width:100%"
-                                alt="" title="" />
+                            <div class="portfolio-img">
+                                <div class="background-img"
+                                    style="background-image: url('{{ asset('storage/template-images/' . $Templates->gambar) }}');">
+                                </div>
+                                <div class="img-overlay">
+                                    <img src="{{ asset('storage/template-images/' . $Templates->gambar) }}"
+                                        class="img-fluid" alt="">
+                                </div>
+                            </div>
                         </figure>
                     </div>
                     <div class="col-lg-6" style="color: white">
@@ -53,22 +59,22 @@
 
                 <div class="row mt-3 mb-3">
                     <div class="col-md-6">
-                        <a href="{{ '/live-demo/' . $Templates->id }}" target="_blank" class="btn btn-info">LiVe
+                        <a href="{{ '/live-demo/' . $Templates->id }}" target="_blank" class="btn btn-info">Live
                             Demo</a>
                     </div>
                 </div>
 
+
                 <div class="row">
-                    <h5>index.html
+                    <h5 class="text-white">index.html
                         <button class="btn copy-button" style="margin-left: 8px;color:yellowgreen;"
                             onclick="copyToClipboard('htmlTextarea')">Copy</button>
                     </h5>
-                    <pre><code id="htmlTextarea" class="hljs html"
-                            oninput="adjustTextareaHeight('htmlTextarea')">{{ $Templates->html }}</code></pre>
+                    <pre><code id="htmlTextarea" class="hljs html" oninput="adjustTextareaHeight('htmlTextarea')">{{ $Templates->html }}</code></pre>
                 </div>
 
                 <div class="row">
-                    <h5>styles.css
+                    <h5 class="text-white">styles.css
                         <button class="btn copy-button" style="margin-left: 8px;color:yellowgreen;"
                             onclick="copyToClipboard('cssTextarea')">Copy</button>
                     </h5>
@@ -77,7 +83,7 @@
                 </div>
 
                 <div class="row">
-                    <h5>script.js
+                    <h5 class="text-white">script.js
                         <button class="btn copy-button" style="margin-left: 8px;color:yellowgreen;"
                             onclick="copyToClipboard('jsTextarea')">Copy</button>
                     </h5>
@@ -90,17 +96,38 @@
     </div>
 
     <script>
-        function copyToClipboard(textareaId) {
-            var textarea = document.getElementById(textareaId);
-            textarea.select();
-            textarea.setSelectionRange(0, 99999); /* For mobile devices */
-            document.execCommand('copy');
+        function copyToClipboard(elementId) {
+            var textarea = document.getElementById(elementId);
+            var range = document.createRange();
+            range.selectNode(textarea);
             window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            document.execCommand("copy");
+            window.getSelection().removeAllRanges();
+
+            // Menampilkan notifikasi
+            var notification = document.createElement('div');
+            notification.textContent = 'Teks berhasil disalin!';
+            notification.style.position = 'fixed';
+            notification.style.top = '10px';
+            notification.style.left = '50%';
+            notification.style.transform = 'translateX(-50%)';
+            notification.style.backgroundColor = 'rgba(0, 255, 0, 0.7)';
+            notification.style.padding = '10px 20px';
+            notification.style.borderRadius = '5px';
+            notification.style.color = '#fff';
+            notification.style.zIndex = '9999';
+            document.body.appendChild(notification);
+
+            // Menghilangkan notifikasi setelah beberapa detik
+            setTimeout(function() {
+                notification.remove();
+            }, 3000);
         }
 
-        function adjustTextareaHeight(textareaId) {
-            var textarea = document.getElementById(textareaId);
-            textarea.style.height = 'auto'; // Resetting height to auto to recalculate the actual height
-            textarea.style.height = (textarea.scrollHeight) + 'px';
+        function adjustTextareaHeight(elementId) {
+            var textarea = document.getElementById(elementId);
+            textarea.style.height = 'auto';
+            textarea.style.height = (textarea.scrollHeight + 5) + 'px';
         }
     </script>

@@ -7,12 +7,20 @@ use Illuminate\Http\Request;
 
 class CheckRole
 {
-    public function handle(Request $request, Closure $next, $role)
+    public function handle(Request $request, Closure $next, ...$roles)
     {
-        if (!auth()->check() || auth()->user()->role !== $role) {
-            return redirect('/')->with('error', 'Anda tidak memiliki izin untuk mengakses halaman ini.');
+        if (!auth()->check()) {
+            return redirect('/')->with('error', 'Anda harus login untuk mengakses halaman ini.');
         }
 
-        return $next($request);
+        $userRole = auth()->user()->role;
+
+        foreach ($roles as $role) {
+            if ($userRole === $role) {
+                return $next($request);
+            }
+        }
+
+        return redirect('/')->with('error', 'Anda tidak memiliki izin untuk mengakses halaman ini.');
     }
 }

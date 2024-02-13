@@ -429,9 +429,20 @@
                         <input type="text" class="input-field" placeholder="Email" name="email">
                         <i class="bx bx-envelope"></i>
                     </div>
-                    <div class="input-box">
-                        <input type="password" class="input-field" placeholder="Password" name="password">
-                        <i class="bx bx-lock-alt"></i>
+                    <div class="row">
+                        <div class="col-md-6 col-6">
+                            <div class="input-box">
+                                <input type="password" class="input-field" placeholder="Password" name="password">
+                                <i class="bx bx-lock-alt"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-6">
+                            <div class="input-box">
+                                <input type="password" class="input-field" placeholder="Konfirmasi Password"
+                                    name="k_password">
+                                <i class="bx bx-lock-alt"></i>
+                            </div>
+                        </div>
                     </div>
                     <div class="input-box">
                         <input type="hidden" id="imageInput" name="gambar" />
@@ -441,18 +452,17 @@
                     <div class="input-box">
                         <input type="submit" class="submit" value="Register">
                     </div>
-                </form>
 
-                <div class="two-col">
-                    <div class="one">
-                        <input type="checkbox" id="register-check">
-                        <label for="register-check"> Remember Me</label>
-                    </div>
+                    <div class="two-col">
+                        <div class="one">
+                            <input type="checkbox" id="register-check">
+                            <label for="register-check"> Remember Me</label>
+                        </div>
 
-                    <div class="two">
-                        <label><a href="#">Terms & conditions</a></label>
+                        <div class="two">
+                            <label><a href="#">Terms & conditions</a></label>
+                        </div>
                     </div>
-                </div>
             </div>
         </div>
     </div>
@@ -488,6 +498,7 @@
             </div>
         </div>
     </div>
+    </form>
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
@@ -499,9 +510,9 @@
             // Handle image selection
             $('.img-thumbnail').click(function() {
                 var gambarUrl = $(this).attr('src');
-                $('#imageInput').val(gambarUrl); // Set the image URL in the hidden input field
-                $('#selectedImage').attr('src', gambarUrl); // Display the selected image
-                $('#imageModal').modal('hide'); // Close the modal
+                $('#imageInput').val(gambarUrl);
+                $('#selectedImage').attr('src', gambarUrl);
+                $('#imageModal').modal('hide');
             });
 
             // Handle custom image selection from file input
@@ -512,7 +523,7 @@
                     reader.onload = function(e) {
                         var gambarUrl = e.target.result;
                         $('#imageInput').val(
-                            gambarUrl); // Set the image URL in the hidden input field
+                            gambarUrl);
                     };
                     reader.readAsDataURL(fileInput.files[0]);
                 }
@@ -531,6 +542,7 @@
     </script>
 
 
+    {{-- JS Login --}}
     <script>
         function myMenuFunction() {
             var i = document.getElementById("navMenu");

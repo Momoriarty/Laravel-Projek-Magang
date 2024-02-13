@@ -12,8 +12,8 @@ return new class extends Migration {
     {
         Schema::create('templates', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
             $table->string('nama_template');
-            $table->unsignedBigInteger('user_id'); // Change from integer to unsignedBigInteger
             $table->string('jenis_template')->nullable();
             $table->string('gambar')->nullable();
             $table->text('html')->nullable();

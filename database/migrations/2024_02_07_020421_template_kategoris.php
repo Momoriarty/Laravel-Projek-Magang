@@ -15,6 +15,8 @@ return new class extends Migration {
             $table->integer('id_template');
             $table->integer('id_kategori');
             $table->timestamps();
+            $table->foreign('id_template')->references('id')->on('templates')->onDelete('cascade');
+            $table->foreign('id_kategori')->references('id')->on('kategoris')->onDelete('cascade');
         });
     }
 

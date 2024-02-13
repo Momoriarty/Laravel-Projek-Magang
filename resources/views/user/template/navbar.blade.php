@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Arsha Bootstrap Template - Index</title>
+    <title>Momo</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -31,6 +31,12 @@
     <link href="{{ asset('') }}assets/user/css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- Select2 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+
     <!-- =======================================================
   * Template Name: Arsha
   * Updated: Sep 18 2023 with Bootstrap v5.3.2
@@ -39,6 +45,44 @@
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
 </head>
+<style>
+    .portfolio-img {
+        position: relative;
+        overflow: hidden;
+        height: 0;
+        padding-top: 56.25%;
+        border: 1px solid black;
+    }
+
+    .background-img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-size: cover;
+        background-position: center;
+        filter: blur(10px);
+        -webkit-filter: blur(10px);
+    }
+
+    .img-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .img-overlay img {
+        max-width: 100%;
+        max-height: 100%;
+        border: 2px solid black;
+    }
+</style>
 
 <body style="background-color: #001F3F">
 
@@ -46,7 +90,7 @@
     <header id="header" class="fixed-top ">
         <div class="container d-flex align-items-center">
 
-            <h1 class="logo me-auto"><a href="{{ '/' }}">Arsha</a></h1>
+            <h1 class="logo me-auto"><a href="{{ '/' }}">Momo</a></h1>
             <!-- Uncomment below if you prefer to use an image logo -->
             <!-- <a href="{{ '/' }}" class="logo me-auto"><img src="{{ '' }}assets/user/img/logo.png" alt="" class="img-fluid"></a>-->
 
@@ -60,7 +104,6 @@
                         <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
                         <li><a class="nav-link scrollto" href="{{ '/code' }}">Code</a></li>
                         <li><a class="nav-link scrollto" href="#about">About</a></li>
-                        <li><a class="nav-link scrollto" href="#services">Services</a></li>
                         <li><a class="nav-link scrollto" href="#galery">Galery</a></li>
                         <li><a class="nav-link scrollto" href="#team">Team</a></li>
                     @endif
@@ -77,7 +120,6 @@
                             <div class="dropdown-menu" style="background-color: rgb(21, 148, 160); padding: 10px;"
                                 aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" href="{{ '/profile' }}" style="color: white;">Profile</a>
-                                <a class="dropdown-item" href="{{ '/setting' }}" style="color: white;">Settings</a>
                                 <div class="dropdown-divider" style="background-color: white;"></div>
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
@@ -124,6 +166,34 @@
             });
         </script>
     @endif
+
+    @if ($errors->any())
+        <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+            <div class="toast align-items-center text-white bg-danger shadow-lg rounded-3" role="alert"
+                aria-live="assertive" aria-atomic="true" data-delay="4000" style="width: 400px;">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        @foreach ($errors->all() as $error)
+                            <div>{{ $error }}</div>
+                        @endforeach
+                    </div>
+                    <button type="button" class="btn-close me-2 m-auto" data-dismiss="toast"
+                        aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Initialize the toast
+                var toastElement = document.querySelector('.toast');
+                var toast = new bootstrap.Toast(toastElement);
+
+                // Show the toast
+                toast.show();
+            });
+        </script>
+    @endif
+
 
 
     @yield('user/content')

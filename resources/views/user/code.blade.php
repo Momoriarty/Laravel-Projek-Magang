@@ -18,14 +18,21 @@
                     @forelse ($Templates as $no => $data)
                         <div class="col-lg-3 col-md-3 col-6 mb-5 template-card" data-title="{{ $data->nama_template }}">
                             <div class="card h-100 shadow border-0">
-                                <img class="card-img-top" src="{{ asset('storage/template-images/' . $data->gambar) }}"
-                                    alt="{{ $data->nama_template }}">
+                                <div class="portfolio-img">
+                                    <div class="background-img"
+                                        style="background-image: url('{{ asset('storage/template-images/' . $data->gambar) }}');">
+                                    </div>
+                                    <div class="img-overlay">
+                                        <img src="{{ asset('storage/template-images/' . $data->gambar) }}" class="img-fluid"
+                                            alt="">
+                                    </div>
+                                </div>
                                 <div class="card-body p-4">
                                     <a class="text-decoration-none link-dark stretched-link"
                                         href="/code/{{ $data->id }}">
                                         <h3 class="card-title">{{ $data->nama_template }}</h3>
                                         <div class="text-muted">
-                                            <i class="bi bi-person"></i>{{ $data->nama_pembuat }}
+                                            <i class="bi bi-person"></i>{{ $data->user->name }}
                                         </div>
                                     </a>
                                 </div>

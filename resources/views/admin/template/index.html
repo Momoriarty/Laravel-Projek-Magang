@@ -1,26 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Select2 Example</title>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Preview Image</title>
 </head>
-
 <body>
 
-    <select class="js-example-basic-single" name="state">
-        <option value="AL">Alabama</option>
-        <option value="WY">Wyoming</option>
-    </select>
+<input type="file" id="customImageInput">
+<img id="previewImage" src="#" alt="Preview Image" style="display: none; max-width: 300px; max-height: 300px;">
 
-    <script>
-        $(document).ready(function () {
-            $('.js-example-basic-single').select2();
-        });
+<script>
+document.getElementById('customImageInput').addEventListener('change', function() {
+    var file = this.files[0];
+    if (file) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('previewImage').setAttribute('src', e.target.result);
+            document.getElementById('previewImage').style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    }
+});
+</script>
 
-    </script>
 </body>
-
 </html>

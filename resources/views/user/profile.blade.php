@@ -140,19 +140,17 @@
 
 
             </div>
-            <div class="col-md-4">
-                <button type="button" data-toggle="modal" data-target="#editProfileModal"
-                    class="btn d-block mx-auto mt-4 p-3 rounded-pill shadow upload-btn float-right">
-                    <span class="animated-content">
+            <div class="col-md-4 ">
+                <div class="d-flex">
+                    <button type="button" data-toggle="modal" data-target="#editProfileModal"
+                        class="btn d-block ml-2 mt-4 p-3 btn-info">
                         <i class="fas fa-fw fa-user-edit"></i>
-                    </span>
-                </button>
-                <button type="button" data-toggle="modal" data-target="#editPasswordModal"
-                    class="btn d-block mx-auto mt-4 p-3 rounded-pill shadow upload-btn float-right">
-                    <span class="animated-content">
-                        <i class="fas fa-fw fa-edit"></i>
-                    </span>
-                </button>
+                    </button>
+                    <button type="button" data-toggle="modal" data-target="#editPasswordModal"
+                        class="btn d-block ml-2 mt-4 p-3 btn-info">
+                        <i class="fas fa-fw fa-lock"></i>
+                    </button>
+                </div>
             </div>
 
         </div>
@@ -265,11 +263,24 @@
                         @csrf
                         <div class="modal-body">
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="addNamaTemplate">Nama Template</label>
                                         <input type="text" name="nama_template" class="form-control"
                                             id="addNamaTemplate" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="id_kategori">Jenis Template</label>
+                                        <select name="id_kategori[]" class="form-control js-example-basic-multiple"
+                                            multiple required>
+                                            @foreach ($kategori as $kategoriItem)
+                                                <option value="{{ $kategoriItem->id }}"
+                                                    @if (in_array($kategoriItem->id, $selectedkategori)) selected @endif>
+                                                    {{ $kategoriItem->nama_kategori }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -319,8 +330,17 @@
             @forelse ($template as $no => $data)
                 <div class="col-lg-3 col-md-3 col-6 mb-5 template-card" data-title="{{ $data->nama_template }}">
                     <div class="card h-100 shadow border-0">
-                        <img class="card-img-top" src="{{ url('storage/template-images/' . $data->gambar) }}"
-                            alt="{{ $data->nama_template }}">
+                        <figure class="mb-4">
+                            <div class="portfolio-img">
+                                <div class="background-img"
+                                    style="background-image: url('{{ asset('storage/template-images/' . $data->gambar) }}');">
+                                </div>
+                                <div class="img-overlay">
+                                    <img src="{{ asset('storage/template-images/' . $data->gambar) }}"
+                                        class="img-fluid" alt="">
+                                </div>
+                            </div>
+                        </figure>
                         <div class="card-body p-4">
                             <a class="text-decoration-none link-dark" href="/code/{{ $data->id }}">
                                 <h3 class="card-title">{{ $data->nama_template }}</h3>
@@ -367,52 +387,61 @@
                     </div>
                 </div>
 
-
-                <!-- Modal Edit -->
+                {{-- Modal edit --}}
                 <div class="modal fade" id="editModal{{ $data->id }}" tabindex="-1" role="dialog"
                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Edit Template</h5>
+                                <h5 class="modal-title" id="exampleModalLabel">Update Template</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <form action="{{ route('templates.update', $data->id) }}" method="post"
-                                enctype="multipart/form-data">
-                                @method('PUT')
+                                enctype="multipart/form-data" novalidate>
                                 @csrf
+                                @method('PUT')
                                 <div class="modal-body">
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="editNamaTemplate">Nama Template</label>
+                                                <label for="nama_template">Nama Template</label>
                                                 <input type="text" name="nama_template" class="form-control"
-                                                    id="editNamaTemplate" value="{{ $data->nama_template }}" required>
+                                                    id="nama_template" value="{{ $data->nama_template }}" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="id_kategori">Jenis Template</label>
+                                                <select name="id_kategori[]"
+                                                    class="form-control js-example-basic-multiple" multiple required>
+                                                    @foreach ($kategori as $kategoriItem)
+                                                        <option value="{{ $kategoriItem->id }}"
+                                                            @if (in_array($kategoriItem->id, $selectedkategori)) selected @endif>
+                                                            {{ $kategoriItem->nama_kategori }}</option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="form-group">
-                                        <label for="editHTML">Kode HTML</label>
-                                        <textarea name="html" class="form-control" id="editHTML">{{ $data->html }}</textarea>
+                                        <label for="html">Kode HTML</label>
+                                        <textarea name="html" class="form-control" id="html" required>{{ $data->html }}</textarea>
                                     </div>
                                     <div class="form-group">
-                                        <label for="editCSS">Kode CSS</label>
-                                        <textarea name="css" class="form-control" id="editCSS">{{ $data->css }}</textarea>
+                                        <label for="css">Kode CSS</label>
+                                        <textarea name="css" class="form-control" id="css">{{ $data->css }}</textarea>
                                     </div>
                                     <div class="form-group">
-                                        <label for="editJS">Kode JS</label>
-                                        <textarea name="js" class="form-control" id="editJS">{{ $data->js }}</textarea>
+                                        <label for="js">Kode JS</label>
+                                        <textarea name="js" class="form-control" id="js">{{ $data->js }}</textarea>
                                     </div>
                                     <div class="form-group">
-                                        <label for="editGambar">Gambar</label><br>
-                                        <img src="{{ asset('storage/template-images/' . $data->gambar) }}"
-                                            alt="Current Image"
-                                            style="max-width: 150px; max-height: 150px; margin-bottom: 10px;">
-                                        <input type="file" name="gambar" class="form-control" id="editGambar">
+                                        <label for="gambar">Gambar</label><br>
+                                        <input type="file" name="gambar" class="form-control-file" id="gambar">
                                     </div>
-                                    <!-- Add other fields as needed -->
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -422,6 +451,16 @@
                         </div>
                     </div>
                 </div>
+                <script>
+                    $(document).ready(function() {
+                        $('#editModal{{ $data->id }}').on('shown.bs.modal', function() {
+                            $('.js-example-basic-multiple').select2({
+                                placeholder: 'Select options',
+                                maximumSelectionLength: 5
+                            });
+                        });
+                    });
+                </script>
 
 
                 <!-- Modal Delete-->
@@ -468,6 +507,17 @@
             var fileName = this.value.split('\\').pop();
             var fileChosen = document.querySelector('.file-chosen');
             fileChosen.textContent = fileName ? 'File: ' + fileName : 'Belum ada file yang dipilih';
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#uploadModal').on('shown.bs.modal', function() {
+                $('.js-example-basic-multiple').select2({
+                    placeholder: 'Select options',
+                    maximumSelectionLength: 5
+                });
+            });
         });
     </script>
 @endsection

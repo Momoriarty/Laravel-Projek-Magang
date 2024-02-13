@@ -39,7 +39,7 @@
                             <tr>
                                 <td>{{ $no + 1 }}</td>
                                 <td> <img src="{{ $akun->profile }}" width="100" alt="">
-                                    </td>
+                                </td>
                                 <td>{{ $akun->name }}</td>
                                 <td>{{ $akun->username }}</td>
                                 <td>{{ $akun->email }}</td>
@@ -65,7 +65,8 @@
                                 <div class="modal-dialog modal-lg" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="editModalLabel{{ $akun->id }}">Edit Data Akun {{ $akun->name }}
+                                            <h5 class="modal-title" id="editModalLabel{{ $akun->id }}">Edit Data Akun
+                                                {{ $akun->name }}
                                             </h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
@@ -134,12 +135,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="modal fade" id="imageModal{{ $akun->id }}" tabindex="-1" aria-labelledby="imageModalLabel"
-                                aria-hidden="true">
+                            <div class="modal fade" id="imageModal{{ $akun->id }}" tabindex="-1"
+                                aria-labelledby="imageModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="imageModalLabel">Select an Image {{ $akun->id }}</h5>
+                                            <h5 class="modal-title" id="imageModalLabel">Select an Image
+                                                {{ $akun->id }}</h5>
                                             <button type="button" class="btn-close" data-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
@@ -160,7 +162,7 @@
                                                 alt="Image 7" class="img-thumbnail">
                                             <img width="100" src="/storage/profile/avatar8.png" value="avatar8.png"
                                                 alt="Image 8" class="img-thumbnail">
-                                            <input type="file" name="gambar" id="customImageInput">
+                                            <input type="file" name="gambar" id="customImageInput{{ $akun->id }}">
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
@@ -169,7 +171,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </form>
+                            </form>
 
                             <script>
                                 $(document).ready(function() {
@@ -313,7 +315,7 @@
                                     Pilih Profil
                                 </button>
                                 <input type="hidden" id="imageInput" name="gambar" />
-                                <img id="selectedImage" width="100" class="img-thumbnail mt-2" alt="Selected Image">
+                                <img id="selectedImage" src="#" width="100" class="img-thumbnail mt-2" alt="Selected Image">
                             </div>
                             <div class="col-md-3">
                                 <label for="Role">Role</label>
@@ -369,6 +371,19 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+    </script>
+    <script>
+        document.getElementById('customImageInput').addEventListener('change', function() {
+            var file = this.files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('selectedImage').setAttribute('src', e.target.result);
+                    document.getElementById('selectedImage').style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
     </script>
     <script>
         $(document).ready(function() {

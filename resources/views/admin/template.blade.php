@@ -49,22 +49,25 @@
                                 <td>{{ $data->nama_template }}</td>
                                 <td>
                                     @foreach ($data->tk as $value)
-                                        {{ $value->kategori->nama_kategori }},
+                                        <span class="badge badge-secondary">
+                                            {{ $value->kategori->nama_kategori }}
+                                        </span>
                                     @endforeach
+
                                 </td>
                                 <td>{{ $data->user->name }}</td>
-                                <td>{{ $data->html }}</td>
-                                <td>{{ $data->css }}</td>
-                                <td>{{ $data->js }}</td>
+                                <td>{{ Str::limit($data->html, 100, '...') }}</td>
+                                <td>{{ Str::limit($data->css, 100, '...') }}</td>
+                                <td>{{ Str::limit($data->js, 100, '...') }}</td>
                                 <td>{{ $data->kunjungan }}</td>
                                 <td>
                                     <button type="button" class="btn btn-warning mb-1" data-toggle="modal"
                                         data-target="#editModal{{ $data->id }}">
                                         Edit
                                     </button>
-                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    <button type="button" class="btn btn-danger" data-toggle="modal"
                                         data-target="#deleteModal{{ $data->id }}">
-                                        Launch demo modal
+                                        Delete
                                     </button>
                                 </td>
                             </tr>
@@ -94,51 +97,40 @@
                                 </div>
                             </div>
 
-                            <!-- Modal Edit -->
                             <div class="modal fade" id="editModal{{ $data->id }}" tabindex="-1" role="dialog"
                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-lg" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Edit Template</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Update Template</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
                                         <form action="{{ route('template.update', $data->id) }}" method="post"
                                             enctype="multipart/form-data">
-                                            @method('PUT')
                                             @csrf
+                                            @method('PUT')
                                             <div class="modal-body">
                                                 <div class="row">
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label for="editNamaTemplate">Nama Template</label>
+                                                            <label for="nama_template">Nama Template</label>
                                                             <input type="text" name="nama_template" class="form-control"
-                                                                id="editNamaTemplate" value="{{ $data->nama_template }}">
+                                                                id="nama_template" value="{{ $data->nama_template }}"
+                                                                required>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label for="">Jenis Template</label>
+                                                            <label for="id_kategori">Jenis Template</label>
                                                             <select name="id_kategori[]"
-                                                                class="form-control js-example-basic-multiple" multiple>
-                                                                @foreach ($kategori as $no => $data)
-                                                                    <option value="{{ $data->id }}">
-                                                                        {{ $data->nama_kategori }}
-                                                                    </option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <div class="form-group">
-                                                            <label for="editNamaPembuat">Nama Pembuat</label>
-                                                            <select name="nama_pembuat" class="form-control">
-                                                                <option value="">Pilih Pembuat</option>
-                                                                @foreach ($akuns as $no => $data)
-                                                                    <option value="{{ $data->name }}">
-                                                                        {{ $data->name }}
+                                                                class="form-control js-example-basic-multiple" multiple
+                                                                required>
+                                                                @foreach ($kategori as $kategoriItem)
+                                                                    <option value="{{ $kategoriItem->id }}"
+                                                                        {{ in_array($kategoriItem->id, $id_kategori[$data->id] ?? []) ? 'selected' : '' }}>
+                                                                        {{ $kategoriItem->nama_kategori }}
                                                                     </option>
                                                                 @endforeach
                                                             </select>
@@ -146,27 +138,39 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label for="editHTML">Kode HTML</label>
-                                                    <textarea name="html" class="form-control" id="editHTML">{{ $data->html }}</textarea>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="user_id">Nama Pembuat</label>
+                                                            <select name="user_id" class="form-control" id="user_id"
+                                                                required>
+                                                                <option value="">Pilih Pembuat</option>
+                                                                @foreach ($akuns as $akun)
+                                                                    <option value="{{ $akun->id }}"
+                                                                        @if ($akun->id === $data->user_id) selected @endif>
+                                                                        {{ $akun->name }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="editCSS">Kode CSS</label>
-                                                    <textarea name="css" class="form-control" id="editCSS">{{ $data->css }}</textarea>
+                                                    <label for="html">Kode HTML</label>
+                                                    <textarea name="html" class="form-control" id="html" required>{{ $data->html }}</textarea>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="editJS">Kode JS</label>
-                                                    <textarea name="js" class="form-control" id="editJS">{{ $data->js }}</textarea>
+                                                    <label for="css">Kode CSS</label>
+                                                    <textarea name="css" class="form-control" id="css">{{ $data->css }}</textarea>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="editGambar">Gambar</label><br>
-                                                    <img src="{{ asset('storage/template-images/' . $data->gambar) }}"
-                                                        alt="Current Image"
-                                                        style="max-width: 150px; max-height: 150px; margin-bottom: 10px;">
-                                                    <input type="file" name="gambar" class="form-control"
-                                                        id="editGambar">
+                                                    <label for="js">Kode JS</label>
+                                                    <textarea name="js" class="form-control" id="js">{{ $data->js }}</textarea>
                                                 </div>
-                                                <!-- Add other fields as needed -->
+                                                <div class="form-group">
+                                                    <label for="gambar">Gambar</label><br>
+                                                    <input type="file" name="gambar" class="form-control-file"
+                                                        id="gambar">
+                                                </div>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary"
@@ -177,6 +181,16 @@
                                     </div>
                                 </div>
                             </div>
+                            <script>
+                                $(document).ready(function() {
+                                    $('#editModal{{ $data->id }}').on('shown.bs.modal', function() {
+                                        $('.js-example-basic-multiple').select2({
+                                            placeholder: 'Select options',
+                                            maximumSelectionLength: 5
+                                        });
+                                    });
+                                });
+                            </script>
                         @endforeach
                     </tbody>
                 </table>
