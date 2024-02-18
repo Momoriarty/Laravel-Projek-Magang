@@ -4,13 +4,13 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>{{ ucwords(config('app.settings.nama')) }}</title>
 
-    <title>Momo</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
     <!-- Favicons -->
-    <link href="{{ '' }}assets/user/img/favicon.png" rel="icon">
+    <link rel="shortcut icon" href="{{ config('app.settings.favicon') }}" type="image/x-icon">
     <link href="{{ '' }}assets/user/img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
@@ -90,7 +90,7 @@
     <header id="header" class="fixed-top ">
         <div class="container d-flex align-items-center">
 
-            <h1 class="logo me-auto"><a href="{{ '/' }}">Momo</a></h1>
+            <h1 class="logo me-auto"><a href="{{ '/' }}">{{ ucwords(config('app.settings.nama')) }}</a></h1>
             <!-- Uncomment below if you prefer to use an image logo -->
             <!-- <a href="{{ '/' }}" class="logo me-auto"><img src="{{ '' }}assets/user/img/logo.png" alt="" class="img-fluid"></a>-->
 
@@ -142,57 +142,48 @@
 
         </div>
     </header><!-- End Header -->
-    @if (session('session'))
-        <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-            <div class="toast align-items-center text-white bg-{{ session('session_type') }} shadow-lg rounded-3"
-                role="alert" aria-live="assertive" aria-atomic="true" data-delay="4000" style="width: 400px;">
-                <div class="d-flex">
-                    <div class="toast-body">
-                        {{ session('session') }}
+    @if (session('session') || $errors->any())
+        <div class="toast-container position-fixed top-0 start-0 mt-5 p-3" style="z-index: 11">
+            @if (session('session'))
+                <div class="toast align-items-center text-white bg-{{ session('session_type') }} shadow-lg rounded-3"
+                    role="alert" aria-live="assertive" aria-atomic="true" data-delay="4000" style="width: 400px;">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            {{ session('session') }}
+                        </div>
+                        <button type="button" class="btn-close me-2 m-auto" data-dismiss="toast"
+                            aria-label="Close"></button>
                     </div>
-                    <button type="button" class="btn-close me-2 m-auto" data-dismiss="toast"
-                        aria-label="Close"></button>
                 </div>
-            </div>
+            @endif
+
+            @if ($errors->any())
+                <div class="toast align-items-center text-white bg-danger shadow-lg rounded-3" role="alert"
+                    aria-live="assertive" aria-atomic="true" data-delay="4000" style="width: 400px;">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            @foreach ($errors->all() as $error)
+                                <div>{{ $error }}</div>
+                            @endforeach
+                        </div>
+                        <button type="button" class="btn-close me-2 m-auto" data-dismiss="toast"
+                            aria-label="Close"></button>
+                    </div>
+                </div>
+            @endif
         </div>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
-                // Initialize the toast
-                var toastElement = document.querySelector('.toast');
-                var toast = new bootstrap.Toast(toastElement);
-
-                // Show the toast
-                toast.show();
+                // Initialize the toasts
+                var toasts = document.querySelectorAll('.toast');
+                toasts.forEach(function(toastElement) {
+                    var toast = new bootstrap.Toast(toastElement);
+                    toast.show();
+                });
             });
         </script>
     @endif
 
-    @if ($errors->any())
-        <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-            <div class="toast align-items-center text-white bg-danger shadow-lg rounded-3" role="alert"
-                aria-live="assertive" aria-atomic="true" data-delay="4000" style="width: 400px;">
-                <div class="d-flex">
-                    <div class="toast-body">
-                        @foreach ($errors->all() as $error)
-                            <div>{{ $error }}</div>
-                        @endforeach
-                    </div>
-                    <button type="button" class="btn-close me-2 m-auto" data-dismiss="toast"
-                        aria-label="Close"></button>
-                </div>
-            </div>
-        </div>
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                // Initialize the toast
-                var toastElement = document.querySelector('.toast');
-                var toast = new bootstrap.Toast(toastElement);
-
-                // Show the toast
-                toast.show();
-            });
-        </script>
-    @endif
 
 
 

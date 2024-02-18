@@ -39,12 +39,12 @@
 
                 <div class="row content">
                     <div class="col-lg-6">
-                        <p>
+                        <p class="text-white">
                             Kami adalah penyedia template code berkualitas tinggi untuk kebutuhan pengembangan perangkat
                             lunak Anda. Dengan berbagai pilihan template yang tersedia, Anda dapat dengan mudah menemukan
                             solusi yang sesuai dengan proyek Anda.
                         </p>
-                        <ul>
+                        <ul class="text-white">
                             <li><i class="ri-check-double-line"></i> Template yang dirancang dengan baik dan mudah untuk
                                 disesuaikan</li>
                             <li><i class="ri-check-double-line"></i> Dukungan teknis yang responsif dan ramah</li>
@@ -53,7 +53,7 @@
                         </ul>
                     </div>
                     <div class="col-lg-6 pt-4 pt-lg-0">
-                        <p>
+                        <p class="text-white">
                             Kami berkomitmen untuk memberikan pengalaman pengguna yang optimal. Setiap template yang kami
                             sediakan telah melalui proses seleksi yang ketat untuk memastikan kualitasnya. Jadikan proyek
                             Anda lebih efisien dengan menggunakan template code dari kami.
@@ -200,7 +200,7 @@
 
                 </ul>
 
-                
+
                 <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
                     @foreach ($Templates as $no => $data)
                         <div class="col-lg-4 col-md-6 portfolio-item @foreach ($data->tk as $jenis) filter-{{ $jenis->kategori->nama_kategori }} @endforeach"
@@ -218,9 +218,16 @@
                                 <h4>{{ $data->nama_template }}</h4>
                                 <ul>
                                     <div class="row">
-                                        @foreach ($data->tk as $jenis)
-                                            <li class="col-md-6">{{ $jenis->kategori->nama_kategori }}</li>
-                                        @endforeach
+                                        <ul>
+                                            @foreach ($data->tk as $jenis)
+                                                <a href="{{ url('/kategori/' . $jenis->kategori->slug) }}">
+                                                    <li class="badge bg-primary text-decoration-none">
+                                                        {{ $jenis->kategori->nama_kategori }}
+                                                    </li>
+
+                                                </a>
+                                            @endforeach
+                                        </ul>
                                     </div>
                                 </ul>
                                 <a href="{{ asset('storage/template-images/' . $data->gambar) }}"
@@ -228,7 +235,7 @@
                                     title="App 1">
                                     <i class="bx bx-plus"></i>
                                 </a>
-                                <a href="portfolio-details.html" class="details-link" title="More Details">
+                                <a href="{{ '/code/' . $data->id }}" class="details-link" title="More Details">
                                     <i class="bx bx-link"></i>
                                 </a>
                             </div>

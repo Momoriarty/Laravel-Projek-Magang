@@ -9,7 +9,8 @@ class AkunController extends Controller
 {
     public function index()
     {
-        $akuns = User::all();
+        $akuns = User::where('role', '!=', 'team')->get();
+
         return view('admin.akun', compact('akuns'));
     }
 

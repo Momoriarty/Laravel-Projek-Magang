@@ -276,8 +276,7 @@
                                         <select name="id_kategori[]" class="form-control js-example-basic-multiple"
                                             multiple required>
                                             @foreach ($kategori as $kategoriItem)
-                                                <option value="{{ $kategoriItem->id }}"
-                                                    @if (in_array($kategoriItem->id, $selectedkategori)) selected @endif>
+                                                <option value="{{ $kategoriItem->id }}">
                                                     {{ $kategoriItem->nama_kategori }}</option>
                                             @endforeach
                                         </select>
@@ -336,8 +335,8 @@
                                     style="background-image: url('{{ asset('storage/template-images/' . $data->gambar) }}');">
                                 </div>
                                 <div class="img-overlay">
-                                    <img src="{{ asset('storage/template-images/' . $data->gambar) }}"
-                                        class="img-fluid" alt="">
+                                    <img src="{{ asset('storage/template-images/' . $data->gambar) }}" class="img-fluid"
+                                        alt="">
                                 </div>
                             </div>
                         </figure>
@@ -418,8 +417,9 @@
                                                     class="form-control js-example-basic-multiple" multiple required>
                                                     @foreach ($kategori as $kategoriItem)
                                                         <option value="{{ $kategoriItem->id }}"
-                                                            @if (in_array($kategoriItem->id, $selectedkategori)) selected @endif>
-                                                            {{ $kategoriItem->nama_kategori }}</option>
+                                                            {{ in_array($kategoriItem->id, $id_kategori[$data->id] ?? []) ? 'selected' : '' }}>
+                                                            {{ $kategoriItem->nama_kategori }}
+                                                        </option>
                                                     @endforeach
                                                 </select>
                                             </div>

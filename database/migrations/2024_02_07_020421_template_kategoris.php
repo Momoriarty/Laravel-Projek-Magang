@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,11 +11,12 @@ return new class extends Migration {
     {
         Schema::create('template_kategoris', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_template');
-            $table->integer('id_kategori');
+            $table->unsignedBigInteger('id_template'); 
+            $table->unsignedBigInteger('id_kategori'); 
             $table->timestamps();
-            $table->foreign('id_template')->references('id')->on('templates')->onDelete('cascade');
-            $table->foreign('id_kategori')->references('id')->on('kategoris')->onDelete('cascade');
+
+            $table->foreign('id_template')->references('id')->on('templates')->onDelete('cascade'); // Menggunakan onDelete('cascade') untuk kunci asing
+            $table->foreign('id_kategori')->references('id')->on('kategoris')->onDelete('cascade'); // Menggunakan onDelete('cascade') untuk kunci asing
         });
     }
 
@@ -25,6 +25,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('template_kategoris');
     }
 };

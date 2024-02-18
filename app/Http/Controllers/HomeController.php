@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kategori;
 use App\Models\template_kategori;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -49,5 +50,19 @@ class HomeController extends Controller
     {
         $demo = Template::where('id', $id)->first();
         return view('user/live-demo', compact('demo'));
+    }
+
+    public function kategori($id)
+    {
+        $kategori = Kategori::where('slug', $id)->first();
+        if (empty($kategori)) {
+            return redirect('/');
+        }
+        $tk = template_kategori::where('id_kategori', $kategori->id)->get();
+        $template = [];
+        foreach ($tk as $key => $data) {
+            $template = Template::where('id', $data->id_template)->get();
+        }
+        return view('user/kategori', compact('template'));
     }
 }

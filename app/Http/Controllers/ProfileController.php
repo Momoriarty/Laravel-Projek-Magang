@@ -18,22 +18,16 @@ class ProfileController extends Controller
     {
         $akuns = User::where('id', Auth::user()->id)->first();
         $template = Template::with('user')->where('user_id', Auth::user()->id)->get();
-        $templates = Template::with('tk')->get();
 
         $navbar = FALSE;
         $kategori = Kategori::all();
-        // Retrieve selected kategori for each template
-        $selectedkategori = [];
+        $id_kategori = [];
 
-        foreach ($templates as $t) {
-            if ($t->kategoris) {
-                $selectedkategori[$t->id] = $t->kategoris->pluck('id')->toArray();
-            } else {
-                $selectedkategori[$t->id] = [];
-            }
+        foreach ($template as $data) {
+            $id_kategori[$data->id] = $data->tk->pluck('id_kategori')->toArray();
         }
 
-        return view('user.profile', compact('akuns', 'navbar', 'template', 'kategori', 'selectedkategori'));
+        return view('user.profile', compact('akuns', 'navbar', 'template', 'kategori', 'id_kategori'));
 
     }
 
@@ -100,16 +94,17 @@ class ProfileController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:users,username,' . $request->username,
+            'username' => 'required|string|max:255|unique:users,username,' . $id,
             'email' => 'required|email|max:255',
             'no_hp' => 'nullable|numeric',
         ], [
             'name.required' => 'Nama Wajib diisi',
             'username.required' => 'Username Wajib diisi',
             'username.unique' => 'Nama pengguna ' . $request->username . ' sudah ada',
-            'Email.required' => 'Email Wajib diisi',
+            'email.required' => 'Email Wajib diisi',
             'no_hp.numeric' => 'No Hp hanya menggunakan angka',
         ]);
+
 
         // Temukan Akun berdasarkan ID
         $akun = User::findOrFail($id);

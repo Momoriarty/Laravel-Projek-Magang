@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kategori;
-use App\Models\template_kategori;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\template_kategori;
 
 class KategoriController extends Controller
 {
@@ -31,10 +32,13 @@ class KategoriController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama_kategori' => 'required'
+            'nama_kategori' => 'required|unique:kategoris,nama_kategori,' . $request->nama_kategori,
+        ], [
+            'nama_kategori.unique' => 'Kategori ini sudah ada',
         ]);
         $kategori = new Kategori;
         $kategori->nama_kategori = $request->nama_kategori;
+        $kategori->slug = Str::slug($request->nama_kategori);
         $kategori->save();
         return redirect()->back()->with('session', 'Kategori berhasil ditambah')->with('session_type', 'success');
     }

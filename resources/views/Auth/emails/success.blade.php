@@ -1,0 +1,1 @@
+<p>Email reset password telah dikirim</p>

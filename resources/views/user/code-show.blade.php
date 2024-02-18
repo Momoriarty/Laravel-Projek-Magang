@@ -22,9 +22,11 @@
                                 <div class="fst-italic mb-2">{{ $Templates->created_at }} &nbsp<i
                                         class="bi bi-eye"></i>{{ $Templates->kunjungan }}</div>
                                 @foreach ($Templates->tk as $value)
-                                    <p class="badge bg-primary text-decoration-none">
-                                        {{ $value->kategori->nama_kategori }}
-                                    </p>
+                                    <a href="{{ url('/kategori/' . $value->kategori->slug) }}">
+                                        <p class="badge bg-primary text-decoration-none">
+                                            {{ $value->kategori->nama_kategori }}
+                                        </p>
+                                    </a>
                                 @endforeach
                             </header>
                         </article>

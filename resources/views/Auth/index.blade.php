@@ -389,7 +389,7 @@
                         <label for="login-check"> Remember Me</label>
                     </div>
                     <div class="two">
-                        <label><a href="#">Forgot password?</a></label>
+                        <label><a href="{{ 'forgot_password' }}">Forgot password?</a></label>
                     </div>
                 </div>
             </div>
@@ -423,6 +423,12 @@
                                 Pilih Profil
                             </button>
                             <i class="bx bx-user"></i>
+
+                        </div>
+                        <div class="input-box ">
+                            <input type="hidden" id="imageInput" name="gambar" />
+                            <img id="selectedImage" style="display:none" width="50" class="img-thumbnail mt-2"
+                                alt="Selected Image">
                         </div>
                     </div>
                     <div class="input-box">
@@ -444,10 +450,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="input-box">
-                        <input type="hidden" id="imageInput" name="gambar" />
-                        <img id="selectedImage" width="100" class="img-thumbnail mt-2" alt="Selected Image">
-                    </div>
+
 
                     <div class="input-box">
                         <input type="submit" class="submit" value="Register">
@@ -512,6 +515,7 @@
                 var gambarUrl = $(this).attr('src');
                 $('#imageInput').val(gambarUrl);
                 $('#selectedImage').attr('src', gambarUrl);
+                $('#selectedImage').removeAttr('style');
                 $('#imageModal').modal('hide');
             });
 

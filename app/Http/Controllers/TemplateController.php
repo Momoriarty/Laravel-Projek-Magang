@@ -20,7 +20,6 @@ class TemplateController extends Controller
 
         $id_kategori = [];
 
-        // Memperbaiki cara pengambilan id_kategori untuk setiap template
         foreach ($templates as $template) {
             $id_kategori[$template->id] = $template->tk->pluck('id_kategori')->toArray();
         }
