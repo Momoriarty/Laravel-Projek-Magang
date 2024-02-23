@@ -7,6 +7,7 @@ use App\Models\template_kategori;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Template;
+use Illuminate\Support\Facades\View;
 
 class HomeController extends Controller
 {
@@ -19,14 +20,17 @@ class HomeController extends Controller
     }
     public function code()
     {
-        $Templates = Template::all();
+        $Templates = Template::paginate(4);
         $navbar = FALSE;
         return view('user/code', compact('Templates', 'navbar'));
     }
     public function show($id)
     {
         $Templates = Template::findOrFail($id);
-        $rekomendasi = Template::orderBy('kunjungan', 'DESC')->take(3)->get();
+        $rekomendasi = Template::orderBy('kunjungan', 'DESC')
+            ->where('id', '!=', $id)
+            ->take(3)
+            ->get();
         $navbar = FALSE;
 
         return view('user/code-show', compact('Templates', 'navbar', 'rekomendasi'));
@@ -49,20 +53,27 @@ class HomeController extends Controller
     public function demo($id)
     {
         $demo = Template::where('id', $id)->first();
+
+        $filecss = public_path('css/styles.css');
+        file_put_contents($filecss, $demo->css);
+
+        $filejs = public_path('js/main.js');
+        file_put_contents($filejs, $demo->js);
+
         return view('user/live-demo', compact('demo'));
     }
 
+
     public function kategori($id)
     {
+        $navbar = FALSE;
         $kategori = Kategori::where('slug', $id)->first();
         if (empty($kategori)) {
             return redirect('/');
         }
         $tk = template_kategori::where('id_kategori', $kategori->id)->get();
-        $template = [];
-        foreach ($tk as $key => $data) {
-            $template = Template::where('id', $data->id_template)->get();
-        }
-        return view('user/kategori', compact('template'));
+
+        // dd($kategori,$tk);
+        return view('user/kategori', compact('navbar', 'tk', 'kategori'));
     }
 }

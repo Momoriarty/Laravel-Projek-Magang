@@ -18,5 +18,16 @@ class Setting extends Model
         'status',
     ];
 
-    
+    /**
+     * Create a new model instance that is existing.
+     *
+     * @param  array  $attributes
+     * @return static
+     */
+    public static function __set_state($attributes)
+    {
+        $model = new static;
+        $model->setRawAttributes($attributes);
+        return $model;
+    }
 }

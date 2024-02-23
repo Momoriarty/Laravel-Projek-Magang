@@ -1,4 +1,5 @@
 @extends('user/template/navbar')
+@section('title', 'The Code')
 @section('user/content')
     <!-- ======= Hero Section ======= -->
     <section id="hero" class="d-flex align-items-center">

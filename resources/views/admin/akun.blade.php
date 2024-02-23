@@ -1,4 +1,5 @@
 @extends('admin/template/navbar')
+@section('title', 'Data Akun')
 @section('admin/content')
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -162,7 +163,8 @@
                                                 alt="Image 7" class="img-thumbnail">
                                             <img width="100" src="/storage/profile/avatar8.png" value="avatar8.png"
                                                 alt="Image 8" class="img-thumbnail">
-                                            <input type="file" name="gambar" id="customImageInput{{ $akun->id }}">
+                                            <input type="file" name="gambar"
+                                                id="customImageInput{{ $akun->id }}">
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
@@ -315,7 +317,8 @@
                                     Pilih Profil
                                 </button>
                                 <input type="hidden" id="imageInput" name="gambar" />
-                                <img id="selectedImage" src="#" width="100" class="img-thumbnail mt-2" alt="Selected Image">
+                                <img id="selectedImage" src="#" width="100" class="img-thumbnail mt-2"
+                                    alt="Selected Image">
                             </div>
                             <div class="col-md-3">
                                 <label for="Role">Role</label>

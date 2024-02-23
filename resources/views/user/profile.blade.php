@@ -1,4 +1,5 @@
 @extends('user/template/navbar')
+@section('title', 'Profile')
 @section('user/content')
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -277,7 +278,8 @@
                                             multiple required>
                                             @foreach ($kategori as $kategoriItem)
                                                 <option value="{{ $kategoriItem->id }}">
-                                                    {{ $kategoriItem->nama_kategori }}</option>
+                                                    {{ strtoupper($kategoriItem->nama_kategori) }}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -418,7 +420,7 @@
                                                     @foreach ($kategori as $kategoriItem)
                                                         <option value="{{ $kategoriItem->id }}"
                                                             {{ in_array($kategoriItem->id, $id_kategori[$data->id] ?? []) ? 'selected' : '' }}>
-                                                            {{ $kategoriItem->nama_kategori }}
+                                                            {{ strtoupper($kategoriItem->nama_kategori) }}
                                                         </option>
                                                     @endforeach
                                                 </select>

@@ -41,7 +41,7 @@ class ProfileController extends Controller
         $validatedData = $request->validate([
             'nama_template' => 'required|string|max:255',
             'html' => 'required|string',
-            'css' => 'required|string',
+            'css' => 'nullable|string',
             'js' => 'nullable|string',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ], [
@@ -130,7 +130,7 @@ class ProfileController extends Controller
         $validatedData = $request->validate([
             'nama_template' => 'required|string|max:255',
             'html' => 'required|string',
-            'css' => 'required|string',
+            'css' => 'nullable|string',
             'id_kategori' => 'required',
             'js' => 'nullable|string',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',

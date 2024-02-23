@@ -1,4 +1,5 @@
 @extends('admin/template/navbar')
+@section('title', 'Data Template')
 @section('admin/content')
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -130,7 +131,7 @@
                                                                 @foreach ($kategori as $kategoriItem)
                                                                     <option value="{{ $kategoriItem->id }}"
                                                                         {{ in_array($kategoriItem->id, $id_kategori[$data->id] ?? []) ? 'selected' : '' }}>
-                                                                        {{ $kategoriItem->nama_kategori }}
+                                                                        {{ strtoupper($kategoriItem->nama_kategori) }}
                                                                     </option>
                                                                 @endforeach
                                                             </select>
@@ -215,7 +216,8 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Nama Template</label>
-                                    <input type="text" name="nama_template" class="form-control" id="">
+                                    <input type="text" name="nama_template" class="form-control"
+                                        value="{{ old('nama_template') }}">
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -246,15 +248,15 @@
                         </div>
                         <div class="form-group">
                             <label for="addJenisTemplate">Kode HTML</label>
-                            <textarea name="html" class="form-control" id="message"></textarea>
+                            <textarea name="html" class="form-control" id="message">{{ old('html') }}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="addJenisTemplate">Kode CSS</label>
-                            <textarea name="css" class="form-control" id="message"></textarea>
+                            <textarea name="css" class="form-control" id="message">{{ old('css') }}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="addJenisTemplate">Kode JS</label>
-                            <textarea name="js" class="form-control" id="message"></textarea>
+                            <textarea name="js" class="form-control" id="message">{{ old('js') }}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="addJenisTemplate">Gambar</label><br>
@@ -270,6 +272,7 @@
             </div>
         </div>
     </div>
+
     <script>
         $(document).ready(function() {
             $('#exampleModal').on('shown.bs.modal', function() {

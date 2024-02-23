@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\SettingController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AkunController;
 use App\Http\Controllers\TemplateController;
@@ -31,7 +32,7 @@ Route::group(['middleware' => 'check.site.status'], function () {
     // Authentication routes
     Route::get('/login', [AuthController::class, 'index'])->name('login');
     Route::get('/auth', [AuthController::class, 'index']);
-    
+
     Route::get('/forgot_password', [AuthController::class, 'forgot']);
     Route::get('/reset-password/{token}', [AuthController::class, 'showResetForm'])->name('password.reset');
     Route::post('/password/updatef', [AuthController::class, 'resetpassword'])->name('password.updatef');
@@ -55,6 +56,8 @@ Route::group(['middleware' => 'check.site.status'], function () {
             Route::resource('admin/akun', AkunController::class);
             Route::resource('admin/template', TemplateController::class);
             Route::resource('admin/kategori', KategoriController::class);
+            Route::get('admin/setting', [SettingController::class, 'index']);
+            Route::post('admin/setting', [SettingController::class, 'update'])->name('setting.update');
         });
     });
 });

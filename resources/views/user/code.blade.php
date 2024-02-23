@@ -1,5 +1,5 @@
 @extends('user/template/navbar')
-
+@section('title', 'Semua Code Template')
 @section('user/content')
     <main id="main">
         <section id="sectionId" class="sectionClass">
@@ -62,6 +62,7 @@
                                 </div>
                             </div>
                         </div>
+
                     @empty
                         <div class="text-center my-5 text-light">
                             <p class="lead">Oops! Tidak ada template yang tersedia saat ini.</p>
@@ -70,6 +71,11 @@
                                 lengkap.</p>
                         </div>
                     @endforelse
+
+                  <div class="d-flex justify-content-center">
+                      {!! $Templates->links() !!}
+                </div>
+
                 </div>
 
             </div>

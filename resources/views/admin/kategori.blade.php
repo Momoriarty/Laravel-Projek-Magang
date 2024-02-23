@@ -1,5 +1,5 @@
 @extends('admin/template/navbar')
-
+@section('title', 'Data Kategori')
 @section('admin/content')
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -128,7 +128,8 @@
                         <div class="row">
                             <div class="col-md-12 col-12">
                                 <label for="">Nama Kategori</label>
-                                <input type="text" name="nama_kategori" class="form-control">
+                                <input type="text" name="nama_kategori" class="form-control"
+                                    value="{{ old('nama_kategori') }}">
                             </div>
                         </div>
                     </div>

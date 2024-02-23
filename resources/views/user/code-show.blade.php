@@ -1,15 +1,5 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/styles/default.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js"></script>
-
-<!-- Atur tema yang diinginkan (misalnya, 'darcula') -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/styles/darcula.min.css">
-
-<script>
-    hljs.initHighlightingOnLoad();
-</script>
-
-
 @extends('user/template/navbar')
+@section('title', 'The Code')
 @section('user/content')
     <div class="main">
         <section>
@@ -24,7 +14,7 @@
                                 @foreach ($Templates->tk as $value)
                                     <a href="{{ url('/kategori/' . $value->kategori->slug) }}">
                                         <p class="badge bg-primary text-decoration-none">
-                                            {{ $value->kategori->nama_kategori }}
+                                            {{ strtoupper($value->kategori->nama_kategori) }}
                                         </p>
                                     </a>
                                 @endforeach
@@ -97,6 +87,19 @@
         </section>
     </div>
 
+
+@endsection
+@push('css')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js"></script>
+
+    <!-- Atur tema yang diinginkan (misalnya, 'darcula') -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/styles/darcula.min.css">
+    <script>
+        hljs.initHighlightingOnLoad();
+    </script>
+@endpush
+@push('js')
     <script>
         function copyToClipboard(elementId) {
             var textarea = document.getElementById(elementId);
@@ -133,3 +136,4 @@
             textarea.style.height = (textarea.scrollHeight + 5) + 'px';
         }
     </script>
+@endpush

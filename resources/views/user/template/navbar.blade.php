@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>{{ ucwords(config('app.settings.nama')) }}</title>
+    <title>@yield('title') - {{ ucwords(config('app.settings.nama')) }}</title>
 
     <meta content="" name="description">
     <meta content="" name="keywords">
@@ -44,45 +44,46 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
+    <style>
+        .portfolio-img {
+            position: relative;
+            overflow: hidden;
+            height: 0;
+            padding-top: 56.25%;
+            border: 1px solid black;
+        }
+
+        .background-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-size: cover;
+            background-position: center;
+            filter: blur(10px);
+            -webkit-filter: blur(10px);
+        }
+
+        .img-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .img-overlay img {
+            max-width: 100%;
+            max-height: 100%;
+            border: 2px solid black;
+        }
+    </style>
+    @stack('css')
 </head>
-<style>
-    .portfolio-img {
-        position: relative;
-        overflow: hidden;
-        height: 0;
-        padding-top: 56.25%;
-        border: 1px solid black;
-    }
-
-    .background-img {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-size: cover;
-        background-position: center;
-        filter: blur(10px);
-        -webkit-filter: blur(10px);
-    }
-
-    .img-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .img-overlay img {
-        max-width: 100%;
-        max-height: 100%;
-        border: 2px solid black;
-    }
-</style>
 
 <body style="background-color: #001F3F">
 
