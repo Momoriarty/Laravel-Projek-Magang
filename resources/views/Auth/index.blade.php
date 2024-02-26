@@ -1,4 +1,32 @@
 @extends('auth/layout/navbar')
+<style>
+    /* CSS for toast with progress bar */
+    .my-toast {
+        position: relative;
+        /* Set to relative for positioning progress bar */
+    }
+
+    .progress {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        border-radius: 0;
+        /* Optional: Adjust border-radius as needed */
+        overflow: hidden;
+        /* Hide overflow for smooth transition */
+    }
+
+    .progress-bar {
+        height: 100%;
+        background-color: #007bff;
+        /* Adjust background color of progress bar */
+        transition: width 0.3s ease;
+        /* Add transition for smooth width change */
+    }
+</style>
+
 <body>
     <!-- Toast Container -->
     <div class="toast-container">
@@ -16,12 +44,12 @@
                         @endforeach
                     </ul>
                 </div>
+                <!-- Progress Bar -->
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0"
+                        aria-valuemax="100"></div>
+                </div>
             </div>
-
-            <!-- Ensure Bootstrap JavaScript is Loaded -->
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-
-            <!-- Wrap JavaScript Code in Document Ready Function -->
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
                     // Handle the toast
@@ -32,6 +60,7 @@
             </script>
         @endif
     </div>
+
 
     <div class="wrapper">
         <nav class="nav">
@@ -193,4 +222,4 @@
         </div>
     </div>
     </form>
-@extends('auth/layout/footer')
+    @extends('auth/layout/footer')
